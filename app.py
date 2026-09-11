@@ -1200,7 +1200,58 @@ div.stTextInput input {
 div.stTextArea textarea {
     border-radius: 18px;
 }
+/* =========================================================
+   최종 UI 보정
+   1. 화면 위쪽 여백
+   2. 갈림길 버튼 긴 글 전체 표시
+   ========================================================= */
 
+/* 제목이 화면 맨 위에 붙지 않도록 */
+.block-container {
+    max-width: 820px !important;
+    padding-top: 4rem !important;
+    padding-bottom: 5rem !important;
+}
+
+/* 모든 Streamlit 버튼 기본 */
+div.stButton > button {
+    border-radius: 999px !important;
+
+    /* 고정 높이 대신 내용에 따라 늘어나게 */
+    height: auto !important;
+    min-height: 56px !important;
+
+    padding: 12px 18px !important;
+
+    /* 긴 문장 줄바꿈 */
+    white-space: normal !important;
+    word-break: keep-all !important;
+    overflow-wrap: break-word !important;
+
+    /* ... 말줄임 제거 */
+    overflow: visible !important;
+    text-overflow: unset !important;
+
+    line-height: 1.45 !important;
+}
+
+/* Streamlit이 버튼 글자 내부에 넣는 p 태그 */
+div.stButton > button p {
+    margin: 0 !important;
+
+    white-space: normal !important;
+    word-break: keep-all !important;
+    overflow-wrap: break-word !important;
+
+    overflow: visible !important;
+    text-overflow: unset !important;
+
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    -webkit-box-orient: initial !important;
+
+    line-height: 1.45 !important;
+}
 </style>
 """,
     unsafe_allow_html=True
