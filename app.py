@@ -1270,7 +1270,7 @@ st.markdown(
 
 st.markdown(
     '<div class="tagline">'
-    '멍때리다가, 유레카를 외치도록! 💡'
+    '생각의 유랑이 반짝이는 별에 닿을 수도! ✨'
     '</div>',
     unsafe_allow_html=True
 )
