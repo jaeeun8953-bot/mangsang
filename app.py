@@ -1787,93 +1787,102 @@ else:
     # =====================================================
     # EUREKA
     # =====================================================
-    if len(path) >= 2:
+       # =====================================================
+    # EUREKA / 생각 여행 마무리
+    # =====================================================
+    if len(path) >= 3:
 
         st.markdown(
             '<div class="section-title">'
-            '💡 뭔가 연결됐다면?'
+            '💡 이제 생각 여행을 마쳐볼까요?'
             '</div>',
             unsafe_allow_html=True
         )
 
-
-        if st.button(
-            "💡 EUREKA!",
-            key=f"eureka_{len(path)}",
-            use_container_width=True
-        ):
-
-            st.session_state.eureka_mode = True
-
-
-    if st.session_state.eureka_mode:
+        st.markdown(
+            '<div class="section-sub">'
+            '충분히 떠다녔다면 여기서 마무리해도 좋아요.<br>'
+            '아직 더 헤매고 싶다면 위의 구름을 계속 눌러도 돼요. ☁️'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
         st.markdown(
             '<div class="eureka-card">'
             '<div style="'
             'text-align:center;'
-            'font-size:35px;'
+            'font-size:27px;'
             'font-weight:900;'
             '">'
-            '💡 EUREKA!'
+            '💡 오늘 발견한 별 하나'
             '</div>'
             '<div style="'
             'text-align:center;'
             'color:#777;'
-            'margin-top:8px;'
-            'line-height:1.6;'
+            'margin-top:10px;'
+            'line-height:1.7;'
             '">'
-            '방금 머릿속에서 별 하나 연결됐어.<br>'
-            '구름요정이 답을 알려준 게 아니라, '
-            '네가 직접 발견한 거야.'
+            '처음 생각과 지금 생각을 천천히 바라봐.<br>'
+            '<b>오늘 새롭게 발견한 생각을 한 줄로 남겨줘.</b><br><br>'
+            '한 줄을 남기면 마지막 행운카드도 뽑을 수 있어요. 🔮'
             '</div>'
             '</div>',
             unsafe_allow_html=True
         )
 
-
         note = st.text_area(
-            "유레카",
-            value=(
-                st.session_state.eureka_note
-            ),
+            "💡 오늘 생각 여행에서 발견한 것",
+            value=st.session_state.eureka_note,
             placeholder=(
-                "예: 나는 취업 자체보다 "
-                "새로운 환경에 대한 생각에 "
-                "더 끌리는 걸지도."
+                "예: 나는 취업 자체보다 새로운 환경에서 "
+                "살아보고 싶은 마음이 더 큰 걸지도."
             ),
-            label_visibility="collapsed"
+            height=110
         )
 
+        if not st.session_state.eureka_saved:
 
-        if st.button(
-            "✨ 오늘의 별로 남기기",
-            key=f"save_eureka_{len(path)}",
-            use_container_width=True
-        ):
+            if st.button(
+                "💡 EUREKA!로 남기고 행운카드 보기",
+                key=f"save_eureka_{len(path)}",
+                use_container_width=True
+            ):
 
-            if note.strip():
+                if note.strip():
 
-                st.session_state.eureka_note = (
-                    note.strip()
-                )
+                    st.session_state.eureka_note = (
+                        note.strip()
+                    )
 
-                st.session_state.eureka_saved = (
-                    True
-                )
+                    st.session_state.eureka_saved = True
 
-                st.success(
-                    "☁️ 구름요정: "
-                    "오, 이건 별 하나 건졌네. 💡"
-                )
+                    st.success(
+                        "✨ 오늘의 별을 남겼어요! "
+                        "이제 아래에서 행운카드를 뽑아봐."
+                    )
 
-                st.balloons()
+                    st.balloons()
 
-            else:
+                    st.rerun()
 
-                st.warning(
-                    "방금 발견한 걸 한 줄만 남겨줘 ✨"
-                )
+                else:
+
+                    st.warning(
+                        "오늘 발견한 생각을 한 줄만 적어줘 💡"
+                    )
+
+        else:
+
+            st.success(
+                "✨ EUREKA! 오늘의 발견을 남겼어요."
+            )
+
+            st.markdown(
+                '<div class="section-sub">'
+                '👇 이제 마지막 행운카드를 뽑아봐요 🔮'
+                '</div>',
+                unsafe_allow_html=True
+            )
 
 
     # =====================================================
