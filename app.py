@@ -5,6 +5,7 @@ import json
 import html
 import time
 import random
+import base64
 
 
 # =========================================================
@@ -25,6 +26,18 @@ MODEL = "gemini-3.6-flash"
 BASE_DIR = Path(__file__).resolve().parent
 FAIRY_IMAGE = BASE_DIR / "cloud_fairy.png"
 TAROT_DIR = BASE_DIR
+EUREKA_CLOUD_IMAGE = BASE_DIR / "eureka_cloud.svg"
+EUREKA_STAR_IMAGE = BASE_DIR / "eureka_star.svg"
+
+
+def asset_data_uri(path):
+    if not path.exists():
+        return ""
+
+    mime = "image/svg+xml" if path.suffix.lower() == ".svg" else "image/png"
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    return f"data:{mime};base64,{encoded}"
+
 
 
 # =========================================================
@@ -1585,6 +1598,172 @@ div.stButton > button p {
 }
 
 
+
+/* =========================================================
+   EUREKA asset-based visual polish
+   ========================================================= */
+.eureka-celebration,
+.eureka-reveal {
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+}
+
+.asset-cloud {
+    position: absolute;
+    z-index: 15;
+    width: clamp(260px, 48vw, 520px);
+    height: auto;
+    opacity: 0;
+    transform: translateY(45vh) scale(.72);
+    filter: drop-shadow(0 18px 28px rgba(111,103,166,.11));
+    will-change: transform, opacity;
+}
+.ac1 { left:-14%; bottom:-6%; animation: assetCloudRiseA 2.20s cubic-bezier(.16,.82,.24,1.06) .02s forwards, assetCloudFloatA 4.4s ease-in-out 2.3s infinite; }
+.ac2 { left:8%; bottom:-11%; animation: assetCloudRiseB 2.35s cubic-bezier(.16,.82,.24,1.06) .10s forwards, assetCloudFloatB 4.8s ease-in-out 2.5s infinite; }
+.ac3 { left:33%; bottom:-14%; width:clamp(300px,54vw,590px); animation: assetCloudRiseC 2.45s cubic-bezier(.16,.82,.24,1.06) .16s forwards, assetCloudFloatA 5.0s ease-in-out 2.6s infinite; }
+.ac4 { right:7%; bottom:-10%; animation: assetCloudRiseB 2.32s cubic-bezier(.16,.82,.24,1.06) .22s forwards, assetCloudFloatB 4.6s ease-in-out 2.55s infinite; }
+.ac5 { right:-15%; bottom:-5%; animation: assetCloudRiseA 2.24s cubic-bezier(.16,.82,.24,1.06) .28s forwards, assetCloudFloatA 4.3s ease-in-out 2.55s infinite; }
+
+.asset-star-wrap {
+    position:absolute;
+    z-index:34;
+    left:50%;
+    top:46%;
+    width:min(55vw, 390px);
+    aspect-ratio:1;
+    transform:translate(-50%, 48vh) scale(.2);
+    opacity:0;
+    animation:assetStarRise 1.38s cubic-bezier(.17,.88,.26,1.20) 1.12s forwards;
+    will-change: transform, opacity;
+}
+.asset-star-img {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    animation:assetStarBreathe 3.0s ease-in-out 2.6s infinite;
+}
+.asset-star-note {
+    position:absolute;
+    z-index:40;
+    left:50%;
+    top:50.5%;
+    width:48%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:#665022;
+    font-size:clamp(16px,4.2vw,25px);
+    font-weight:850;
+    letter-spacing:-.03em;
+    line-height:1.28;
+    word-break:keep-all;
+    text-shadow:0 1px 0 rgba(255,255,255,.34);
+}
+
+.memory-cloud {
+    background:rgba(255,255,255,.88) !important;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.92) !important;
+    color:#6d6888 !important;
+    box-shadow:0 12px 30px rgba(107,98,160,.10) !important;
+    font-weight:800 !important;
+}
+.eureka-celebration-title {
+    color:#706aa6 !important;
+    font-weight:850 !important;
+    letter-spacing:-.025em !important;
+    text-shadow:0 1px 10px rgba(255,255,255,.82);
+}
+
+.final-asset-cloud {
+    position:absolute;
+    z-index:8;
+    width:260px;
+    height:auto;
+    opacity:.96;
+    filter:drop-shadow(0 10px 20px rgba(111,103,166,.10));
+}
+.fac1 { left:-50px; bottom:-25px; }
+.fac2 { left:100px; bottom:-42px; }
+.fac3 { right:90px; bottom:-38px; }
+.fac4 { right:-55px; bottom:-22px; }
+
+.final-asset-star {
+    position:absolute;
+    z-index:20;
+    left:50%;
+    top:48%;
+    width:250px;
+    height:250px;
+    transform:translate(-50%,-50%);
+}
+.final-asset-star img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+.final-asset-star-note {
+    position:absolute;
+    left:50%;
+    top:50.5%;
+    width:48%;
+    transform:translate(-50%,-50%);
+    color:#665022;
+    font-size:17px;
+    font-weight:850;
+    line-height:1.28;
+    word-break:keep-all;
+    text-align:center;
+}
+
+@keyframes assetCloudRiseA {
+    0% { opacity:0; transform:translateY(46vh) scale(.72); }
+    62% { opacity:1; }
+    84% { opacity:1; transform:translateY(-12vh) scale(1.06); }
+    100% { opacity:1; transform:translateY(-8vh) scale(1); }
+}
+@keyframes assetCloudRiseB {
+    0% { opacity:0; transform:translateY(48vh) scale(.70); }
+    62% { opacity:1; }
+    84% { opacity:1; transform:translateY(-6vh) scale(1.05); }
+    100% { opacity:1; transform:translateY(-3vh) scale(1); }
+}
+@keyframes assetCloudRiseC {
+    0% { opacity:0; transform:translateY(50vh) scale(.72); }
+    62% { opacity:1; }
+    84% { opacity:1; transform:translateY(-2vh) scale(1.07); }
+    100% { opacity:1; transform:translateY(1vh) scale(1); }
+}
+@keyframes assetCloudFloatA {
+    0%,100% { margin-top:0; margin-left:0; }
+    50% { margin-top:-9px; margin-left:7px; }
+}
+@keyframes assetCloudFloatB {
+    0%,100% { margin-top:0; margin-left:0; }
+    50% { margin-top:-7px; margin-left:-7px; }
+}
+@keyframes assetStarRise {
+    0% { opacity:0; transform:translate(-50%,48vh) scale(.20) rotate(-8deg); }
+    66% { opacity:1; transform:translate(-50%,-12px) scale(1.08) rotate(2deg); }
+    84% { opacity:1; transform:translate(-50%,4px) scale(.98) rotate(-1deg); }
+    100% { opacity:1; transform:translate(-50%,0) scale(1) rotate(0); }
+}
+@keyframes assetStarBreathe {
+    0%,100% { transform:scale(1); filter:drop-shadow(0 12px 22px rgba(206,164,48,.18)); }
+    50% { transform:scale(1.035); filter:drop-shadow(0 16px 32px rgba(255,217,90,.36)); }
+}
+
+@media (max-width: 640px) {
+    .eureka-celebration-title { top:7vh; font-size:18px !important; }
+    .memory-cloud { min-width:104px; max-width:142px; padding:13px 14px; font-size:12px !important; }
+    .mem1 { left:3%; top:25%; }
+    .mem2 { right:3%; top:27%; }
+    .mem3 { left:4%; top:63%; }
+    .mem4 { right:4%; top:64%; }
+    .asset-star-wrap { width:min(72vw, 330px); top:47%; }
+}
+
 </style>
 """,
     unsafe_allow_html=True
@@ -2248,14 +2427,21 @@ else:
             while len(cloud_labels) < 4:
                 cloud_labels.insert(0, "☁️")
 
+            cloud_uri = asset_data_uri(
+                EUREKA_CLOUD_IMAGE
+            )
+            star_uri = asset_data_uri(
+                EUREKA_STAR_IMAGE
+            )
+
             eureka_star_html = (
                 '<div class="eureka-celebration">'
                 '<div class="eureka-celebration-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
-                '<div class="big-cloud bc1"></div>'
-                '<div class="big-cloud bc2"></div>'
-                '<div class="big-cloud bc3"></div>'
-                '<div class="big-cloud bc4"></div>'
-                '<div class="big-cloud bc5"></div>'
+                f'<img class="asset-cloud ac1" src="{cloud_uri}">'
+                f'<img class="asset-cloud ac2" src="{cloud_uri}">'
+                f'<img class="asset-cloud ac3" src="{cloud_uri}">'
+                f'<img class="asset-cloud ac4" src="{cloud_uri}">'
+                f'<img class="asset-cloud ac5" src="{cloud_uri}">'
                 f'<div class="memory-cloud mem1">☁️ {cloud_labels[0]}</div>'
                 f'<div class="memory-cloud mem2">☁️ {cloud_labels[1]}</div>'
                 f'<div class="memory-cloud mem3">☁️ {cloud_labels[2]}</div>'
@@ -2265,9 +2451,9 @@ else:
                 '<div class="celebration-spark cs2">✧</div>'
                 '<div class="celebration-spark cs3">✦</div>'
                 '<div class="celebration-spark cs4">✧</div>'
-                '<div class="celebration-star">'
-                '<div class="celebration-star-glyph">★</div>'
-                f'<div class="celebration-star-note">{saved_note}</div>'
+                '<div class="asset-star-wrap">'
+                f'<img class="asset-star-img" src="{star_uri}">'
+                f'<div class="asset-star-note">{saved_note}</div>'
                 '</div>'
                 '</div>'
                 '<div class="eureka-reveal">'
@@ -2276,11 +2462,14 @@ else:
                 f'<div class="final-memory fm2">☁️ {cloud_labels[1]}</div>'
                 f'<div class="final-memory fm3">☁️ {cloud_labels[2]}</div>'
                 f'<div class="final-memory fm4">☁️ {cloud_labels[3]}</div>'
-                '<div class="final-star">'
-                '<div class="final-star-glyph">★</div>'
-                f'<div class="final-star-note">{saved_note}</div>'
+                f'<img class="final-asset-cloud fac1" src="{cloud_uri}">'
+                f'<img class="final-asset-cloud fac2" src="{cloud_uri}">'
+                f'<img class="final-asset-cloud fac3" src="{cloud_uri}">'
+                f'<img class="final-asset-cloud fac4" src="{cloud_uri}">'
+                '<div class="final-asset-star">'
+                f'<img src="{star_uri}">'
+                f'<div class="final-asset-star-note">{saved_note}</div>'
                 '</div>'
-                '<div class="final-cloud-sea"></div>'
                 '<div class="eureka-caption">작은 생각도 언젠가 반짝이는 아이디어가 될 수 있어요 ☁️</div>'
                 '</div>'
             )
