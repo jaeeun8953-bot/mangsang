@@ -2614,25 +2614,44 @@ else:
                     unsafe_allow_html=True
                 )
 
-            if st.button(
-                "💡 EUREKA! 오늘의 한줄 기록하기",
-                key="flow_screen_eureka",
-                use_container_width=True
-            ):
+            flow_eureka_col, flow_more_col = st.columns(2)
 
-                st.session_state.journey_finish_mode = True
-                st.session_state.train_boarded = False
-                st.session_state.train_flow_open = False
-                st.rerun()
+            with flow_eureka_col:
 
-            if st.button(
-                "← 기차 선택으로 돌아가기",
-                key="flow_screen_back",
-                use_container_width=True
-            ):
+                if st.button(
+                    "💡 EUREKA 기록하기",
+                    key="flow_screen_eureka",
+                    use_container_width=True
+                ):
 
-                st.session_state.train_flow_open = False
-                st.rerun()
+                    st.session_state.journey_finish_mode = True
+                    st.session_state.train_boarded = False
+                    st.session_state.train_flow_open = False
+                    st.rerun()
+
+            with flow_more_col:
+
+                if st.button(
+                    "☁️ 망상구름 이어가기",
+                    key="flow_screen_continue",
+                    use_container_width=True
+                ):
+
+                    # 탐험 화면으로 돌아가되,
+                    # 같은 체크포인트가 즉시 다시 뜨지 않도록
+                    # 다음 3번 선택 후 다시 제안
+                    st.session_state.journey_checkpoint = (
+                        max(
+                            st.session_state.journey_checkpoint,
+                            max(0, len(path) - 1) + 3
+                        )
+                    )
+
+                    st.session_state.train_boarded = False
+                    st.session_state.train_flow_open = False
+                    st.session_state.journey_finish_mode = False
+                    st.session_state.analysis = ""
+                    st.rerun()
 
             st.stop()
 
@@ -2646,8 +2665,8 @@ else:
             '<div class="train">🚂✨</div>'
             '<div class="title">생각 흐름 기차에 탑승했어요</div>'
             '<div class="sub">'
-            '이제 화면을 조금 가볍게 바꿔볼게요.<br>'
-            '지나온 생각을 살펴보거나, 바로 오늘의 별을 남길 수 있어요.'
+            '다음 단계에서 하나만 골라봐요.<br>'
+            '지나온 생각 흐름을 살펴보거나, 바로 EUREKA를 남길 수 있어요.'
             '</div>'
             '</div>',
             unsafe_allow_html=True
@@ -2693,7 +2712,7 @@ else:
         with train_eureka_col:
 
             if st.button(
-                "💡 EUREKA! 오늘의 한줄 기록하기",
+                "💡 EUREKA 기록하기",
                 key="dedicated_train_eureka",
                 use_container_width=True
             ):
@@ -3022,6 +3041,28 @@ else:
                     st.session_state.train_boarded = False
                     st.session_state.train_flow_open = False
                     st.rerun()
+
+
+    # =====================================================
+    # 언제든 다음 단계로 넘어가기
+    # 6갈래 생각 구름 바로 아래 오른쪽
+    # =====================================================
+    next_spacer, next_button_col = st.columns(
+        [2.6, 1.4]
+    )
+
+    with next_button_col:
+
+        if st.button(
+            "다음 단계 →",
+            key=f"next_step_{len(path)}",
+            use_container_width=True
+        ):
+
+            st.session_state.train_boarded = True
+            st.session_state.train_flow_open = False
+            st.session_state.journey_finish_mode = False
+            st.rerun()
 
 
     # =====================================================
