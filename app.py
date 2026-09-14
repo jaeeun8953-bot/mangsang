@@ -1905,6 +1905,73 @@ div.stButton > button p {
     }
 }
 
+
+/* =========================================================
+   EUREKA 구름 밀도/크기 강화
+   ========================================================= */
+.asset-cloud {
+    width: clamp(320px, 58vw, 680px) !important;
+    filter: drop-shadow(0 22px 34px rgba(111,103,166,.12)) !important;
+}
+.ac1 { left:-24% !important; bottom:-3% !important; }
+.ac2 { left:0% !important; bottom:-10% !important; }
+.ac3 { left:24% !important; bottom:-14% !important; width:clamp(380px,66vw,760px) !important; }
+.ac4 { right:-1% !important; bottom:-9% !important; }
+.ac5 { right:-25% !important; bottom:-2% !important; }
+
+.asset-cloud.ac6 {
+    left:-10% !important;
+    bottom:23% !important;
+    width:clamp(280px,50vw,560px) !important;
+}
+.asset-cloud.ac7 {
+    right:-10% !important;
+    bottom:25% !important;
+    width:clamp(280px,50vw,560px) !important;
+}
+.asset-cloud.ac8 {
+    left:16% !important;
+    bottom:18% !important;
+    width:clamp(280px,48vw,540px) !important;
+}
+.asset-cloud.ac9 {
+    right:16% !important;
+    bottom:18% !important;
+    width:clamp(280px,48vw,540px) !important;
+}
+
+/* 키워드 구름도 조금 키우기 */
+.memory-cloud {
+    width:clamp(150px, 28vw, 220px) !important;
+}
+.memory-cloud .cloud-word {
+    font-size:clamp(13px, 3.2vw, 16px) !important;
+    width:68% !important;
+}
+
+/* 모바일에서 구름이 화면을 더 꽉 채우도록 */
+@media (max-width: 640px) {
+    .asset-cloud {
+        width: 76vw !important;
+    }
+    .ac1 { left:-28% !important; }
+    .ac2 { left:-5% !important; }
+    .ac3 { left:12% !important; width:86vw !important; }
+    .ac4 { right:-5% !important; }
+    .ac5 { right:-28% !important; }
+
+    .asset-cloud.ac6,
+    .asset-cloud.ac7,
+    .asset-cloud.ac8,
+    .asset-cloud.ac9 {
+        width:66vw !important;
+    }
+
+    .memory-cloud {
+        width:145px !important;
+    }
+}
+
 </style>
 """,
     unsafe_allow_html=True
@@ -2326,6 +2393,51 @@ else:
 
 
     # =====================================================
+    # 생각 여행 체크포인트
+    # 첫 생각 이후 구름을 3번 누를 때마다 등장
+    # =====================================================
+    selections_count = max(0, len(path) - 1)
+
+    if (
+        selections_count >= st.session_state.journey_checkpoint
+        and not st.session_state.journey_finish_mode
+        and not st.session_state.eureka_saved
+    ):
+
+        st.markdown(
+            '<div class="journey-checkpoint">'
+            '<div class="train">🚂☁️</div>'
+            '<div class="title">이제 생각 흐름 기차에 탑승해볼까요?</div>'
+            '<div class="sub">'
+            '여기까지 온 생각들을 한 번 바라봐도 좋아요.<br>'
+            '아직 더 떠다니고 싶다면 망상을 조금 더 이어가도 돼요.'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        train_col, more_col = st.columns(2)
+
+        with train_col:
+            if st.button(
+                "🚂 생각 흐름 기차 타기",
+                key=f"board_train_{len(path)}",
+                use_container_width=True
+            ):
+                st.session_state.journey_finish_mode = True
+                st.rerun()
+
+        with more_col:
+            if st.button(
+                "☁️ 망상 더 해보기",
+                key=f"more_thoughts_{len(path)}",
+                use_container_width=True
+            ):
+                st.session_state.journey_checkpoint += 3
+                st.rerun()
+
+
+    # =====================================================
     # 직접 딴생각
     # =====================================================
     st.markdown(
@@ -2472,51 +2584,6 @@ else:
                 '</div>',
                 unsafe_allow_html=True
             )
-
-
-    # =====================================================
-    # 생각 여행 체크포인트
-    # 첫 생각 이후 구름을 3번 누를 때마다 등장
-    # =====================================================
-    selections_count = max(0, len(path) - 1)
-
-    if (
-        selections_count >= st.session_state.journey_checkpoint
-        and not st.session_state.journey_finish_mode
-        and not st.session_state.eureka_saved
-    ):
-
-        st.markdown(
-            '<div class="journey-checkpoint">'
-            '<div class="train">🚂☁️</div>'
-            '<div class="title">이제 생각 흐름 기차에 탑승해볼까요?</div>'
-            '<div class="sub">'
-            '여기까지 온 생각들을 한 번 바라봐도 좋아요.<br>'
-            '아직 더 떠다니고 싶다면 망상을 조금 더 이어가도 돼요.'
-            '</div>'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-        train_col, more_col = st.columns(2)
-
-        with train_col:
-            if st.button(
-                "🚂 생각 흐름 기차 탑승하기",
-                key=f"board_train_{len(path)}",
-                use_container_width=True
-            ):
-                st.session_state.journey_finish_mode = True
-                st.rerun()
-
-        with more_col:
-            if st.button(
-                "☁️ 망상 더 해보기",
-                key=f"more_thoughts_{len(path)}",
-                use_container_width=True
-            ):
-                st.session_state.journey_checkpoint += 3
-                st.rerun()
 
 
     # =====================================================
