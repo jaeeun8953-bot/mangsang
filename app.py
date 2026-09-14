@@ -307,6 +307,8 @@ defaults = {
     # 생각 여행 마무리 체크포인트
     "journey_checkpoint": 3,
     "journey_finish_mode": False,
+    "train_boarded": False,
+    "train_flow_open": False,
 
     # Gemini 상태
     "quota_fallback": False,
@@ -807,6 +809,8 @@ def choose_thought(thought):
         st.session_state.eureka_note = ""
         st.session_state.tarot_card = None
         st.session_state.journey_finish_mode = False
+        st.session_state.train_boarded = False
+        st.session_state.train_flow_open = False
 
         st.rerun()
 
@@ -1972,6 +1976,74 @@ div.stButton > button p {
     }
 }
 
+
+/* =========================================================
+   생각 흐름 기차
+   ========================================================= */
+.train-flow-card {
+    margin:16px 0 20px 0;
+    padding:20px 18px;
+    border-radius:26px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.96),
+            rgba(245,240,255,.93)
+        );
+    border:1px solid rgba(255,255,255,.98);
+    box-shadow:0 12px 30px rgba(101,93,152,.09);
+}
+
+.train-flow-label {
+    text-align:center;
+    color:#716ca1;
+    font-size:14px;
+    font-weight:900;
+    margin-bottom:14px;
+}
+
+.train-flow-track {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:7px;
+}
+
+.train-thought {
+    display:inline-block;
+    padding:9px 13px;
+    border-radius:999px;
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #f1efff
+        );
+    color:#626078;
+    font-size:13px;
+    font-weight:800;
+    line-height:1.3;
+    box-shadow:0 6px 15px rgba(101,93,152,.08);
+}
+
+.train-arrow {
+    color:#b09bd8;
+    font-size:18px;
+    font-weight:900;
+}
+
+@media (max-width:640px) {
+    .train-flow-card {
+        padding:18px 12px;
+    }
+
+    .train-thought {
+        font-size:12px;
+        padding:8px 10px;
+    }
+}
+
 </style>
 """,
     unsafe_allow_html=True
@@ -2097,6 +2169,8 @@ if not st.session_state.started:
                 st.session_state.tarot_card = None
                 st.session_state.journey_checkpoint = 3
                 st.session_state.journey_finish_mode = False
+                st.session_state.train_boarded = False
+                st.session_state.train_flow_open = False
 
                 st.rerun()
 
@@ -2400,41 +2474,133 @@ else:
 
     if (
         selections_count >= st.session_state.journey_checkpoint
-        and not st.session_state.journey_finish_mode
         and not st.session_state.eureka_saved
     ):
 
-        st.markdown(
-            '<div class="journey-checkpoint">'
-            '<div class="train">🚂☁️</div>'
-            '<div class="title">이제 생각 흐름 기차에 탑승해볼까요?</div>'
-            '<div class="sub">'
-            '여기까지 온 생각들을 한 번 바라봐도 좋아요.<br>'
-            '아직 더 떠다니고 싶다면 망상을 조금 더 이어가도 돼요.'
-            '</div>'
-            '</div>',
-            unsafe_allow_html=True
-        )
+        # -------------------------------------------------
+        # 아직 기차에 타기 전
+        # -------------------------------------------------
+        if not st.session_state.train_boarded:
 
-        train_col, more_col = st.columns(2)
+            st.markdown(
+                '<div class="journey-checkpoint">'
+                '<div class="train">🚂☁️</div>'
+                '<div class="title">이제 생각 흐름 기차를 타볼까요?</div>'
+                '<div class="sub">'
+                '지금까지 떠다닌 생각들을 한 번 이어서 바라볼 수 있어요.<br>'
+                '아직 더 헤매고 싶다면 망상을 계속 이어가도 좋아요. ☁️'
+                '</div>'
+                '</div>',
+                unsafe_allow_html=True
+            )
 
-        with train_col:
-            if st.button(
-                "🚂 생각 흐름 기차 타기",
-                key=f"board_train_{len(path)}",
-                use_container_width=True
-            ):
-                st.session_state.journey_finish_mode = True
-                st.rerun()
+            train_col, more_col = st.columns(2)
 
-        with more_col:
-            if st.button(
-                "☁️ 망상 더 해보기",
-                key=f"more_thoughts_{len(path)}",
-                use_container_width=True
-            ):
-                st.session_state.journey_checkpoint += 3
-                st.rerun()
+            with train_col:
+                if st.button(
+                    "🚂 생각 흐름 기차 타기",
+                    key=f"board_train_{len(path)}",
+                    use_container_width=True
+                ):
+                    st.session_state.train_boarded = True
+                    st.session_state.train_flow_open = False
+                    st.rerun()
+
+            with more_col:
+                if st.button(
+                    "☁️ 망상 더 해보기",
+                    key=f"more_thoughts_{len(path)}",
+                    use_container_width=True
+                ):
+                    st.session_state.journey_checkpoint += 3
+                    st.session_state.train_boarded = False
+                    st.session_state.train_flow_open = False
+                    st.rerun()
+
+        # -------------------------------------------------
+        # 기차 탑승 후: 생각 흐름 vs EUREKA
+        # -------------------------------------------------
+        else:
+
+            st.markdown(
+                '<div class="journey-checkpoint">'
+                '<div class="train">🚂✨</div>'
+                '<div class="title">생각 흐름 기차에 탑승했어요</div>'
+                '<div class="sub">'
+                '지나온 생각들을 먼저 천천히 바라볼까요?<br>'
+                '아니면 바로 오늘의 별을 한 줄로 남겨볼까요?'
+                '</div>'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            flow_col, eureka_col = st.columns(2)
+
+            with flow_col:
+                if st.button(
+                    "🛤️ 생각 흐름 살펴보기",
+                    key=f"view_train_flow_{len(path)}",
+                    use_container_width=True
+                ):
+                    st.session_state.train_flow_open = True
+                    st.rerun()
+
+            with eureka_col:
+                if st.button(
+                    "💡 EUREKA! 오늘의 한줄 기록하기",
+                    key=f"train_eureka_{len(path)}",
+                    use_container_width=True
+                ):
+                    st.session_state.journey_finish_mode = True
+                    st.session_state.train_flow_open = False
+                    st.rerun()
+
+            # 선택한 생각 흐름을 API 없이 즉시 보여줌
+            if st.session_state.train_flow_open:
+
+                train_flow_html = ""
+
+                for i, thought in enumerate(path):
+                    safe_train_thought = html.escape(
+                        compact_thought_label(
+                            thought,
+                            max_len=16
+                        )
+                    )
+
+                    train_flow_html += (
+                        '<span class="train-thought">'
+                        f'{safe_train_thought}'
+                        '</span>'
+                    )
+
+                    if i < len(path) - 1:
+                        train_flow_html += (
+                            '<span class="train-arrow">'
+                            '→'
+                            '</span>'
+                        )
+
+                st.markdown(
+                    '<div class="train-flow-card">'
+                    '<div class="train-flow-label">'
+                    '🚂 내가 타고 온 생각 흐름'
+                    '</div>'
+                    '<div class="train-flow-track">'
+                    f'{train_flow_html}'
+                    '</div>'
+                    '</div>',
+                    unsafe_allow_html=True
+                )
+
+                if st.button(
+                    "💡 이 흐름에서 EUREKA 남기기",
+                    key=f"flow_to_eureka_{len(path)}",
+                    use_container_width=True
+                ):
+                    st.session_state.journey_finish_mode = True
+                    st.session_state.train_flow_open = False
+                    st.rerun()
 
 
     # =====================================================
@@ -2894,6 +3060,8 @@ else:
         st.session_state.tarot_card = None
         st.session_state.journey_checkpoint = 3
         st.session_state.journey_finish_mode = False
+        st.session_state.train_boarded = False
+        st.session_state.train_flow_open = False
 
         st.session_state.started = False
 
