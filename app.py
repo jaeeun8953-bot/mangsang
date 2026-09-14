@@ -839,7 +839,7 @@ def render_eureka_screen(path):
         st.markdown(
             '<div style="height:18px;"></div>'
             '<div class="section-title">'
-            '💡 EUREKA! 작은 기록으로 남겨봐'
+            '⭐ EUREKA! 별 찾았다!'
             '</div>',
             unsafe_allow_html=True
         )
@@ -2684,7 +2684,7 @@ if not st.session_state.started:
         '</div>'
         '<div class="fairy-text">'
         '머릿속에 떠다니는 생각 하나만 던져봐.<br>'
-        '너의 머릿속 생각 구름 기차가 출발한다 🪄'
+        '<b>너의 머릿속 생각 구름 기차, 지금 출발한다! 🚂☁️</b>'
         '</div>'
         '</div>',
         unsafe_allow_html=True
@@ -2891,7 +2891,7 @@ else:
             with flow_eureka_col:
 
                 if st.button(
-                    "💡 EUREKA! 작은 기록으로 남겨봐",
+                    "⭐ EUREKA! 별 찾았다!",
                     key="flow_screen_eureka",
                     use_container_width=True
                 ):
@@ -2935,7 +2935,7 @@ else:
             '<div style="height:18px;"></div>'
             '<div class="journey-checkpoint">'
             '<div class="train">🚂✨</div>'
-            '<div class="title">생각 흐름 기차에 탑승했어요</div>'
+            '<div class="title">별을 찾으러 가는 중이에요 ✨</div>'
             '<div class="sub">'
             '다음 단계에서 하나만 골라봐요.<br>'
             '지나온 생각 흐름을 살펴보거나, 바로 EUREKA를 남길 수 있어요.'
@@ -2951,7 +2951,7 @@ else:
         with train_flow_col:
 
             if st.button(
-                "🛤️ 생각 흐름 살펴보기",
+                "🛤️ 생각 흐름 들여다보기",
                 key="dedicated_train_flow",
                 use_container_width=True
             ):
@@ -2984,7 +2984,7 @@ else:
         with train_eureka_col:
 
             if st.button(
-                "💡 EUREKA! 작은 기록으로 남겨봐",
+                "⭐ EUREKA! 별 찾았다!",
                 key="dedicated_train_eureka",
                 use_container_width=True
             ):
@@ -3282,7 +3282,7 @@ else:
             st.markdown(
                 '<div class="journey-checkpoint">'
                 '<div class="train">🚂☁️</div>'
-                '<div class="title">이제 생각 흐름 기차를 타볼까요?</div>'
+                '<div class="title">이제 구름 기차에서 내려 별을 따러 갈까요??</div>'
                 '<div class="sub">'
                 '지금까지 떠다닌 생각들을 한 번 이어서 바라볼 수 있어요.<br>'
                 '아직 더 헤매고 싶다면 망상을 계속 이어가도 좋아요. ☁️'
@@ -3295,7 +3295,7 @@ else:
 
             with train_col:
                 if st.button(
-                    "🚂 생각 흐름 기차 타기",
+                    "⭐ 오늘의 별 따러가기",
                     key=f"board_train_{len(path)}",
                     use_container_width=True
                 ):
@@ -3305,7 +3305,7 @@ else:
 
             with more_col:
                 if st.button(
-                    "☁️ 망상 더 해보기",
+                    "☁️ 망상구름 기차 더 타기",
                     key=f"more_thoughts_{len(path)}",
                     use_container_width=True
                 ):
