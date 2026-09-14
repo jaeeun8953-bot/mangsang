@@ -1785,65 +1785,62 @@ else:
 
 
     # =====================================================
-    # EUREKA
-    # =====================================================
-       # =====================================================
     # EUREKA / 생각 여행 마무리
     # =====================================================
     if len(path) >= 3:
 
-        st.markdown(
-            '<div class="section-title">'
-            '💡 이제 생각 여행을 마쳐볼까요?'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="section-sub">'
-            '충분히 떠다녔다면 여기서 마무리해도 좋아요.<br>'
-            '아직 더 헤매고 싶다면 위의 구름을 계속 눌러도 돼요. ☁️'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="eureka-card">'
-            '<div style="'
-            'text-align:center;'
-            'font-size:27px;'
-            'font-weight:900;'
-            '">'
-            '💡 오늘 발견한 별 하나'
-            '</div>'
-            '<div style="'
-            'text-align:center;'
-            'color:#777;'
-            'margin-top:10px;'
-            'line-height:1.7;'
-            '">'
-            '처음 생각과 지금 생각을 천천히 바라봐.<br>'
-            '<b>오늘 새롭게 발견한 생각을 한 줄로 남겨줘.</b><br><br>'
-            '한 줄을 남기면 마지막 행운카드도 뽑을 수 있어요. 🔮'
-            '</div>'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-        note = st.text_area(
-            "💡 오늘 생각 여행에서 발견한 것",
-            value=st.session_state.eureka_note,
-            placeholder=(
-                "예: 나는 취업 자체보다 새로운 환경에서 "
-                "살아보고 싶은 마음이 더 큰 걸지도."
-            ),
-            height=110
-        )
-
         if not st.session_state.eureka_saved:
 
+            st.markdown(
+                '<div class="section-title">'
+                '💡 이제 생각 여행을 마쳐볼까요?'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                '<div class="section-sub">'
+                '충분히 떠다녔다면 여기서 마무리해도 좋아요.<br>'
+                '아직 더 헤매고 싶다면 위의 구름을 계속 눌러도 돼요. ☁️'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                '<div class="eureka-card">'
+                '<div style="'
+                'text-align:center;'
+                'font-size:27px;'
+                'font-weight:900;'
+                '">'
+                '💡 오늘 발견한 별 하나'
+                '</div>'
+                '<div style="'
+                'text-align:center;'
+                'color:#777;'
+                'margin-top:10px;'
+                'line-height:1.7;'
+                '">'
+                '처음 생각과 지금 생각을 천천히 바라봐.<br>'
+                '<b>오늘 새롭게 발견한 생각을 한 줄로 남겨줘.</b><br><br>'
+                '한 줄을 남기면 마지막 행운카드도 뽑을 수 있어요. 🔮'
+                '</div>'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            note = st.text_area(
+                "💡 오늘 생각 여행에서 발견한 것",
+                value=st.session_state.eureka_note,
+                placeholder=(
+                    "예: 나는 취업 자체보다 새로운 환경에서 "
+                    "살아보고 싶은 마음이 더 큰 걸지도."
+                ),
+                height=110
+            )
+
             if st.button(
-                "💡 EUREKA!로 남기고 행운카드 보기",
+                "💡 EUREKA! 오늘의 별로 남기기",
                 key=f"save_eureka_{len(path)}",
                 use_container_width=True
             ):
@@ -1855,14 +1852,6 @@ else:
                     )
 
                     st.session_state.eureka_saved = True
-
-                    st.success(
-                        "✨ 오늘의 별을 남겼어요! "
-                        "이제 아래에서 행운카드를 뽑아봐."
-                    )
-
-                    st.balloons()
-
                     st.rerun()
 
                 else:
@@ -1871,7 +1860,7 @@ else:
                         "오늘 발견한 생각을 한 줄만 적어줘 💡"
                     )
 
-               else:
+        else:
 
             saved_note = html.escape(
                 st.session_state.eureka_note
@@ -1881,77 +1870,84 @@ else:
                 f"""
                 <div style="
                     text-align:center;
-                    margin:28px 0 12px 0;
+                    margin:30px 0 14px 0;
                 ">
-
                     <div style="
-                        font-size:30px;
-                        letter-spacing:8px;
-                        margin-bottom:8px;
+                        font-size:34px;
+                        letter-spacing:10px;
+                        margin-bottom:-10px;
                     ">
-                        ☁️　☁️　✨　☁️　☁️
+                        ☁️　☁️　　　☁️　☁️
                     </div>
 
                     <div style="
                         font-size:14px;
                         color:#8b86a6;
-                        font-weight:700;
-                        margin-bottom:8px;
+                        font-weight:800;
+                        margin-bottom:10px;
                     ">
-                        오늘 생각 여행에서 발견한 별
+                        ✨ 오늘 생각 여행에서 발견한 별 ✨
                     </div>
 
                     <div style="
-                        max-width:520px;
+                        width:min(310px, 82vw);
+                        min-height:290px;
                         margin:0 auto;
-                        padding:28px 24px;
-                        border-radius:32px;
+                        padding:82px 54px 72px 54px;
+                        box-sizing:border-box;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        text-align:center;
                         background:
-                            radial-gradient(
-                                circle at 50% 35%,
-                                #fffdf0 0%,
-                                #fff8c9 55%,
-                                #fff3a8 100%
+                            linear-gradient(
+                                145deg,
+                                #fff7ad 0%,
+                                #ffd969 55%,
+                                #fff2a2 100%
                             );
-                        border:1px solid #ffe795;
-                        box-shadow:
-                            0 0 25px rgba(255,220,100,0.35),
-                            0 10px 30px rgba(120,100,50,0.10);
+                        clip-path:polygon(
+                            50% 0%,
+                            61% 34%,
+                            98% 35%,
+                            68% 56%,
+                            79% 92%,
+                            50% 71%,
+                            21% 92%,
+                            32% 56%,
+                            2% 35%,
+                            39% 34%
+                        );
+                        filter:
+                            drop-shadow(
+                                0 10px 18px
+                                rgba(180,140,40,0.25)
+                            );
                     ">
-
                         <div style="
-                            font-size:38px;
-                            margin-bottom:10px;
-                        ">
-                            ⭐
-                        </div>
-
-                        <div style="
-                            font-size:18px;
-                            font-weight:850;
-                            color:#514a39;
-                            line-height:1.65;
+                            max-width:190px;
+                            font-size:15px;
+                            font-weight:900;
+                            color:#5b4b20;
+                            line-height:1.5;
                             word-break:keep-all;
+                            overflow-wrap:break-word;
                         ">
                             {saved_note}
                         </div>
-
                     </div>
 
                     <div style="
-                        font-size:27px;
-                        letter-spacing:7px;
-                        margin-top:8px;
+                        font-size:31px;
+                        letter-spacing:9px;
+                        margin-top:-14px;
                     ">
                         ☁️　✨　☁️
                     </div>
-
                 </div>
                 """,
                 unsafe_allow_html=True
             )
-
-
     # =====================================================
     # 구름요정 타로
     # =====================================================
