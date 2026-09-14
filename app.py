@@ -1098,34 +1098,15 @@ def render_eureka_screen(path):
 
     st.divider()
 
-    if st.button(
-        "🌙 새로운 망상 시작하기",
-        key="restart_dedicated",
-        use_container_width=True
-    ):
-
-        st.session_state.thought_path = []
-        st.session_state.suggestions = []
-        st.session_state.fairy_comment = ""
-        st.session_state.analysis = ""
-
-        st.session_state.eureka_mode = False
-        st.session_state.eureka_note = ""
-        st.session_state.eureka_saved = False
-        st.session_state.tarot_card = None
-
-        st.session_state.journey_checkpoint = 3
-        st.session_state.journey_finish_mode = False
-        st.session_state.train_boarded = False
-        st.session_state.train_flow_open = False
-
-        st.session_state.started = False
-
-        st.rerun()
-
+    # =====================================================
+    # EUREKA 이후 선택
+    # 1) 같은 흐름에서 EUREKA 다시 쓰기
+    # 2) 완전히 새로운 망상 시작
+    # 3) 하던 망상 흐름으로 돌아가기
+    # =====================================================
 
     if st.button(
-        "💡 EUREKA 다시 기록하기",
+        "⭐ EUREKA 다시 기록하기",
         key="rewrite_eureka",
         use_container_width=True
     ):
@@ -1141,30 +1122,68 @@ def render_eureka_screen(path):
         st.rerun()
 
 
-    if st.button(
-        "🚪 오늘의 생각 여행 끝내기",
-        key="finish_today",
-        use_container_width=True
-    ):
+    new_train_col, continue_train_col = st.columns(2)
 
-        st.session_state.thought_path = []
-        st.session_state.suggestions = []
-        st.session_state.fairy_comment = ""
-        st.session_state.analysis = ""
+    with new_train_col:
 
-        st.session_state.eureka_mode = False
-        st.session_state.eureka_note = ""
-        st.session_state.eureka_saved = False
-        st.session_state.tarot_card = None
+        if st.button(
+            "🚂 새로운 망상 기차 탑승하기",
+            key="restart_dedicated",
+            use_container_width=True
+        ):
 
-        st.session_state.journey_checkpoint = 3
-        st.session_state.journey_finish_mode = False
-        st.session_state.train_boarded = False
-        st.session_state.train_flow_open = False
+            st.session_state.thought_path = []
+            st.session_state.suggestions = []
+            st.session_state.fairy_comment = ""
+            st.session_state.analysis = ""
 
-        st.session_state.started = False
+            st.session_state.eureka_mode = False
+            st.session_state.eureka_note = ""
+            st.session_state.eureka_saved = False
+            st.session_state.tarot_card = None
 
-        st.rerun()
+            st.session_state.journey_checkpoint = 3
+            st.session_state.journey_finish_mode = False
+            st.session_state.train_boarded = False
+            st.session_state.train_flow_open = False
+
+            st.session_state.started = False
+
+            st.rerun()
+
+
+    with continue_train_col:
+
+        if st.button(
+            "☁️ 하던 망상 기차 다시 타기",
+            key="continue_old_train",
+            use_container_width=True
+        ):
+
+            # 지금까지의 생각 경로와 현재 6갈래는 그대로 유지
+            # EUREKA/타로 화면만 닫고 탐험 화면으로 복귀
+            selections_count = max(
+                0,
+                len(st.session_state.thought_path) - 1
+            )
+
+            st.session_state.eureka_mode = False
+            st.session_state.eureka_note = ""
+            st.session_state.eureka_saved = False
+            st.session_state.tarot_card = None
+
+            st.session_state.journey_finish_mode = False
+            st.session_state.train_boarded = False
+            st.session_state.train_flow_open = False
+            st.session_state.analysis = ""
+
+            # 복귀하자마자 체크포인트가 다시 뜨지 않도록
+            # 3개의 생각 구름을 더 탄 뒤 다시 제안
+            st.session_state.journey_checkpoint = (
+                selections_count + 3
+            )
+
+            st.rerun()
 
 
 # =========================================================
