@@ -828,6 +828,314 @@ def choose_thought(thought):
         )
 
 
+
+# =========================================================
+# 전용 EUREKA / 타로 화면
+# =========================================================
+def render_eureka_screen(path):
+
+    if not st.session_state.eureka_saved:
+
+        st.markdown(
+            '<div style="height:18px;"></div>'
+            '<div class="section-title">'
+            '💡 오늘의 EUREKA'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            '<div class="section-sub">'
+            '지나온 생각에서 오늘 건져 올린 '
+            '<b>키워드나 짧은 표현 하나</b>만 남겨봐요.<br>'
+            '예: 소소한 행복 · 새로운 시작 · 자유'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            '<div class="eureka-card">'
+            '<div style="text-align:center;font-size:31px;">☁️　✨　☁️</div>'
+            '<div style="text-align:center;color:#68647e;font-size:16px;'
+            'font-weight:800;line-height:1.65;margin-top:8px;">'
+            '길게 정리하지 않아도 괜찮아요.<br>'
+            '지금 가장 마음에 남는 말 하나면 충분해요.'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        note = st.text_input(
+            "오늘의 EUREKA",
+            value=st.session_state.eureka_note,
+            placeholder="예: 소소한 행복",
+            max_chars=24,
+            label_visibility="collapsed",
+            key="eureka_dedicated_input"
+        )
+
+        if st.button(
+            "⭐ 이 생각을 오늘의 별로 남기기",
+            key="save_eureka_dedicated",
+            use_container_width=True
+        ):
+            if note.strip():
+                st.session_state.eureka_note = note.strip()
+                st.session_state.eureka_saved = True
+                st.rerun()
+            else:
+                st.warning(
+                    "오늘 마음에 남은 키워드 하나만 적어줘 ✨"
+                )
+
+        return
+
+
+    saved_note = html.escape(
+        st.session_state.eureka_note
+    )
+
+    recent_thoughts = path[-4:]
+
+    cloud_labels = [
+        html.escape(
+            compact_thought_label(
+                item
+            )
+        )
+        for item in recent_thoughts
+    ]
+
+    while len(cloud_labels) < 4:
+        cloud_labels.insert(
+            0,
+            "☁️"
+        )
+
+    cloud_uri = asset_data_uri(
+        EUREKA_CLOUD_IMAGE
+    )
+
+    star_uri = asset_data_uri(
+        EUREKA_STAR_IMAGE
+    )
+
+    eureka_star_html = (
+        '<div class="eureka-celebration">'
+        '<div class="eureka-celebration-title">'
+        '✨ 오늘 생각 여행에서 발견한 별 ✨'
+        '</div>'
+
+        f'<img class="asset-cloud ac1" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac2" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac3" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac4" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac5" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac6" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac7" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac8" src="{cloud_uri}">'
+        f'<img class="asset-cloud ac9" src="{cloud_uri}">'
+
+        f'<div class="memory-cloud mem1">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[0]}</div>'
+        '</div>'
+
+        f'<div class="memory-cloud mem2">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[1]}</div>'
+        '</div>'
+
+        f'<div class="memory-cloud mem3">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[2]}</div>'
+        '</div>'
+
+        f'<div class="memory-cloud mem4">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[3]}</div>'
+        '</div>'
+
+        '<div class="celebration-glow"></div>'
+        '<div class="celebration-spark cs1">✦</div>'
+        '<div class="celebration-spark cs2">✧</div>'
+        '<div class="celebration-spark cs3">✦</div>'
+        '<div class="celebration-spark cs4">✧</div>'
+
+        '<div class="asset-star-wrap">'
+        f'<img class="asset-star-img" src="{star_uri}">'
+        f'<div class="asset-star-note">{saved_note}</div>'
+        '</div>'
+        '</div>'
+
+        '<div class="eureka-reveal">'
+        '<div class="eureka-reveal-title">'
+        '✨ 오늘 생각 여행에서 발견한 별 ✨'
+        '</div>'
+
+        f'<div class="memory-cloud fm1" '
+        'style="opacity:1;transform:none;animation:none;">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[0]}</div>'
+        '</div>'
+
+        f'<div class="memory-cloud fm2" '
+        'style="opacity:1;transform:none;animation:none;">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[1]}</div>'
+        '</div>'
+
+        f'<div class="memory-cloud fm3" '
+        'style="opacity:1;transform:none;animation:none;">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[2]}</div>'
+        '</div>'
+
+        f'<div class="memory-cloud fm4" '
+        'style="opacity:1;transform:none;animation:none;">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="cloud-word">{cloud_labels[3]}</div>'
+        '</div>'
+
+        f'<img class="final-asset-cloud fac1" src="{cloud_uri}">'
+        f'<img class="final-asset-cloud fac2" src="{cloud_uri}">'
+        f'<img class="final-asset-cloud fac3" src="{cloud_uri}">'
+        f'<img class="final-asset-cloud fac4" src="{cloud_uri}">'
+
+        '<div class="final-asset-star">'
+        f'<img src="{star_uri}">'
+        f'<div class="final-asset-star-note">{saved_note}</div>'
+        '</div>'
+
+        '<div class="eureka-caption">'
+        '작은 생각도 언젠가 반짝이는 아이디어가 될 수 있어요 ☁️'
+        '</div>'
+        '</div>'
+    )
+
+    st.markdown(
+        eureka_star_html,
+        unsafe_allow_html=True
+    )
+
+    if st.session_state.tarot_card is None:
+
+        if st.button(
+            "🔮 오늘의 행운 카드 뽑기",
+            key="tarot_dedicated",
+            use_container_width=True
+        ):
+
+            with st.spinner(
+                "☁️ 구름요정이 카드를 섞는 중... ✨"
+            ):
+                time.sleep(
+                    0.25
+                )
+
+            st.session_state.tarot_card = (
+                random.choice(
+                    TAROT_CARDS
+                )
+            )
+
+            st.rerun()
+
+    else:
+
+        card = st.session_state.tarot_card
+
+        image_path = (
+            TAROT_DIR
+            / card["image"]
+        )
+
+        st.markdown(
+            '<div class="tarot-stage">'
+            '<div style="font-size:13px;letter-spacing:3px;'
+            'color:#9b8bac;font-weight:800;">'
+            '☁️ CLOUD FAIRY TAROT ☁️'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        if image_path.exists():
+
+            left, mid, right = st.columns(
+                [1, 2, 1]
+            )
+
+            with mid:
+                st.image(
+                    str(
+                        image_path
+                    ),
+                    use_container_width=True
+                )
+
+        else:
+
+            st.error(
+                "타로 카드 이미지를 찾지 못했어요 😭"
+            )
+
+        st.markdown(
+            '<div class="tarot-title">'
+            f'{html.escape(card["name"])}'
+            '</div>'
+            '<div class="tarot-korean">'
+            f'{html.escape(card["ko"])}'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            '<div class="tarot-meaning">'
+            '<b>🔮 이 카드가 전하는 의미</b><br><br>'
+            f'{html.escape(card["meaning"])}'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            '<div class="ending-card">'
+            '<div class="ending-label">'
+            '☁️ 구름요정의 마지막 한마디'
+            '</div>'
+            f'{html.escape(card["ending"])}'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+    st.divider()
+
+    if st.button(
+        "🌙 새로운 망상 시작하기",
+        key="restart_dedicated",
+        use_container_width=True
+    ):
+
+        st.session_state.thought_path = []
+        st.session_state.suggestions = []
+        st.session_state.fairy_comment = ""
+        st.session_state.analysis = ""
+
+        st.session_state.eureka_mode = False
+        st.session_state.eureka_note = ""
+        st.session_state.eureka_saved = False
+        st.session_state.tarot_card = None
+
+        st.session_state.journey_checkpoint = 3
+        st.session_state.journey_finish_mode = False
+        st.session_state.train_boarded = False
+        st.session_state.train_flow_open = False
+
+        st.session_state.started = False
+
+        st.rerun()
+
+
 # =========================================================
 # CSS
 # =========================================================
@@ -2201,6 +2509,204 @@ else:
 
 
     # =====================================================
+    # 전용 화면 모드
+    # 기차/EUREKA를 누른 뒤에는 탐험 화면을 쌓지 않고
+    # 화면 자체를 전환한다.
+    # =====================================================
+
+    if (
+        st.session_state.journey_finish_mode
+        or st.session_state.eureka_saved
+    ):
+
+        render_eureka_screen(
+            path
+        )
+
+        st.stop()
+
+
+    if st.session_state.train_boarded:
+
+        # -------------------------------------------------
+        # 생각 흐름 긴 글 화면
+        # -------------------------------------------------
+        if st.session_state.train_flow_open:
+
+            st.markdown(
+                '<div style="height:12px;"></div>'
+                '<div class="section-title">'
+                '✨ 이제 슬슬 정리될 수도?'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                '<div class="section-sub">'
+                '처음 생각에서 여기까지 어떻게 흘러왔는지 '
+                '구름요정이 한 번 이어봤어요.'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            if not st.session_state.analysis:
+
+                with st.spinner(
+                    "🪄 지나온 생각 사이에서 연결을 찾는 중..."
+                ):
+
+                    try:
+
+                        st.session_state.analysis = (
+                            find_hidden_connection(
+                                path
+                            )
+                        )
+
+                    except Exception:
+
+                        st.session_state.analysis = (
+                            fallback_hidden_connection(
+                                path
+                            )
+                        )
+
+            analysis = html.escape(
+                st.session_state.analysis
+            ).replace(
+                "\\n",
+                "<br>"
+            )
+
+            flow_left, flow_right = st.columns(
+                [1, 3],
+                vertical_alignment="center"
+            )
+
+            with flow_left:
+
+                if FAIRY_IMAGE.exists():
+
+                    st.image(
+                        str(
+                            FAIRY_IMAGE
+                        ),
+                        use_container_width=True
+                    )
+
+                else:
+
+                    st.markdown(
+                        "☁️🪄"
+                    )
+
+            with flow_right:
+
+                st.markdown(
+                    '<div class="fairy-card">'
+                    '<div class="fairy-name">'
+                    '☁️ 구름요정의 발견 ✨'
+                    '</div>'
+                    '<div class="fairy-text">'
+                    f'{analysis}'
+                    '</div>'
+                    '</div>',
+                    unsafe_allow_html=True
+                )
+
+            if st.button(
+                "💡 EUREKA! 오늘의 한줄 기록하기",
+                key="flow_screen_eureka",
+                use_container_width=True
+            ):
+
+                st.session_state.journey_finish_mode = True
+                st.session_state.train_boarded = False
+                st.session_state.train_flow_open = False
+                st.rerun()
+
+            if st.button(
+                "← 기차 선택으로 돌아가기",
+                key="flow_screen_back",
+                use_container_width=True
+            ):
+
+                st.session_state.train_flow_open = False
+                st.rerun()
+
+            st.stop()
+
+
+        # -------------------------------------------------
+        # 기차 탑승 직후 화면
+        # -------------------------------------------------
+        st.markdown(
+            '<div style="height:18px;"></div>'
+            '<div class="journey-checkpoint">'
+            '<div class="train">🚂✨</div>'
+            '<div class="title">생각 흐름 기차에 탑승했어요</div>'
+            '<div class="sub">'
+            '이제 화면을 조금 가볍게 바꿔볼게요.<br>'
+            '지나온 생각을 살펴보거나, 바로 오늘의 별을 남길 수 있어요.'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        train_flow_col, train_eureka_col = st.columns(
+            2
+        )
+
+        with train_flow_col:
+
+            if st.button(
+                "🛤️ 생각 흐름 살펴보기",
+                key="dedicated_train_flow",
+                use_container_width=True
+            ):
+
+                st.session_state.analysis = ""
+
+                with st.spinner(
+                    "🪄 지나온 생각 사이에서 연결을 찾는 중..."
+                ):
+
+                    try:
+
+                        st.session_state.analysis = (
+                            find_hidden_connection(
+                                path
+                            )
+                        )
+
+                    except Exception:
+
+                        st.session_state.analysis = (
+                            fallback_hidden_connection(
+                                path
+                            )
+                        )
+
+                st.session_state.train_flow_open = True
+                st.rerun()
+
+        with train_eureka_col:
+
+            if st.button(
+                "💡 EUREKA! 오늘의 한줄 기록하기",
+                key="dedicated_train_eureka",
+                use_container_width=True
+            ):
+
+                st.session_state.journey_finish_mode = True
+                st.session_state.train_boarded = False
+                st.session_state.train_flow_open = False
+                st.rerun()
+
+        st.stop()
+
+
+    # =====================================================
     # API fallback 안내
     # =====================================================
     if st.session_state.api_notice:
@@ -2517,91 +3023,6 @@ else:
                     st.session_state.train_flow_open = False
                     st.rerun()
 
-        # -------------------------------------------------
-        # 기차 탑승 후: 생각 흐름 vs EUREKA
-        # -------------------------------------------------
-        else:
-
-            st.markdown(
-                '<div class="journey-checkpoint">'
-                '<div class="train">🚂✨</div>'
-                '<div class="title">생각 흐름 기차에 탑승했어요</div>'
-                '<div class="sub">'
-                '지나온 생각들을 먼저 천천히 바라볼까요?<br>'
-                '아니면 바로 오늘의 별을 한 줄로 남겨볼까요?'
-                '</div>'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-            flow_col, eureka_col = st.columns(2)
-
-            with flow_col:
-                if st.button(
-                    "🛤️ 생각 흐름 살펴보기",
-                    key=f"view_train_flow_{len(path)}",
-                    use_container_width=True
-                ):
-                    st.session_state.train_flow_open = True
-                    st.rerun()
-
-            with eureka_col:
-                if st.button(
-                    "💡 EUREKA! 오늘의 한줄 기록하기",
-                    key=f"train_eureka_{len(path)}",
-                    use_container_width=True
-                ):
-                    st.session_state.journey_finish_mode = True
-                    st.session_state.train_flow_open = False
-                    st.rerun()
-
-            # 선택한 생각 흐름을 API 없이 즉시 보여줌
-            if st.session_state.train_flow_open:
-
-                train_flow_html = ""
-
-                for i, thought in enumerate(path):
-                    safe_train_thought = html.escape(
-                        compact_thought_label(
-                            thought,
-                            max_len=16
-                        )
-                    )
-
-                    train_flow_html += (
-                        '<span class="train-thought">'
-                        f'{safe_train_thought}'
-                        '</span>'
-                    )
-
-                    if i < len(path) - 1:
-                        train_flow_html += (
-                            '<span class="train-arrow">'
-                            '→'
-                            '</span>'
-                        )
-
-                st.markdown(
-                    '<div class="train-flow-card">'
-                    '<div class="train-flow-label">'
-                    '🚂 내가 타고 온 생각 흐름'
-                    '</div>'
-                    '<div class="train-flow-track">'
-                    f'{train_flow_html}'
-                    '</div>'
-                    '</div>',
-                    unsafe_allow_html=True
-                )
-
-                if st.button(
-                    "💡 이 흐름에서 EUREKA 남기기",
-                    key=f"flow_to_eureka_{len(path)}",
-                    use_container_width=True
-                ):
-                    st.session_state.journey_finish_mode = True
-                    st.session_state.train_flow_open = False
-                    st.rerun()
-
 
     # =====================================================
     # 직접 딴생각
@@ -2648,424 +3069,3 @@ else:
             choose_thought(
                 custom.strip()
             )
-
-
-    # =====================================================
-    # 숨은 연결
-    # =====================================================
-    if len(path) >= 2:
-
-        st.markdown(
-            '<div class="section-title">'
-            '✨ 슬슬 뭔가 연결되고 있을지도?'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="section-sub">'
-            '구름요정에게 지금까지의 흐름을 보여줘.'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-
-        if st.button(
-            "🪄 숨은 연결 찾기",
-            key=f"connection_{len(path)}",
-            use_container_width=True
-        ):
-
-            try:
-
-                with st.spinner(
-                    "✨ 생각 사이에서 별 하나 찾는 중..."
-                ):
-
-                    st.session_state.analysis = (
-                        find_hidden_connection(
-                            path
-                        )
-                    )
-
-                st.rerun()
-
-
-            except Exception as e:
-
-                st.error(
-                    "별이 잠깐 구름 뒤에 숨었어요 ☁️"
-                )
-
-                st.code(
-                    str(e)
-                )
-
-
-    if st.session_state.analysis:
-
-        analysis = html.escape(
-            st.session_state.analysis
-        ).replace(
-            "\n",
-            "<br>"
-        )
-
-
-        (
-            analysis_fairy,
-            analysis_text
-        ) = st.columns(
-            [1, 2.8],
-            vertical_alignment="center"
-        )
-
-
-        with analysis_fairy:
-
-            if FAIRY_IMAGE.exists():
-
-                st.image(
-                    str(FAIRY_IMAGE),
-                    use_container_width=True
-                )
-
-            else:
-
-                st.markdown(
-                    "☁️🪄"
-                )
-
-
-        with analysis_text:
-
-            st.markdown(
-                '<div class="fairy-card">'
-                '<div class="fairy-name">'
-                '☁️ 구름요정의 발견 ✨'
-                '</div>'
-                '<div class="fairy-text">'
-                f'{analysis}'
-                '</div>'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-
-    # =====================================================
-    # EUREKA / 생각 여행 마무리
-    # =====================================================
-    if st.session_state.journey_finish_mode or st.session_state.eureka_saved:
-
-        if not st.session_state.eureka_saved:
-
-            st.markdown(
-                '<div class="section-title">'
-                '🚂 생각 흐름 기차에 탑승했어요'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-            st.markdown(
-                '<div class="section-sub">'
-                '지나온 생각 구름을 바라보며 오늘 건져 올린 별 하나를 남겨봐요. ✨'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-            st.markdown(
-                '<div class="eureka-card">'
-                '<div style="'
-                'text-align:center;'
-                'font-size:27px;'
-                'font-weight:900;'
-                '">'
-                '💡 오늘 발견한 별 하나'
-                '</div>'
-                '<div style="'
-                'text-align:center;'
-                'color:#777;'
-                'margin-top:10px;'
-                'line-height:1.7;'
-                '">'
-                '처음 생각과 지금 생각을 천천히 바라봐.<br>'
-                '<b>오늘 새롭게 발견한 생각을 한 줄로 남겨줘.</b><br><br>'
-                '한 줄을 남기면 마지막 행운카드도 뽑을 수 있어요. 🔮'
-                '</div>'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-            st.markdown(
-                '<div class="section-sub">'
-                '긴 문장 대신, 오늘 건져 올린 <b>키워드나 짧은 표현</b>을 남겨줘.<br>'
-                '예: 소소한 행복 · 새로운 시작 · 자유'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-            note = st.text_input(
-                "💡 오늘 생각 여행에서 발견한 키워드",
-                value=st.session_state.eureka_note,
-                placeholder="예: 소소한 행복",
-                max_chars=24
-            )
-
-            if st.button(
-                "💡 EUREKA! 이 키워드로 별 만들기",
-                key=f"save_eureka_{len(path)}",
-                use_container_width=True
-            ):
-
-                if note.strip():
-
-                    st.session_state.eureka_note = (
-                        note.strip()
-                    )
-
-                    st.session_state.eureka_saved = True
-                    st.rerun()
-
-                else:
-
-                    st.warning(
-                        "오늘 발견한 생각을 한 줄만 적어줘 💡"
-                    )
-
-        else:
-
-            saved_note = html.escape(
-                st.session_state.eureka_note
-            )
-
-            recent_thoughts = path[-4:]
-            cloud_labels = [
-                html.escape(compact_thought_label(item))
-                for item in recent_thoughts
-            ]
-
-            while len(cloud_labels) < 4:
-                cloud_labels.insert(0, "☁️")
-
-            cloud_uri = asset_data_uri(
-                EUREKA_CLOUD_IMAGE
-            )
-            star_uri = asset_data_uri(
-                EUREKA_STAR_IMAGE
-            )
-
-            eureka_star_html = (
-                '<div class="eureka-celebration">'
-                '<div class="eureka-celebration-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
-                f'<img class="asset-cloud ac1" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac2" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac3" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac4" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac5" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac6" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac7" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac8" src="{cloud_uri}">'
-                f'<img class="asset-cloud ac9" src="{cloud_uri}">'
-                f'<div class="memory-cloud mem1"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[0]}</div></div>'
-                f'<div class="memory-cloud mem2"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[1]}</div></div>'
-                f'<div class="memory-cloud mem3"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[2]}</div></div>'
-                f'<div class="memory-cloud mem4"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[3]}</div></div>'
-                '<div class="celebration-glow"></div>'
-                '<div class="celebration-spark cs1">✦</div>'
-                '<div class="celebration-spark cs2">✧</div>'
-                '<div class="celebration-spark cs3">✦</div>'
-                '<div class="celebration-spark cs4">✧</div>'
-                '<div class="asset-star-wrap">'
-                f'<img class="asset-star-img" src="{star_uri}">'
-                f'<div class="asset-star-note">{saved_note}</div>'
-                '</div>'
-                '</div>'
-                '<div class="eureka-reveal">'
-                '<div class="eureka-reveal-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
-                f'<div class="memory-cloud fm1" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[0]}</div></div>'
-                f'<div class="memory-cloud fm2" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[1]}</div></div>'
-                f'<div class="memory-cloud fm3" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[2]}</div></div>'
-                f'<div class="memory-cloud fm4" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[3]}</div></div>'
-                f'<img class="final-asset-cloud fac1" src="{cloud_uri}">'
-                f'<img class="final-asset-cloud fac2" src="{cloud_uri}">'
-                f'<img class="final-asset-cloud fac3" src="{cloud_uri}">'
-                f'<img class="final-asset-cloud fac4" src="{cloud_uri}">'
-                '<div class="final-asset-star">'
-                f'<img src="{star_uri}">'
-                f'<div class="final-asset-star-note">{saved_note}</div>'
-                '</div>'
-                '<div class="eureka-caption">작은 생각도 언젠가 반짝이는 아이디어가 될 수 있어요 ☁️</div>'
-                '</div>'
-            )
-
-            st.markdown(
-                eureka_star_html,
-                unsafe_allow_html=True
-            )
-    # =====================================================
-    # 구름요정 타로
-    # =====================================================
-    if st.session_state.eureka_saved:
-
-        # -------------------------------------------------
-        # 아직 카드 안 뽑음: 별 바로 아래 버튼만
-        # -------------------------------------------------
-        if st.session_state.tarot_card is None:
-
-            if st.button(
-                "🔮 오늘의 행운 카드 뽑기",
-                key=f"tarot_{len(path)}",
-                use_container_width=True
-            ):
-
-                with st.spinner(
-                    "☁️ 구름요정이 카드를 섞는 중... ✨"
-                ):
-                    time.sleep(0.25)
-
-                st.session_state.tarot_card = random.choice(
-                    TAROT_CARDS
-                )
-
-                st.rerun()
-
-        # -------------------------------------------------
-        # 카드 결과
-        # -------------------------------------------------
-        else:
-
-            card = (
-                st.session_state.tarot_card
-            )
-
-            image_path = (
-                TAROT_DIR
-                / card["image"]
-            )
-
-
-            st.markdown(
-                '<div class="tarot-stage">'
-                '<div style="'
-                'font-size:13px;'
-                'letter-spacing:3px;'
-                'color:#9b8bac;'
-                'font-weight:800;'
-                '">'
-                '☁️ CLOUD FAIRY TAROT ☁️'
-                '</div>'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-
-            if image_path.exists():
-
-                (
-                    image_left,
-                    image_mid,
-                    image_right
-                ) = st.columns(
-                    [1, 2, 1]
-                )
-
-                with image_mid:
-
-                    st.image(
-                        str(image_path),
-                        use_container_width=True
-                    )
-
-
-            else:
-
-                st.error(
-                    "타로 카드 이미지를 찾지 못했어요 😭"
-                )
-
-                st.code(
-                    str(image_path)
-                )
-
-
-            st.markdown(
-                '<div class="tarot-title">'
-                f'{html.escape(card["name"])}'
-                '</div>'
-                '<div class="tarot-korean">'
-                f'{html.escape(card["ko"])}'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-
-            st.markdown(
-                '<div class="tarot-meaning">'
-                '<b>'
-                '🔮 이 카드가 전하는 의미'
-                '</b>'
-                '<br><br>'
-                f'{html.escape(card["meaning"])}'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-
-            st.markdown(
-                '<div class="ending-card">'
-                '<div class="ending-label">'
-                '☁️ 구름요정의 마지막 한마디'
-                '</div>'
-                f'{html.escape(card["ending"])}'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-
-            st.markdown(
-                '<div style="'
-                'text-align:center;'
-                'color:#9a92ad;'
-                'font-size:13px;'
-                'margin-bottom:22px;'
-                'line-height:1.6;'
-                '">'
-                '오늘의 카드는 미래를 정하는 답이 아니라, '
-                '생각 여행 끝에 만난 작은 상징이에요. ✨'
-                '</div>',
-                unsafe_allow_html=True
-            )
-
-
-    # =====================================================
-    # 새로운 망상
-    # =====================================================
-    st.divider()
-
-
-    if st.button(
-        "🌙 새로운 망상 시작하기",
-        key="restart",
-        use_container_width=True
-    ):
-
-        st.session_state.thought_path = []
-        st.session_state.suggestions = []
-        st.session_state.fairy_comment = ""
-        st.session_state.analysis = ""
-
-        st.session_state.eureka_mode = False
-        st.session_state.eureka_note = ""
-        st.session_state.eureka_saved = False
-        st.session_state.tarot_card = None
-        st.session_state.journey_checkpoint = 3
-        st.session_state.journey_finish_mode = False
-        st.session_state.train_boarded = False
-        st.session_state.train_flow_open = False
-
-        st.session_state.started = False
-
-        # API 쿼터 상태는 유지
-        # 같은 브라우저 세션에서 계속 429 요청하는 것을 방지
-
-        st.rerun()
