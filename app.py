@@ -1217,6 +1217,77 @@ div.stButton > button p {
 
     line-height: 1.45 !important;
 }
+
+/* EUREKA reveal animation */
+.eureka-reveal {
+    position: relative;
+    height: 390px;
+    margin: 22px 0 4px 0;
+    overflow: hidden;
+    text-align: center;
+}
+.eureka-reveal-title {
+    position: relative; z-index: 5;
+    color: #817aa4; font-size: 14px; font-weight: 850;
+    padding-top: 12px;
+    opacity: 0; animation: eurekaFade .7s ease .8s forwards;
+}
+.cloud {
+    position: absolute; z-index: 3; font-size: 64px;
+    filter: drop-shadow(0 8px 12px rgba(115,105,170,.12));
+    opacity: 0;
+}
+.cloud-1 { left: 4%; bottom: -70px; animation: cloudRise 2.1s ease-out .05s forwards, cloudFloat 3s ease-in-out 2.2s infinite; }
+.cloud-2 { left: 24%; bottom: -90px; font-size: 82px; animation: cloudRise 2.0s ease-out .25s forwards, cloudFloat 3.4s ease-in-out 2.25s infinite; }
+.cloud-3 { right: 22%; bottom: -85px; font-size: 76px; animation: cloudRise 2.15s ease-out .12s forwards, cloudFloat 3.2s ease-in-out 2.3s infinite; }
+.cloud-4 { right: 3%; bottom: -65px; animation: cloudRise 1.95s ease-out .35s forwards, cloudFloat 3.6s ease-in-out 2.4s infinite; }
+.eureka-glow {
+    position:absolute; left:50%; top:51%; width:190px; height:190px;
+    transform:translate(-50%,-50%) scale(.25); border-radius:50%;
+    background:radial-gradient(circle,rgba(255,229,117,.7) 0%,rgba(255,241,180,.25) 45%,rgba(255,255,255,0) 72%);
+    opacity:0; animation: starGlow 1.1s ease 1.25s forwards;
+}
+.eureka-star {
+    position:absolute; z-index:4; left:50%; top:50%; width:min(270px,72vw);
+    transform:translate(-50%,55px) scale(.25) rotate(-8deg);
+    opacity:0; animation: starReveal 1.15s cubic-bezier(.2,.9,.25,1.25) 1.2s forwards;
+}
+.eureka-star-icon {
+    font-size: 180px; line-height: 1;
+    filter: drop-shadow(0 10px 18px rgba(220,170,40,.25));
+    animation: starPulse 2.4s ease-in-out 2.4s infinite;
+}
+.eureka-star-note {
+    position:absolute; left:50%; top:50%; width:135px;
+    transform:translate(-50%,-44%); color:#5b4b20;
+    font-size:14px; font-weight:900; line-height:1.4; word-break:keep-all;
+}
+.eureka-cloud-floor {
+    position:absolute; z-index:5; left:0; right:0; bottom:5px;
+    font-size:30px; letter-spacing:5px; opacity:0;
+    animation:eurekaFade .8s ease 1.75s forwards;
+}
+@keyframes cloudRise {
+    0% { opacity:0; transform:translateY(100px) scale(.75); }
+    55% { opacity:1; }
+    100% { opacity:1; transform:translateY(-105px) scale(1); }
+}
+@keyframes cloudFloat {
+    0%,100% { transform:translateY(-105px) translateX(0); }
+    50% { transform:translateY(-114px) translateX(7px); }
+}
+@keyframes starReveal {
+    0% { opacity:0; transform:translate(-50%,55px) scale(.25) rotate(-8deg); }
+    65% { opacity:1; transform:translate(-50%,-4px) scale(1.08) rotate(3deg); }
+    100% { opacity:1; transform:translate(-50%,0) scale(1) rotate(0); }
+}
+@keyframes starGlow {
+    0% { opacity:0; transform:translate(-50%,-50%) scale(.2); }
+    100% { opacity:1; transform:translate(-50%,-50%) scale(1.45); }
+}
+@keyframes starPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.04); } }
+@keyframes eurekaFade { from {opacity:0;} to {opacity:1;} }
+
 </style>
 """,
     unsafe_allow_html=True
@@ -1867,28 +1938,20 @@ else:
             )
 
             eureka_star_html = (
-                '<div style="text-align:center;margin:30px 0 14px 0;">'
-                '<div style="font-size:34px;letter-spacing:10px;margin-bottom:4px;">'
-                '☁️　☁️　✨　☁️　☁️'
-                '</div>'
-                '<div style="font-size:14px;color:#8b86a6;font-weight:800;margin-bottom:12px;">'
-                '✨ 오늘 생각 여행에서 발견한 별 ✨'
-                '</div>'
-                '<div style="width:min(310px,82vw);min-height:290px;margin:0 auto;'
-                'padding:82px 54px 72px 54px;box-sizing:border-box;display:flex;'
-                'align-items:center;justify-content:center;text-align:center;'
-                'background:linear-gradient(145deg,#fff7ad 0%,#ffd969 55%,#fff2a2 100%);'
-                'clip-path:polygon(50% 0%,61% 34%,98% 35%,68% 56%,79% 92%,'
-                '50% 71%,21% 92%,32% 56%,2% 35%,39% 34%);'
-                'filter:drop-shadow(0 10px 18px rgba(180,140,40,0.25));">'
-                '<div style="max-width:190px;font-size:15px;font-weight:900;color:#5b4b20;'
-                'line-height:1.5;word-break:keep-all;overflow-wrap:break-word;">'
+                '<div class="eureka-reveal">'
+                '<div class="cloud cloud-1">☁️</div>'
+                '<div class="cloud cloud-2">☁️</div>'
+                '<div class="cloud cloud-3">☁️</div>'
+                '<div class="cloud cloud-4">☁️</div>'
+                '<div class="eureka-reveal-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
+                '<div class="eureka-glow"></div>'
+                '<div class="eureka-star">'
+                '<div class="eureka-star-icon">⭐</div>'
+                '<div class="eureka-star-note">'
                 f'{saved_note}'
                 '</div>'
                 '</div>'
-                '<div style="font-size:31px;letter-spacing:9px;margin-top:-14px;">'
-                '☁️　✨　☁️'
-                '</div>'
+                '<div class="eureka-cloud-floor">☁️　☁️　✨　☁️　☁️</div>'
                 '</div>'
             )
 
