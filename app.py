@@ -5,6 +5,7 @@ import json
 import html
 import time
 import random
+import textwrap
 
 
 # =========================================================
@@ -1867,85 +1868,84 @@ else:
             )
 
             st.markdown(
-                f"""
-                <div style="
-                    text-align:center;
-                    margin:30px 0 14px 0;
-                ">
+                textwrap.dedent(
+                    f"""
                     <div style="
-                        font-size:34px;
-                        letter-spacing:10px;
-                        margin-bottom:-10px;
-                    ">
-                        ☁️　☁️　　　☁️　☁️
-                    </div>
-
-                    <div style="
-                        font-size:14px;
-                        color:#8b86a6;
-                        font-weight:800;
-                        margin-bottom:10px;
-                    ">
-                        ✨ 오늘 생각 여행에서 발견한 별 ✨
-                    </div>
-
-                    <div style="
-                        width:min(310px, 82vw);
-                        min-height:290px;
-                        margin:0 auto;
-                        padding:82px 54px 72px 54px;
-                        box-sizing:border-box;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
                         text-align:center;
-                        background:
-                            linear-gradient(
+                        margin:30px 0 14px 0;
+                    ">
+                        <div style="
+                            font-size:34px;
+                            letter-spacing:10px;
+                            margin-bottom:-10px;
+                        ">
+                            ☁️　☁️　　　☁️　☁️
+                        </div>
+
+                        <div style="
+                            font-size:14px;
+                            color:#8b86a6;
+                            font-weight:800;
+                            margin-bottom:10px;
+                        ">
+                            ✨ 오늘 생각 여행에서 발견한 별 ✨
+                        </div>
+
+                        <div style="
+                            width:min(310px, 82vw);
+                            min-height:290px;
+                            margin:0 auto;
+                            padding:82px 54px 72px 54px;
+                            box-sizing:border-box;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            text-align:center;
+                            background:linear-gradient(
                                 145deg,
                                 #fff7ad 0%,
                                 #ffd969 55%,
                                 #fff2a2 100%
                             );
-                        clip-path:polygon(
-                            50% 0%,
-                            61% 34%,
-                            98% 35%,
-                            68% 56%,
-                            79% 92%,
-                            50% 71%,
-                            21% 92%,
-                            32% 56%,
-                            2% 35%,
-                            39% 34%
-                        );
-                        filter:
-                            drop-shadow(
-                                0 10px 18px
-                                rgba(180,140,40,0.25)
+                            clip-path:polygon(
+                                50% 0%,
+                                61% 34%,
+                                98% 35%,
+                                68% 56%,
+                                79% 92%,
+                                50% 71%,
+                                21% 92%,
+                                32% 56%,
+                                2% 35%,
+                                39% 34%
                             );
-                    ">
-                        <div style="
-                            max-width:190px;
-                            font-size:15px;
-                            font-weight:900;
-                            color:#5b4b20;
-                            line-height:1.5;
-                            word-break:keep-all;
-                            overflow-wrap:break-word;
+                            filter:drop-shadow(
+                                0 10px 18px rgba(180,140,40,0.25)
+                            );
                         ">
-                            {saved_note}
+                            <div style="
+                                max-width:190px;
+                                font-size:15px;
+                                font-weight:900;
+                                color:#5b4b20;
+                                line-height:1.5;
+                                word-break:keep-all;
+                                overflow-wrap:break-word;
+                            ">
+                                {saved_note}
+                            </div>
+                        </div>
+
+                        <div style="
+                            font-size:31px;
+                            letter-spacing:9px;
+                            margin-top:-14px;
+                        ">
+                            ☁️　✨　☁️
                         </div>
                     </div>
-
-                    <div style="
-                        font-size:31px;
-                        letter-spacing:9px;
-                        margin-top:-14px;
-                    ">
-                        ☁️　✨　☁️
-                    </div>
-                </div>
-                """,
+                    """
+                ),
                 unsafe_allow_html=True
             )
     # =====================================================
