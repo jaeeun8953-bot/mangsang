@@ -304,6 +304,10 @@ defaults = {
     "eureka_saved": False,
     "tarot_card": None,
 
+    # 생각 여행 마무리 체크포인트
+    "journey_checkpoint": 3,
+    "journey_finish_mode": False,
+
     # Gemini 상태
     "quota_fallback": False,
     "api_notice": "",
@@ -802,6 +806,7 @@ def choose_thought(thought):
         st.session_state.eureka_saved = False
         st.session_state.eureka_note = ""
         st.session_state.tarot_card = None
+        st.session_state.journey_finish_mode = False
 
         st.rerun()
 
@@ -1764,6 +1769,142 @@ div.stButton > button p {
     .asset-star-wrap { width:min(72vw, 330px); top:47%; }
 }
 
+
+/* =========================================================
+   생각 키워드를 '구름 위'에 표시
+   ========================================================= */
+.memory-cloud {
+    position:absolute !important;
+    z-index:30 !important;
+    width:clamp(130px, 24vw, 200px) !important;
+    min-width:0 !important;
+    max-width:none !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    opacity:0;
+    transform:translateY(48px) scale(.72);
+    animation-name:memoryCloudAssetPop;
+    animation-duration:.85s;
+    animation-timing-function:cubic-bezier(.18,.85,.28,1.15);
+    animation-fill-mode:forwards;
+}
+.memory-cloud img {
+    display:block;
+    width:100%;
+    height:auto;
+    filter:drop-shadow(0 12px 24px rgba(109,99,163,.12));
+}
+.memory-cloud .cloud-word {
+    position:absolute;
+    z-index:3;
+    left:50%;
+    top:57%;
+    width:66%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:#625f7b;
+    font-size:clamp(12px,2.8vw,15px);
+    font-weight:850;
+    letter-spacing:-.03em;
+    line-height:1.22;
+    word-break:keep-all;
+    text-shadow:0 1px 5px rgba(255,255,255,.92);
+}
+
+.mem1 { left:1%;  top:21%; animation-delay:.55s; }
+.mem2 { right:1%; top:22%; animation-delay:.70s; }
+.mem3 { left:3%;  top:53%; animation-delay:.88s; }
+.mem4 { right:3%; top:54%; animation-delay:1.03s; }
+
+/* 더 많은 뭉게구름 레이어 */
+.asset-cloud.ac6 {
+    left:-4%;
+    bottom:20%;
+    width:clamp(190px,35vw,360px);
+    animation:assetCloudRiseB 2.20s cubic-bezier(.16,.82,.24,1.06) .34s forwards,
+              assetCloudFloatA 4.6s ease-in-out 2.5s infinite;
+}
+.asset-cloud.ac7 {
+    right:-5%;
+    bottom:22%;
+    width:clamp(190px,35vw,360px);
+    animation:assetCloudRiseB 2.26s cubic-bezier(.16,.82,.24,1.06) .40s forwards,
+              assetCloudFloatB 4.7s ease-in-out 2.6s infinite;
+}
+.asset-cloud.ac8 {
+    left:21%;
+    bottom:16%;
+    width:clamp(190px,34vw,350px);
+    animation:assetCloudRiseA 2.32s cubic-bezier(.16,.82,.24,1.06) .28s forwards,
+              assetCloudFloatA 4.9s ease-in-out 2.5s infinite;
+}
+.asset-cloud.ac9 {
+    right:21%;
+    bottom:15%;
+    width:clamp(190px,34vw,350px);
+    animation:assetCloudRiseA 2.28s cubic-bezier(.16,.82,.24,1.06) .36s forwards,
+              assetCloudFloatB 4.8s ease-in-out 2.6s infinite;
+}
+
+@keyframes memoryCloudAssetPop {
+    0%   { opacity:0; transform:translateY(48px) scale(.70); }
+    72%  { opacity:1; transform:translateY(-5px) scale(1.05); }
+    100% { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* 3번째 선택 뒤 나타나는 여행 체크포인트 */
+.journey-checkpoint {
+    margin:30px 0 18px 0;
+    padding:26px 22px;
+    border-radius:30px;
+    text-align:center;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.98), rgba(255,255,255,.72)),
+        linear-gradient(135deg, rgba(235,242,255,.92), rgba(250,239,255,.92));
+    border:1px solid rgba(255,255,255,.96);
+    box-shadow:0 14px 38px rgba(104,96,155,.10);
+}
+.journey-checkpoint .train {
+    font-size:34px;
+    margin-bottom:6px;
+}
+.journey-checkpoint .title {
+    color:#56536e;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:-.04em;
+}
+.journey-checkpoint .sub {
+    color:#858197;
+    font-size:14px;
+    line-height:1.65;
+    margin-top:8px;
+}
+
+@media (max-width:640px) {
+    .memory-cloud {
+        width:132px !important;
+    }
+    .memory-cloud .cloud-word {
+        width:62%;
+        font-size:11.5px;
+    }
+    .mem1 { left:-2%; top:20%; }
+    .mem2 { right:-2%; top:22%; }
+    .mem3 { left:-1%; top:57%; }
+    .mem4 { right:-1%; top:58%; }
+
+    .journey-checkpoint {
+        padding:22px 16px;
+    }
+    .journey-checkpoint .title {
+        font-size:19px;
+    }
+}
+
 </style>
 """,
     unsafe_allow_html=True
@@ -1887,6 +2028,8 @@ if not st.session_state.started:
                 st.session_state.eureka_note = ""
                 st.session_state.eureka_saved = False
                 st.session_state.tarot_card = None
+                st.session_state.journey_checkpoint = 3
+                st.session_state.journey_finish_mode = False
 
                 st.rerun()
 
@@ -2332,23 +2475,67 @@ else:
 
 
     # =====================================================
+    # 생각 여행 체크포인트
+    # 첫 생각 이후 구름을 3번 누를 때마다 등장
+    # =====================================================
+    selections_count = max(0, len(path) - 1)
+
+    if (
+        selections_count >= st.session_state.journey_checkpoint
+        and not st.session_state.journey_finish_mode
+        and not st.session_state.eureka_saved
+    ):
+
+        st.markdown(
+            '<div class="journey-checkpoint">'
+            '<div class="train">🚂☁️</div>'
+            '<div class="title">이제 생각 흐름 기차에 탑승해볼까요?</div>'
+            '<div class="sub">'
+            '여기까지 온 생각들을 한 번 바라봐도 좋아요.<br>'
+            '아직 더 떠다니고 싶다면 망상을 조금 더 이어가도 돼요.'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+
+        train_col, more_col = st.columns(2)
+
+        with train_col:
+            if st.button(
+                "🚂 생각 흐름 기차 탑승하기",
+                key=f"board_train_{len(path)}",
+                use_container_width=True
+            ):
+                st.session_state.journey_finish_mode = True
+                st.rerun()
+
+        with more_col:
+            if st.button(
+                "☁️ 망상 더 해보기",
+                key=f"more_thoughts_{len(path)}",
+                use_container_width=True
+            ):
+                st.session_state.journey_checkpoint += 3
+                st.rerun()
+
+
+    # =====================================================
     # EUREKA / 생각 여행 마무리
     # =====================================================
-    if len(path) >= 2:
+    if st.session_state.journey_finish_mode or st.session_state.eureka_saved:
 
         if not st.session_state.eureka_saved:
 
             st.markdown(
                 '<div class="section-title">'
-                '💡 이제 생각 여행을 마쳐볼까요?'
+                '🚂 생각 흐름 기차에 탑승했어요'
                 '</div>',
                 unsafe_allow_html=True
             )
 
             st.markdown(
                 '<div class="section-sub">'
-                '충분히 떠다녔다면 여기서 마무리해도 좋아요.<br>'
-                '아직 더 헤매고 싶다면 위의 구름을 계속 눌러도 돼요. ☁️'
+                '지나온 생각 구름을 바라보며 오늘 건져 올린 별 하나를 남겨봐요. ✨'
                 '</div>',
                 unsafe_allow_html=True
             )
@@ -2442,10 +2629,14 @@ else:
                 f'<img class="asset-cloud ac3" src="{cloud_uri}">'
                 f'<img class="asset-cloud ac4" src="{cloud_uri}">'
                 f'<img class="asset-cloud ac5" src="{cloud_uri}">'
-                f'<div class="memory-cloud mem1">☁️ {cloud_labels[0]}</div>'
-                f'<div class="memory-cloud mem2">☁️ {cloud_labels[1]}</div>'
-                f'<div class="memory-cloud mem3">☁️ {cloud_labels[2]}</div>'
-                f'<div class="memory-cloud mem4">☁️ {cloud_labels[3]}</div>'
+                f'<img class="asset-cloud ac6" src="{cloud_uri}">'
+                f'<img class="asset-cloud ac7" src="{cloud_uri}">'
+                f'<img class="asset-cloud ac8" src="{cloud_uri}">'
+                f'<img class="asset-cloud ac9" src="{cloud_uri}">'
+                f'<div class="memory-cloud mem1"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[0]}</div></div>'
+                f'<div class="memory-cloud mem2"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[1]}</div></div>'
+                f'<div class="memory-cloud mem3"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[2]}</div></div>'
+                f'<div class="memory-cloud mem4"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[3]}</div></div>'
                 '<div class="celebration-glow"></div>'
                 '<div class="celebration-spark cs1">✦</div>'
                 '<div class="celebration-spark cs2">✧</div>'
@@ -2458,10 +2649,10 @@ else:
                 '</div>'
                 '<div class="eureka-reveal">'
                 '<div class="eureka-reveal-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
-                f'<div class="final-memory fm1">☁️ {cloud_labels[0]}</div>'
-                f'<div class="final-memory fm2">☁️ {cloud_labels[1]}</div>'
-                f'<div class="final-memory fm3">☁️ {cloud_labels[2]}</div>'
-                f'<div class="final-memory fm4">☁️ {cloud_labels[3]}</div>'
+                f'<div class="memory-cloud fm1" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[0]}</div></div>'
+                f'<div class="memory-cloud fm2" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[1]}</div></div>'
+                f'<div class="memory-cloud fm3" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[2]}</div></div>'
+                f'<div class="memory-cloud fm4" style="opacity:1;transform:none;animation:none;"><img src="{cloud_uri}"><div class="cloud-word">{cloud_labels[3]}</div></div>'
                 f'<img class="final-asset-cloud fac1" src="{cloud_uri}">'
                 f'<img class="final-asset-cloud fac2" src="{cloud_uri}">'
                 f'<img class="final-asset-cloud fac3" src="{cloud_uri}">'
@@ -2634,6 +2825,8 @@ else:
         st.session_state.eureka_note = ""
         st.session_state.eureka_saved = False
         st.session_state.tarot_card = None
+        st.session_state.journey_checkpoint = 3
+        st.session_state.journey_finish_mode = False
 
         st.session_state.started = False
 
