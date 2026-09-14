@@ -2684,7 +2684,7 @@ if not st.session_state.started:
         '</div>'
         '<div class="fairy-text">'
         '머릿속에 떠다니는 생각 하나만 던져봐.<br>'
-        '어디까지 흘러가는지 같이 따라가 볼게. 🪄'
+        '너의 머릿속 생각 구름 기차가 출발한다 🪄'
         '</div>'
         '</div>',
         unsafe_allow_html=True
