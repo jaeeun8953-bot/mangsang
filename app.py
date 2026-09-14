@@ -468,6 +468,32 @@ def fallback_hidden_connection(thought_path):
 
 
 # =========================================================
+# EUREKA 구름에 보여줄 짧은 생각 라벨
+# =========================================================
+def compact_thought_label(text, max_len=14):
+    cleaned = " ".join(str(text).replace("\n", " ").split())
+
+    if len(cleaned) <= max_len:
+        return cleaned
+
+    words = cleaned.split()
+    result = ""
+
+    for word in words:
+        candidate = word if not result else f"{result} {word}"
+
+        if len(candidate) > max_len:
+            break
+
+        result = candidate
+
+    if result:
+        return result + "…"
+
+    return cleaned[:max_len].rstrip() + "…"
+
+
+# =========================================================
 # 생각 갈림길 생성
 # =========================================================
 def explore_thoughts(thought_path):
@@ -1218,74 +1244,214 @@ div.stButton > button p {
     line-height: 1.45 !important;
 }
 
-/* EUREKA reveal animation */
+/* EUREKA reveal animation - keyword cloud version */
 .eureka-reveal {
     position: relative;
-    height: 390px;
-    margin: 22px 0 4px 0;
+    height: 500px;
+    margin: 24px 0 10px 0;
     overflow: hidden;
+    border-radius: 38px;
     text-align: center;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(255,244,189,.70) 0%, rgba(255,244,189,0) 31%),
+        radial-gradient(circle at 16% 22%, rgba(228,235,255,.72) 0%, rgba(228,235,255,0) 34%),
+        radial-gradient(circle at 84% 24%, rgba(241,229,255,.66) 0%, rgba(241,229,255,0) 34%),
+        linear-gradient(180deg, rgba(243,247,255,.90), rgba(255,246,252,.94));
+    box-shadow: inset 0 0 65px rgba(255,255,255,.58);
 }
+
 .eureka-reveal-title {
-    position: relative; z-index: 5;
-    color: #817aa4; font-size: 14px; font-weight: 850;
-    padding-top: 12px;
-    opacity: 0; animation: eurekaFade .7s ease .8s forwards;
+    position: relative;
+    z-index: 20;
+    padding-top: 25px;
+    color: #7772aa;
+    font-size: 16px;
+    font-weight: 900;
+    opacity: 0;
+    animation: eurekaFade .7s ease .35s forwards;
 }
-.cloud {
-    position: absolute; z-index: 3; font-size: 64px;
-    filter: drop-shadow(0 8px 12px rgba(115,105,170,.12));
+
+/* 모든 생각 구름은 같은 색 */
+.thought-cloud {
+    position: absolute;
+    z-index: 12;
+    width: 150px;
+    min-height: 64px;
+    padding: 20px 14px 15px 14px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 32% 24%, rgba(255,255,255,1) 0 24px, transparent 25px),
+        radial-gradient(circle at 66% 18%, rgba(255,255,255,.98) 0 31px, transparent 32px),
+        linear-gradient(180deg, #ffffff 0%, #f0efff 100%);
+    border: 1px solid rgba(255,255,255,.96);
+    box-shadow:
+        0 12px 25px rgba(120,111,174,.14),
+        inset 0 -8px 18px rgba(210,205,240,.20);
+    color: #62617f;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.35;
+    word-break: keep-all;
+    opacity: 0;
+    transform: translateY(55px) scale(.72);
+}
+
+.tc1 { left: 5%; top: 30%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .35s forwards, thoughtCloudFloat 4.0s ease-in-out 1.5s infinite; }
+.tc2 { right: 5%; top: 30%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .50s forwards, thoughtCloudFloat 4.2s ease-in-out 1.7s infinite; }
+.tc3 { left: 7%; top: 62%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .65s forwards, thoughtCloudFloat 4.4s ease-in-out 1.9s infinite; }
+.tc4 { right: 7%; top: 62%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .80s forwards, thoughtCloudFloat 4.1s ease-in-out 2.0s infinite; }
+
+/* 아래쪽에서 뭉게뭉게 올라오는 장식 구름 */
+.mist-cloud {
+    position: absolute;
+    z-index: 6;
+    width: 135px;
+    height: 46px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,.99), rgba(240,238,255,.93));
+    box-shadow: 0 10px 22px rgba(121,112,170,.12);
     opacity: 0;
 }
-.cloud-1 { left: 4%; bottom: -70px; animation: cloudRise 2.1s ease-out .05s forwards, cloudFloat 3s ease-in-out 2.2s infinite; }
-.cloud-2 { left: 24%; bottom: -90px; font-size: 82px; animation: cloudRise 2.0s ease-out .25s forwards, cloudFloat 3.4s ease-in-out 2.25s infinite; }
-.cloud-3 { right: 22%; bottom: -85px; font-size: 76px; animation: cloudRise 2.15s ease-out .12s forwards, cloudFloat 3.2s ease-in-out 2.3s infinite; }
-.cloud-4 { right: 3%; bottom: -65px; animation: cloudRise 1.95s ease-out .35s forwards, cloudFloat 3.6s ease-in-out 2.4s infinite; }
+.mist-cloud::before,
+.mist-cloud::after {
+    content: "";
+    position: absolute;
+    bottom: 10px;
+    border-radius: 50%;
+    background: inherit;
+}
+.mist-cloud::before { width: 62px; height: 62px; left: 18px; }
+.mist-cloud::after  { width: 74px; height: 74px; right: 10px; }
+
+.mc1 { left: -18px;  bottom: -92px; animation: mistRise 2.1s cubic-bezier(.2,.8,.25,1) .02s forwards, mistFloat 3.8s ease-in-out 2.25s infinite; }
+.mc2 { left: 21%;    bottom: -110px; animation: mistRise 2.2s cubic-bezier(.2,.8,.25,1) .10s forwards, mistFloat 4.1s ease-in-out 2.35s infinite; }
+.mc3 { right: 21%;   bottom: -108px; animation: mistRise 2.25s cubic-bezier(.2,.8,.25,1) .16s forwards, mistFloat 3.9s ease-in-out 2.4s infinite; }
+.mc4 { right: -20px; bottom: -90px; animation: mistRise 2.15s cubic-bezier(.2,.8,.25,1) .24s forwards, mistFloat 4.2s ease-in-out 2.5s infinite; }
+
+.eureka-spark {
+    position: absolute;
+    z-index: 15;
+    color: #ffd86a;
+    opacity: 0;
+    filter: drop-shadow(0 0 8px rgba(255,218,105,.72));
+    animation: sparklePop .9s ease forwards;
+}
+.sp1 { left: 30%; top: 26%; font-size: 22px; animation-delay: 1.05s; }
+.sp2 { right: 30%; top: 27%; font-size: 16px; animation-delay: 1.20s; }
+.sp3 { left: 32%; top: 68%; font-size: 14px; animation-delay: 1.35s; }
+.sp4 { right: 32%; top: 68%; font-size: 20px; animation-delay: 1.45s; }
+
 .eureka-glow {
-    position:absolute; left:50%; top:51%; width:190px; height:190px;
-    transform:translate(-50%,-50%) scale(.25); border-radius:50%;
-    background:radial-gradient(circle,rgba(255,229,117,.7) 0%,rgba(255,241,180,.25) 45%,rgba(255,255,255,0) 72%);
-    opacity:0; animation: starGlow 1.1s ease 1.25s forwards;
+    position: absolute;
+    z-index: 8;
+    left: 50%;
+    top: 49%;
+    width: 250px;
+    height: 250px;
+    transform: translate(-50%,-50%) scale(.2);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,232,121,.70) 0%, rgba(255,244,188,.28) 48%, rgba(255,255,255,0) 72%);
+    opacity: 0;
+    animation: starGlow 1.05s ease 1.05s forwards;
 }
+
 .eureka-star {
-    position:absolute; z-index:4; left:50%; top:50%; width:min(270px,72vw);
-    transform:translate(-50%,55px) scale(.25) rotate(-8deg);
-    opacity:0; animation: starReveal 1.15s cubic-bezier(.2,.9,.25,1.25) 1.2s forwards;
+    position: absolute;
+    z-index: 18;
+    left: 50%;
+    top: 49%;
+    width: 245px;
+    height: 230px;
+    transform: translate(-50%, 78px) scale(.20);
+    opacity: 0;
+    animation: starReveal 1.12s cubic-bezier(.18,.85,.28,1.18) 1.08s forwards;
 }
-.eureka-star-icon {
-    font-size: 180px; line-height: 1;
-    filter: drop-shadow(0 10px 18px rgba(220,170,40,.25));
-    animation: starPulse 2.4s ease-in-out 2.4s infinite;
+
+.eureka-star-glyph {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 210px;
+    line-height: 1;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 900;
+    background: linear-gradient(145deg, #fff5b0 8%, #ffd85b 47%, #efbd37 78%, #fff1a8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 12px 18px rgba(189,145,38,.22));
+    animation: starPulse 2.8s ease-in-out 2.4s infinite;
 }
+
 .eureka-star-note {
-    position:absolute; left:50%; top:50%; width:135px;
-    transform:translate(-50%,-44%); color:#5b4b20;
-    font-size:14px; font-weight:900; line-height:1.4; word-break:keep-all;
+    position: absolute;
+    z-index: 20;
+    left: 50%;
+    top: 51%;
+    width: 125px;
+    transform: translate(-50%,-50%);
+    color: #5b4b20;
+    font-size: 16px;
+    font-weight: 950;
+    line-height: 1.35;
+    word-break: keep-all;
+    text-align: center;
 }
-.eureka-cloud-floor {
-    position:absolute; z-index:5; left:0; right:0; bottom:5px;
-    font-size:30px; letter-spacing:5px; opacity:0;
-    animation:eurekaFade .8s ease 1.75s forwards;
+
+.eureka-caption {
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    color: #8b86a6;
+    font-size: 13px;
+    opacity: 0;
+    animation: eurekaFade .8s ease 1.85s forwards;
 }
-@keyframes cloudRise {
-    0% { opacity:0; transform:translateY(100px) scale(.75); }
-    55% { opacity:1; }
-    100% { opacity:1; transform:translateY(-105px) scale(1); }
+
+@keyframes thoughtCloudIn {
+    0%   { opacity:0; transform:translateY(55px) scale(.72); }
+    70%  { opacity:1; transform:translateY(-4px) scale(1.04); }
+    100% { opacity:1; transform:translateY(0) scale(1); }
 }
-@keyframes cloudFloat {
-    0%,100% { transform:translateY(-105px) translateX(0); }
-    50% { transform:translateY(-114px) translateX(7px); }
+@keyframes thoughtCloudFloat {
+    0%,100% { margin-top:0; }
+    50% { margin-top:-7px; }
+}
+@keyframes mistRise {
+    0%   { opacity:0; transform:translateY(125px) scale(.72); }
+    45%  { opacity:.98; }
+    100% { opacity:.98; transform:translateY(-62px) scale(1); }
+}
+@keyframes mistFloat {
+    0%,100% { margin-top:0; }
+    50% { margin-top:-8px; }
 }
 @keyframes starReveal {
-    0% { opacity:0; transform:translate(-50%,55px) scale(.25) rotate(-8deg); }
-    65% { opacity:1; transform:translate(-50%,-4px) scale(1.08) rotate(3deg); }
-    100% { opacity:1; transform:translate(-50%,0) scale(1) rotate(0); }
+    0%   { opacity:0; transform:translate(-50%,78px) scale(.20); }
+    68%  { opacity:1; transform:translate(-50%,-7px) scale(1.06); }
+    100% { opacity:1; transform:translate(-50%,0) scale(1); }
 }
 @keyframes starGlow {
     0% { opacity:0; transform:translate(-50%,-50%) scale(.2); }
-    100% { opacity:1; transform:translate(-50%,-50%) scale(1.45); }
+    100% { opacity:1; transform:translate(-50%,-50%) scale(1.55); }
 }
-@keyframes starPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.04); } }
+@keyframes starPulse {
+    0%,100% { transform:scale(1); filter:drop-shadow(0 12px 18px rgba(189,145,38,.22)); }
+    50% { transform:scale(1.035); filter:drop-shadow(0 12px 25px rgba(255,211,87,.42)); }
+}
+@keyframes sparklePop {
+    0% { opacity:0; transform:scale(.2) rotate(-20deg); }
+    55% { opacity:1; transform:scale(1.25) rotate(8deg); }
+    100% { opacity:.95; transform:scale(1) rotate(0); }
+}
 @keyframes eurekaFade { from {opacity:0;} to {opacity:1;} }
 
 </style>
@@ -1900,18 +2066,23 @@ else:
                 unsafe_allow_html=True
             )
 
-            note = st.text_area(
-                "💡 오늘 생각 여행에서 발견한 것",
+            st.markdown(
+                '<div class="section-sub">'
+                '긴 문장 대신, 오늘 건져 올린 <b>키워드나 짧은 표현</b>을 남겨줘.<br>'
+                '예: 소소한 행복 · 새로운 시작 · 자유'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            note = st.text_input(
+                "💡 오늘 생각 여행에서 발견한 키워드",
                 value=st.session_state.eureka_note,
-                placeholder=(
-                    "예: 나는 취업 자체보다 새로운 환경에서 "
-                    "살아보고 싶은 마음이 더 큰 걸지도."
-                ),
-                height=110
+                placeholder="예: 소소한 행복",
+                max_chars=24
             )
 
             if st.button(
-                "💡 EUREKA! 오늘의 별로 남기기",
+                "💡 EUREKA! 이 키워드로 별 만들기",
                 key=f"save_eureka_{len(path)}",
                 use_container_width=True
             ):
@@ -1937,21 +2108,38 @@ else:
                 st.session_state.eureka_note
             )
 
+            recent_thoughts = path[-4:]
+            cloud_labels = [
+                html.escape(compact_thought_label(item))
+                for item in recent_thoughts
+            ]
+
+            while len(cloud_labels) < 4:
+                cloud_labels.insert(0, "☁️")
+
             eureka_star_html = (
                 '<div class="eureka-reveal">'
-                '<div class="cloud cloud-1">☁️</div>'
-                '<div class="cloud cloud-2">☁️</div>'
-                '<div class="cloud cloud-3">☁️</div>'
-                '<div class="cloud cloud-4">☁️</div>'
                 '<div class="eureka-reveal-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
+                '<div class="mist-cloud mc1"></div>'
+                '<div class="mist-cloud mc2"></div>'
+                '<div class="mist-cloud mc3"></div>'
+                '<div class="mist-cloud mc4"></div>'
+                f'<div class="thought-cloud tc1">☁️ {cloud_labels[0]}</div>'
+                f'<div class="thought-cloud tc2">☁️ {cloud_labels[1]}</div>'
+                f'<div class="thought-cloud tc3">☁️ {cloud_labels[2]}</div>'
+                f'<div class="thought-cloud tc4">☁️ {cloud_labels[3]}</div>'
+                '<div class="eureka-spark sp1">✦</div>'
+                '<div class="eureka-spark sp2">✧</div>'
+                '<div class="eureka-spark sp3">✦</div>'
+                '<div class="eureka-spark sp4">✧</div>'
                 '<div class="eureka-glow"></div>'
                 '<div class="eureka-star">'
-                '<div class="eureka-star-icon">⭐</div>'
+                '<div class="eureka-star-glyph">★</div>'
                 '<div class="eureka-star-note">'
                 f'{saved_note}'
                 '</div>'
                 '</div>'
-                '<div class="eureka-cloud-floor">☁️　☁️　✨　☁️　☁️</div>'
+                '<div class="eureka-caption">작은 생각도 언젠가 반짝이는 아이디어가 될 수 있어요 ☁️</div>'
                 '</div>'
             )
 
@@ -1964,66 +2152,10 @@ else:
     # =====================================================
     if st.session_state.eureka_saved:
 
-        st.markdown(
-            '<div class="section-title">'
-            '🔮 탐험 끝에 별 하나 더'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="section-sub">'
-            '오늘의 생각 여행을 마무리해줄 카드 한 장.'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-
         # -------------------------------------------------
-        # 아직 카드 안 뽑음
+        # 아직 카드 안 뽑음: 별 바로 아래 버튼만
         # -------------------------------------------------
         if st.session_state.tarot_card is None:
-
-            (
-                tarot_fairy,
-                tarot_text
-            ) = st.columns(
-                [1, 2.8],
-                vertical_alignment="center"
-            )
-
-
-            with tarot_fairy:
-
-                if FAIRY_IMAGE.exists():
-
-                    st.image(
-                        str(FAIRY_IMAGE),
-                        use_container_width=True
-                    )
-
-                else:
-
-                    st.markdown(
-                        "☁️🔮"
-                    )
-
-
-            with tarot_text:
-
-                st.markdown(
-                    '<div class="fairy-card">'
-                    '<div class="fairy-name">'
-                    '☁️ 구름요정'
-                    '</div>'
-                    '<div class="fairy-text">'
-                    '오늘 꽤 멀리 떠다녔네.<br>'
-                    '마지막으로 카드 한 장만 뽑아볼래? 🪄'
-                    '</div>'
-                    '</div>',
-                    unsafe_allow_html=True
-                )
-
 
             if st.button(
                 "🔮 오늘의 행운 카드 뽑기",
@@ -2034,17 +2166,13 @@ else:
                 with st.spinner(
                     "☁️ 구름요정이 카드를 섞는 중... ✨"
                 ):
+                    time.sleep(0.25)
 
-                 time.sleep(0.25)
-
-                st.session_state.tarot_card = (
-                    random.choice(
-                        TAROT_CARDS
-                    )
+                st.session_state.tarot_card = random.choice(
+                    TAROT_CARDS
                 )
 
                 st.rerun()
-
 
         # -------------------------------------------------
         # 카드 결과
