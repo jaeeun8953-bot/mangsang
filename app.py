@@ -1871,16 +1871,83 @@ else:
                         "오늘 발견한 생각을 한 줄만 적어줘 💡"
                     )
 
-        else:
+               else:
 
-            st.success(
-                "✨ EUREKA! 오늘의 발견을 남겼어요."
+            saved_note = html.escape(
+                st.session_state.eureka_note
             )
 
             st.markdown(
-                '<div class="section-sub">'
-                '👇 이제 마지막 행운카드를 뽑아봐요 🔮'
-                '</div>',
+                f"""
+                <div style="
+                    text-align:center;
+                    margin:28px 0 12px 0;
+                ">
+
+                    <div style="
+                        font-size:30px;
+                        letter-spacing:8px;
+                        margin-bottom:8px;
+                    ">
+                        ☁️　☁️　✨　☁️　☁️
+                    </div>
+
+                    <div style="
+                        font-size:14px;
+                        color:#8b86a6;
+                        font-weight:700;
+                        margin-bottom:8px;
+                    ">
+                        오늘 생각 여행에서 발견한 별
+                    </div>
+
+                    <div style="
+                        max-width:520px;
+                        margin:0 auto;
+                        padding:28px 24px;
+                        border-radius:32px;
+                        background:
+                            radial-gradient(
+                                circle at 50% 35%,
+                                #fffdf0 0%,
+                                #fff8c9 55%,
+                                #fff3a8 100%
+                            );
+                        border:1px solid #ffe795;
+                        box-shadow:
+                            0 0 25px rgba(255,220,100,0.35),
+                            0 10px 30px rgba(120,100,50,0.10);
+                    ">
+
+                        <div style="
+                            font-size:38px;
+                            margin-bottom:10px;
+                        ">
+                            ⭐
+                        </div>
+
+                        <div style="
+                            font-size:18px;
+                            font-weight:850;
+                            color:#514a39;
+                            line-height:1.65;
+                            word-break:keep-all;
+                        ">
+                            {saved_note}
+                        </div>
+
+                    </div>
+
+                    <div style="
+                        font-size:27px;
+                        letter-spacing:7px;
+                        margin-top:8px;
+                    ">
+                        ☁️　✨　☁️
+                    </div>
+
+                </div>
+                """,
                 unsafe_allow_html=True
             )
 
