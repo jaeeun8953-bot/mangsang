@@ -926,35 +926,31 @@ def render_eureka_screen(path):
         '✨ 오늘 생각 여행에서 발견한 별 ✨'
         '</div>'
 
-        f'<img class="asset-cloud ac1" src="{cloud_uri}">'
-        f'<img class="asset-cloud ac2" src="{cloud_uri}">'
-        f'<img class="asset-cloud ac3" src="{cloud_uri}">'
-        f'<img class="asset-cloud ac4" src="{cloud_uri}">'
+        f'<div class="big-labeled-cloud blc1">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="big-cloud-word">{cloud_labels[0]}</div>'
+        '</div>'
+
+        f'<div class="big-labeled-cloud blc2">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="big-cloud-word">{cloud_labels[1]}</div>'
+        '</div>'
+
+        f'<div class="big-labeled-cloud blc3">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="big-cloud-word">{cloud_labels[2]}</div>'
+        '</div>'
+
+        f'<div class="big-labeled-cloud blc4">'
+        f'<img src="{cloud_uri}">'
+        f'<div class="big-cloud-word">{cloud_labels[3]}</div>'
+        '</div>'
+
         f'<img class="asset-cloud ac5" src="{cloud_uri}">'
         f'<img class="asset-cloud ac6" src="{cloud_uri}">'
         f'<img class="asset-cloud ac7" src="{cloud_uri}">'
         f'<img class="asset-cloud ac8" src="{cloud_uri}">'
         f'<img class="asset-cloud ac9" src="{cloud_uri}">'
-
-        f'<div class="memory-cloud mem1">'
-        f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[0]}</div>'
-        '</div>'
-
-        f'<div class="memory-cloud mem2">'
-        f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[1]}</div>'
-        '</div>'
-
-        f'<div class="memory-cloud mem3">'
-        f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[2]}</div>'
-        '</div>'
-
-        f'<div class="memory-cloud mem4">'
-        f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[3]}</div>'
-        '</div>'
 
         '<div class="celebration-glow"></div>'
         '<div class="celebration-spark cs1">✦</div>'
@@ -973,34 +969,25 @@ def render_eureka_screen(path):
         '✨ 오늘 생각 여행에서 발견한 별 ✨'
         '</div>'
 
-        f'<div class="memory-cloud fm1" '
-        'style="opacity:1;transform:none;animation:none;">'
+        f'<div class="final-labeled-cloud flc1">'
         f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[0]}</div>'
+        f'<div class="final-cloud-word">{cloud_labels[0]}</div>'
         '</div>'
 
-        f'<div class="memory-cloud fm2" '
-        'style="opacity:1;transform:none;animation:none;">'
+        f'<div class="final-labeled-cloud flc2">'
         f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[1]}</div>'
+        f'<div class="final-cloud-word">{cloud_labels[1]}</div>'
         '</div>'
 
-        f'<div class="memory-cloud fm3" '
-        'style="opacity:1;transform:none;animation:none;">'
+        f'<div class="final-labeled-cloud flc3">'
         f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[2]}</div>'
+        f'<div class="final-cloud-word">{cloud_labels[2]}</div>'
         '</div>'
 
-        f'<div class="memory-cloud fm4" '
-        'style="opacity:1;transform:none;animation:none;">'
+        f'<div class="final-labeled-cloud flc4">'
         f'<img src="{cloud_uri}">'
-        f'<div class="cloud-word">{cloud_labels[3]}</div>'
+        f'<div class="final-cloud-word">{cloud_labels[3]}</div>'
         '</div>'
-
-        f'<img class="final-asset-cloud fac1" src="{cloud_uri}">'
-        f'<img class="final-asset-cloud fac2" src="{cloud_uri}">'
-        f'<img class="final-asset-cloud fac3" src="{cloud_uri}">'
-        f'<img class="final-asset-cloud fac4" src="{cloud_uri}">'
 
         '<div class="final-asset-star">'
         f'<img src="{star_uri}">'
@@ -1021,9 +1008,10 @@ def render_eureka_screen(path):
     if st.session_state.tarot_card is None:
 
         if st.button(
-            "🔮 오늘의 행운 카드 뽑기",
+            "✨🔮 오늘의 운세를 타로로 조언 얻기 ✨",
             key="tarot_dedicated",
-            use_container_width=True
+            use_container_width=True,
+            type="primary"
         ):
 
             with st.spinner(
@@ -1132,6 +1120,23 @@ def render_eureka_screen(path):
         st.session_state.train_flow_open = False
 
         st.session_state.started = False
+
+        st.rerun()
+
+
+    if st.button(
+        "💡 EUREKA 다시 기록하기",
+        key="rewrite_eureka",
+        use_container_width=True
+    ):
+
+        st.session_state.eureka_note = ""
+        st.session_state.eureka_saved = False
+        st.session_state.tarot_card = None
+
+        st.session_state.journey_finish_mode = True
+        st.session_state.train_boarded = False
+        st.session_state.train_flow_open = False
 
         st.rerun()
 
@@ -2352,6 +2357,139 @@ div.stButton > button p {
     }
 }
 
+
+/* =========================================================
+   EUREKA: 큰 구름 자체에 키워드 표시
+   ========================================================= */
+.big-labeled-cloud {
+    position:absolute;
+    z-index:28;
+    width:clamp(280px, 48vw, 520px);
+    opacity:0;
+    transform:translateY(44vh) scale(.72);
+    will-change:transform, opacity;
+}
+.big-labeled-cloud img {
+    display:block;
+    width:100%;
+    height:auto;
+    filter:drop-shadow(0 18px 30px rgba(111,103,166,.13));
+}
+.big-cloud-word {
+    position:absolute;
+    z-index:4;
+    left:50%;
+    top:58%;
+    width:54%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:#625f7b;
+    font-size:clamp(15px,3.4vw,21px);
+    font-weight:900;
+    letter-spacing:-.035em;
+    line-height:1.25;
+    word-break:keep-all;
+    text-shadow:0 1px 7px rgba(255,255,255,.95);
+}
+
+.blc1 {
+    left:-13%;
+    top:18%;
+    animation:assetCloudRiseA 2.20s cubic-bezier(.16,.82,.24,1.06) .18s forwards,
+              assetCloudFloatA 4.5s ease-in-out 2.4s infinite;
+}
+.blc2 {
+    right:-13%;
+    top:19%;
+    animation:assetCloudRiseA 2.25s cubic-bezier(.16,.82,.24,1.06) .28s forwards,
+              assetCloudFloatB 4.7s ease-in-out 2.5s infinite;
+}
+.blc3 {
+    left:-10%;
+    top:54%;
+    animation:assetCloudRiseB 2.28s cubic-bezier(.16,.82,.24,1.06) .38s forwards,
+              assetCloudFloatA 4.8s ease-in-out 2.6s infinite;
+}
+.blc4 {
+    right:-10%;
+    top:55%;
+    animation:assetCloudRiseB 2.30s cubic-bezier(.16,.82,.24,1.06) .48s forwards,
+              assetCloudFloatB 4.6s ease-in-out 2.7s infinite;
+}
+
+/* 결과 화면도 한 구름 = 한 키워드 */
+.final-labeled-cloud {
+    position:absolute;
+    z-index:16;
+    width:230px;
+}
+.final-labeled-cloud img {
+    display:block;
+    width:100%;
+    height:auto;
+    filter:drop-shadow(0 10px 20px rgba(111,103,166,.10));
+}
+.final-cloud-word {
+    position:absolute;
+    left:50%;
+    top:58%;
+    width:56%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:#66627f;
+    font-size:13px;
+    font-weight:900;
+    line-height:1.25;
+    word-break:keep-all;
+}
+.flc1 { left:-38px; top:21%; }
+.flc2 { right:-38px; top:22%; }
+.flc3 { left:-26px; top:58%; }
+.flc4 { right:-26px; top:59%; }
+
+/* 타로 primary CTA를 더 강조 */
+div[data-testid="stButton"] > button[kind="primary"] {
+    min-height:72px !important;
+    font-size:17px !important;
+    font-weight:900 !important;
+    border-radius:999px !important;
+    box-shadow:
+        0 14px 34px rgba(153,104,205,.28),
+        0 0 0 4px rgba(255,255,255,.35) !important;
+    transform:translateY(0);
+}
+div[data-testid="stButton"] > button[kind="primary"]:hover {
+    transform:translateY(-3px) scale(1.01);
+    box-shadow:
+        0 18px 40px rgba(153,104,205,.34),
+        0 0 0 5px rgba(255,255,255,.42) !important;
+}
+
+@media (max-width:640px) {
+    .big-labeled-cloud {
+        width:68vw;
+    }
+    .big-cloud-word {
+        width:52%;
+        font-size:14px;
+    }
+    .blc1 { left:-25%; top:18%; }
+    .blc2 { right:-25%; top:20%; }
+    .blc3 { left:-22%; top:58%; }
+    .blc4 { right:-22%; top:59%; }
+
+    .final-labeled-cloud {
+        width:170px;
+    }
+    .final-cloud-word {
+        font-size:11.5px;
+    }
+    .flc1 { left:-45px; }
+    .flc2 { right:-45px; }
+    .flc3 { left:-38px; }
+    .flc4 { right:-38px; }
+}
+
 </style>
 """,
     unsafe_allow_html=True
@@ -3044,28 +3182,6 @@ else:
 
 
     # =====================================================
-    # 언제든 다음 단계로 넘어가기
-    # 6갈래 생각 구름 바로 아래 오른쪽
-    # =====================================================
-    next_spacer, next_button_col = st.columns(
-        [2.6, 1.4]
-    )
-
-    with next_button_col:
-
-        if st.button(
-            "다음 단계 →",
-            key=f"next_step_{len(path)}",
-            use_container_width=True
-        ):
-
-            st.session_state.train_boarded = True
-            st.session_state.train_flow_open = False
-            st.session_state.journey_finish_mode = False
-            st.rerun()
-
-
-    # =====================================================
     # 직접 딴생각
     # =====================================================
     st.markdown(
@@ -3110,3 +3226,24 @@ else:
             choose_thought(
                 custom.strip()
             )
+
+    # =====================================================
+    # 언제든 다음 단계로 넘어가기
+    # '딴 생각으로 새기' 바로 아래
+    # =====================================================
+    next_spacer, next_button_col = st.columns(
+        [2.6, 1.4]
+    )
+
+    with next_button_col:
+
+        if st.button(
+            "다음 단계 →",
+            key=f"next_step_{len(path)}",
+            use_container_width=True
+        ):
+
+            st.session_state.train_boarded = True
+            st.session_state.train_flow_open = False
+            st.session_state.journey_finish_mode = False
+            st.rerun()
