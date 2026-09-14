@@ -839,7 +839,7 @@ def render_eureka_screen(path):
         st.markdown(
             '<div style="height:18px;"></div>'
             '<div class="section-title">'
-            '💡 오늘의 EUREKA'
+            '💡 EUREKA! 작은 기록으로 남겨봐'
             '</div>',
             unsafe_allow_html=True
         )
@@ -1137,6 +1137,32 @@ def render_eureka_screen(path):
         st.session_state.journey_finish_mode = True
         st.session_state.train_boarded = False
         st.session_state.train_flow_open = False
+
+        st.rerun()
+
+
+    if st.button(
+        "🚪 오늘의 생각 여행 끝내기",
+        key="finish_today",
+        use_container_width=True
+    ):
+
+        st.session_state.thought_path = []
+        st.session_state.suggestions = []
+        st.session_state.fairy_comment = ""
+        st.session_state.analysis = ""
+
+        st.session_state.eureka_mode = False
+        st.session_state.eureka_note = ""
+        st.session_state.eureka_saved = False
+        st.session_state.tarot_card = None
+
+        st.session_state.journey_checkpoint = 3
+        st.session_state.journey_finish_mode = False
+        st.session_state.train_boarded = False
+        st.session_state.train_flow_open = False
+
+        st.session_state.started = False
 
         st.rerun()
 
@@ -2490,6 +2516,114 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
     .flc4 { right:-38px; }
 }
 
+
+/* =========================================================
+   타로 CTA - 보라색 강조
+   ========================================================= */
+div[data-testid="stButton"] button[kind="primary"],
+button[data-testid="stBaseButton-primary"] {
+    min-height: 74px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(190,155,255,.85) !important;
+    background:
+        linear-gradient(
+            135deg,
+            #8d63ff 0%,
+            #a66cff 48%,
+            #c77dff 100%
+        ) !important;
+    color: #ffffff !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    box-shadow:
+        0 14px 34px rgba(126,82,210,.30),
+        0 0 0 4px rgba(255,255,255,.38) !important;
+}
+
+div[data-testid="stButton"] button[kind="primary"] p,
+button[data-testid="stBaseButton-primary"] p {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+}
+
+div[data-testid="stButton"] button[kind="primary"]:hover,
+button[data-testid="stBaseButton-primary"]:hover {
+    transform: translateY(-3px) scale(1.01) !important;
+    background:
+        linear-gradient(
+            135deg,
+            #7f55ef 0%,
+            #995ff4 48%,
+            #bd70f4 100%
+        ) !important;
+    box-shadow:
+        0 18px 40px rgba(126,82,210,.38),
+        0 0 0 5px rgba(255,255,255,.42) !important;
+}
+
+
+/* =========================================================
+   EUREKA 구름 간격 보정 - 화면 밖 잘림 방지
+   ========================================================= */
+.big-labeled-cloud {
+    width: clamp(250px, 34vw, 430px) !important;
+}
+
+.blc1 {
+    left: 4% !important;
+    top: 20% !important;
+}
+.blc2 {
+    right: 4% !important;
+    top: 21% !important;
+}
+.blc3 {
+    left: 6% !important;
+    top: 57% !important;
+}
+.blc4 {
+    right: 6% !important;
+    top: 58% !important;
+}
+
+.big-cloud-word {
+    width: 58% !important;
+    font-size: clamp(15px, 2.3vw, 20px) !important;
+}
+
+.final-labeled-cloud {
+    width: 205px !important;
+}
+.flc1 { left: 2% !important; top: 23% !important; }
+.flc2 { right: 2% !important; top: 24% !important; }
+.flc3 { left: 4% !important; top: 59% !important; }
+.flc4 { right: 4% !important; top: 60% !important; }
+
+@media (max-width: 640px) {
+    .big-labeled-cloud {
+        width: 56vw !important;
+    }
+
+    .blc1 { left: -2% !important; top: 20% !important; }
+    .blc2 { right: -2% !important; top: 21% !important; }
+    .blc3 { left: 0% !important; top: 58% !important; }
+    .blc4 { right: 0% !important; top: 59% !important; }
+
+    .big-cloud-word {
+        width: 56% !important;
+        font-size: 13px !important;
+    }
+
+    .final-labeled-cloud {
+        width: 150px !important;
+    }
+
+    .flc1 { left: -4% !important; }
+    .flc2 { right: -4% !important; }
+    .flc3 { left: -2% !important; }
+    .flc4 { right: -2% !important; }
+}
+
 </style>
 """,
     unsafe_allow_html=True
@@ -2757,7 +2891,7 @@ else:
             with flow_eureka_col:
 
                 if st.button(
-                    "💡 EUREKA 기록하기",
+                    "💡 EUREKA! 작은 기록으로 남겨봐",
                     key="flow_screen_eureka",
                     use_container_width=True
                 ):
@@ -2850,7 +2984,7 @@ else:
         with train_eureka_col:
 
             if st.button(
-                "💡 EUREKA 기록하기",
+                "💡 EUREKA! 작은 기록으로 남겨봐",
                 key="dedicated_train_eureka",
                 use_container_width=True
             ):
