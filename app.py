@@ -1244,215 +1244,346 @@ div.stButton > button p {
     line-height: 1.45 !important;
 }
 
-/* EUREKA reveal animation - keyword cloud version */
-.eureka-reveal {
-    position: relative;
-    height: 500px;
-    margin: 24px 0 10px 0;
+/* =========================================================
+   EUREKA - full screen cloud celebration
+   ========================================================= */
+
+/* 저장 직후 화면 전체를 덮는 축하 모션.
+   pointer-events:none 이라 버튼/스크롤을 막지 않음 */
+.eureka-celebration {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
     overflow: hidden;
-    border-radius: 38px;
-    text-align: center;
+    pointer-events: none;
     background:
-        radial-gradient(circle at 50% 48%, rgba(255,244,189,.70) 0%, rgba(255,244,189,0) 31%),
-        radial-gradient(circle at 16% 22%, rgba(228,235,255,.72) 0%, rgba(228,235,255,0) 34%),
-        radial-gradient(circle at 84% 24%, rgba(241,229,255,.66) 0%, rgba(241,229,255,0) 34%),
-        linear-gradient(180deg, rgba(243,247,255,.90), rgba(255,246,252,.94));
-    box-shadow: inset 0 0 65px rgba(255,255,255,.58);
-}
-
-.eureka-reveal-title {
-    position: relative;
-    z-index: 20;
-    padding-top: 25px;
-    color: #7772aa;
-    font-size: 16px;
-    font-weight: 900;
+        radial-gradient(circle at 50% 52%, rgba(255,245,190,.70) 0%, rgba(255,245,190,0) 27%),
+        linear-gradient(180deg, rgba(238,244,255,.88) 0%, rgba(249,241,255,.90) 52%, rgba(255,244,250,.94) 100%);
     opacity: 0;
-    animation: eurekaFade .7s ease .35s forwards;
+    animation: celebrationScene 5.8s ease forwards;
 }
 
-/* 모든 생각 구름은 같은 색 */
-.thought-cloud {
+.eureka-celebration-title {
     position: absolute;
-    z-index: 12;
-    width: 150px;
-    min-height: 64px;
-    padding: 20px 14px 15px 14px;
-    box-sizing: border-box;
+    z-index: 40;
+    top: 8vh;
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+    text-align: center;
+    color: #7772aa;
+    font-size: clamp(16px, 4vw, 25px);
+    font-weight: 950;
+    letter-spacing: -.02em;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: celebrationTitle .7s ease .45s forwards;
+}
+
+/* 큰 몽실 구름: 모두 같은 색 */
+.big-cloud {
+    position: absolute;
+    z-index: 15;
+    width: clamp(210px, 42vw, 430px);
+    height: clamp(78px, 14vw, 145px);
     border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background:
-        radial-gradient(circle at 32% 24%, rgba(255,255,255,1) 0 24px, transparent 25px),
-        radial-gradient(circle at 66% 18%, rgba(255,255,255,.98) 0 31px, transparent 32px),
-        linear-gradient(180deg, #ffffff 0%, #f0efff 100%);
-    border: 1px solid rgba(255,255,255,.96);
+    background: linear-gradient(180deg, rgba(255,255,255,1), rgba(238,237,255,.98));
     box-shadow:
-        0 12px 25px rgba(120,111,174,.14),
-        inset 0 -8px 18px rgba(210,205,240,.20);
-    color: #62617f;
-    font-size: 14px;
+        0 18px 42px rgba(111,103,166,.15),
+        inset 0 -12px 25px rgba(213,209,243,.24);
+    opacity: 0;
+    transform: translateY(40vh) scale(.76);
+    filter: blur(.1px);
+}
+
+.big-cloud::before,
+.big-cloud::after {
+    content: "";
+    position: absolute;
+    bottom: 15%;
+    border-radius: 50%;
+    background: inherit;
+    box-shadow: inherit;
+}
+.big-cloud::before {
+    width: 48%;
+    aspect-ratio: 1;
+    left: 10%;
+}
+.big-cloud::after {
+    width: 58%;
+    aspect-ratio: 1;
+    right: 8%;
+}
+
+.bc1 { left:-10%; bottom:3%; animation: cloudBurst 2.15s cubic-bezier(.16,.82,.24,1.06) .05s forwards, cloudDriftA 3.2s ease-in-out 2.2s infinite; }
+.bc2 { left:13%; bottom:-1%; animation: cloudBurst 2.30s cubic-bezier(.16,.82,.24,1.06) .14s forwards, cloudDriftB 3.5s ease-in-out 2.4s infinite; }
+.bc3 { right:13%; bottom:0%; animation: cloudBurst 2.25s cubic-bezier(.16,.82,.24,1.06) .22s forwards, cloudDriftA 3.4s ease-in-out 2.5s infinite; }
+.bc4 { right:-11%; bottom:4%; animation: cloudBurst 2.20s cubic-bezier(.16,.82,.24,1.06) .30s forwards, cloudDriftB 3.1s ease-in-out 2.5s infinite; }
+.bc5 { left:34%; bottom:-8%; width:clamp(250px,48vw,480px); animation: cloudBurstCenter 2.35s cubic-bezier(.16,.82,.24,1.06) .08s forwards, cloudDriftA 3.8s ease-in-out 2.5s infinite; }
+
+/* 생각 키워드가 적힌 작은 구름 */
+.memory-cloud {
+    position: absolute;
+    z-index: 28;
+    min-width: 120px;
+    max-width: min(190px, 38vw);
+    padding: 16px 18px;
+    border-radius: 999px;
+    text-align: center;
+    color: #66637f;
+    font-size: clamp(12px, 3vw, 15px);
     font-weight: 900;
     line-height: 1.35;
     word-break: keep-all;
-    opacity: 0;
-    transform: translateY(55px) scale(.72);
-}
-
-.tc1 { left: 5%; top: 30%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .35s forwards, thoughtCloudFloat 4.0s ease-in-out 1.5s infinite; }
-.tc2 { right: 5%; top: 30%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .50s forwards, thoughtCloudFloat 4.2s ease-in-out 1.7s infinite; }
-.tc3 { left: 7%; top: 62%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .65s forwards, thoughtCloudFloat 4.4s ease-in-out 1.9s infinite; }
-.tc4 { right: 7%; top: 62%; animation: thoughtCloudIn .9s cubic-bezier(.18,.85,.28,1.12) .80s forwards, thoughtCloudFloat 4.1s ease-in-out 2.0s infinite; }
-
-/* 아래쪽에서 뭉게뭉게 올라오는 장식 구름 */
-.mist-cloud {
-    position: absolute;
-    z-index: 6;
-    width: 135px;
-    height: 46px;
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(255,255,255,.99), rgba(240,238,255,.93));
-    box-shadow: 0 10px 22px rgba(121,112,170,.12);
+    background: linear-gradient(180deg, #ffffff, #f0efff);
+    border: 1px solid rgba(255,255,255,.96);
+    box-shadow: 0 12px 28px rgba(117,108,172,.14);
     opacity: 0;
 }
-.mist-cloud::before,
-.mist-cloud::after {
-    content: "";
-    position: absolute;
-    bottom: 10px;
-    border-radius: 50%;
-    background: inherit;
-}
-.mist-cloud::before { width: 62px; height: 62px; left: 18px; }
-.mist-cloud::after  { width: 74px; height: 74px; right: 10px; }
+.mem1 { left:5%; top:27%; animation: memoryPop .8s cubic-bezier(.18,.85,.28,1.15) .72s forwards; }
+.mem2 { right:5%; top:29%; animation: memoryPop .8s cubic-bezier(.18,.85,.28,1.15) .88s forwards; }
+.mem3 { left:7%; top:61%; animation: memoryPop .8s cubic-bezier(.18,.85,.28,1.15) 1.04s forwards; }
+.mem4 { right:7%; top:62%; animation: memoryPop .8s cubic-bezier(.18,.85,.28,1.15) 1.18s forwards; }
 
-.mc1 { left: -18px;  bottom: -92px; animation: mistRise 2.1s cubic-bezier(.2,.8,.25,1) .02s forwards, mistFloat 3.8s ease-in-out 2.25s infinite; }
-.mc2 { left: 21%;    bottom: -110px; animation: mistRise 2.2s cubic-bezier(.2,.8,.25,1) .10s forwards, mistFloat 4.1s ease-in-out 2.35s infinite; }
-.mc3 { right: 21%;   bottom: -108px; animation: mistRise 2.25s cubic-bezier(.2,.8,.25,1) .16s forwards, mistFloat 3.9s ease-in-out 2.4s infinite; }
-.mc4 { right: -20px; bottom: -90px; animation: mistRise 2.15s cubic-bezier(.2,.8,.25,1) .24s forwards, mistFloat 4.2s ease-in-out 2.5s infinite; }
-
-.eureka-spark {
+/* 별 뒤 빛 */
+.celebration-glow {
     position: absolute;
-    z-index: 15;
-    color: #ffd86a;
-    opacity: 0;
-    filter: drop-shadow(0 0 8px rgba(255,218,105,.72));
-    animation: sparklePop .9s ease forwards;
-}
-.sp1 { left: 30%; top: 26%; font-size: 22px; animation-delay: 1.05s; }
-.sp2 { right: 30%; top: 27%; font-size: 16px; animation-delay: 1.20s; }
-.sp3 { left: 32%; top: 68%; font-size: 14px; animation-delay: 1.35s; }
-.sp4 { right: 32%; top: 68%; font-size: 20px; animation-delay: 1.45s; }
-
-.eureka-glow {
-    position: absolute;
-    z-index: 8;
+    z-index: 20;
     left: 50%;
-    top: 49%;
-    width: 250px;
-    height: 250px;
-    transform: translate(-50%,-50%) scale(.2);
+    top: 48%;
+    width: min(72vw, 500px);
+    aspect-ratio: 1;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,232,121,.70) 0%, rgba(255,244,188,.28) 48%, rgba(255,255,255,0) 72%);
+    transform: translate(-50%,-50%) scale(.15);
     opacity: 0;
-    animation: starGlow 1.05s ease 1.05s forwards;
+    background: radial-gradient(circle, rgba(255,232,113,.78) 0%, rgba(255,242,177,.32) 43%, rgba(255,255,255,0) 72%);
+    animation: celebrationGlow 1.2s ease 1.18s forwards;
 }
 
-.eureka-star {
+/* 구름 사이에서 떠오르는 큰 별 */
+.celebration-star {
     position: absolute;
-    z-index: 18;
+    z-index: 35;
     left: 50%;
-    top: 49%;
-    width: 245px;
-    height: 230px;
-    transform: translate(-50%, 78px) scale(.20);
+    top: 48%;
+    width: min(54vw, 350px);
+    aspect-ratio: 1;
+    transform: translate(-50%, 45vh) scale(.18) rotate(-7deg);
     opacity: 0;
-    animation: starReveal 1.12s cubic-bezier(.18,.85,.28,1.18) 1.08s forwards;
+    animation: celebrationStar 1.35s cubic-bezier(.17,.88,.26,1.20) 1.20s forwards;
 }
 
-.eureka-star-glyph {
+.celebration-star-glyph {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 210px;
-    line-height: 1;
     font-family: Georgia, "Times New Roman", serif;
+    font-size: min(52vw, 345px);
+    line-height: 1;
     font-weight: 900;
-    background: linear-gradient(145deg, #fff5b0 8%, #ffd85b 47%, #efbd37 78%, #fff1a8 100%);
+    background: linear-gradient(145deg, #fff6b9 4%, #ffe37c 34%, #f5c845 68%, #fff0a0 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 12px 18px rgba(189,145,38,.22));
-    animation: starPulse 2.8s ease-in-out 2.4s infinite;
+    filter: drop-shadow(0 14px 28px rgba(196,151,36,.25));
+    animation: celebrationStarPulse 2.2s ease-in-out 2.55s infinite;
 }
 
-.eureka-star-note {
+.celebration-star-note {
     position: absolute;
-    z-index: 20;
+    z-index: 36;
     left: 50%;
     top: 51%;
-    width: 125px;
+    width: 47%;
     transform: translate(-50%,-50%);
+    text-align: center;
     color: #5b4b20;
+    font-size: clamp(15px, 4vw, 24px);
+    font-weight: 950;
+    line-height: 1.3;
+    word-break: keep-all;
+}
+
+.celebration-spark {
+    position: absolute;
+    z-index: 38;
+    color: #ffd65d;
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(255,214,93,.72));
+    animation: celebrationSpark .8s ease forwards;
+}
+.cs1 { left:25%; top:19%; font-size:30px; animation-delay:1.45s; }
+.cs2 { right:23%; top:21%; font-size:23px; animation-delay:1.58s; }
+.cs3 { left:27%; top:49%; font-size:20px; animation-delay:1.72s; }
+.cs4 { right:27%; top:52%; font-size:29px; animation-delay:1.84s; }
+
+/* 모션이 끝난 뒤 남는 결과 카드 */
+.eureka-reveal {
+    position: relative;
+    min-height: 380px;
+    margin: 24px 0 10px 0;
+    overflow: hidden;
+    border-radius: 38px;
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(255,240,166,.56) 0%, rgba(255,240,166,0) 33%),
+        linear-gradient(180deg, rgba(244,247,255,.96), rgba(255,246,252,.96));
+    box-shadow: inset 0 0 60px rgba(255,255,255,.65);
+}
+
+.eureka-reveal-title {
+    position: relative;
+    z-index: 20;
+    padding-top: 22px;
+    color: #7772aa;
     font-size: 16px;
     font-weight: 950;
-    line-height: 1.35;
-    word-break: keep-all;
-    text-align: center;
 }
+
+.final-cloud-sea {
+    position: absolute;
+    left: -5%;
+    right: -5%;
+    bottom: -30px;
+    height: 155px;
+    background:
+        radial-gradient(circle at 8% 62%, #fff 0 58px, transparent 60px),
+        radial-gradient(circle at 23% 45%, #f6f4ff 0 78px, transparent 80px),
+        radial-gradient(circle at 42% 66%, #fff 0 68px, transparent 70px),
+        radial-gradient(circle at 60% 42%, #f5f2ff 0 82px, transparent 84px),
+        radial-gradient(circle at 79% 64%, #fff 0 72px, transparent 74px),
+        radial-gradient(circle at 96% 45%, #f4f2ff 0 74px, transparent 76px);
+    filter: drop-shadow(0 -6px 16px rgba(126,117,174,.08));
+}
+
+.final-star {
+    position: absolute;
+    z-index: 18;
+    left: 50%;
+    top: 49%;
+    width: 230px;
+    height: 220px;
+    transform: translate(-50%,-50%);
+}
+.final-star-glyph {
+    position: absolute;
+    inset: 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 210px;
+    font-weight: 900;
+    line-height:1;
+    background: linear-gradient(145deg, #fff6b9, #ffd95d 52%, #efbf3b 78%, #fff1a3);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 12px 22px rgba(194,149,38,.20));
+}
+.final-star-note {
+    position:absolute;
+    z-index:20;
+    left:50%;
+    top:51%;
+    width:122px;
+    transform:translate(-50%,-50%);
+    color:#5b4b20;
+    font-size:16px;
+    font-weight:950;
+    line-height:1.3;
+    word-break:keep-all;
+    text-align:center;
+}
+
+.final-memory {
+    position:absolute;
+    z-index:17;
+    min-width:105px;
+    max-width:145px;
+    padding:12px 14px;
+    border-radius:999px;
+    background:linear-gradient(180deg,#fff,#f0efff);
+    box-shadow:0 9px 20px rgba(117,108,172,.11);
+    color:#6b6882;
+    font-size:12px;
+    font-weight:850;
+    line-height:1.3;
+    word-break:keep-all;
+}
+.fm1 { left:4%; top:30%; }
+.fm2 { right:4%; top:31%; }
+.fm3 { left:7%; top:65%; }
+.fm4 { right:7%; top:65%; }
 
 .eureka-caption {
-    position: absolute;
-    z-index: 20;
-    left: 0;
-    right: 0;
-    bottom: 18px;
-    color: #8b86a6;
-    font-size: 13px;
-    opacity: 0;
-    animation: eurekaFade .8s ease 1.85s forwards;
+    position:absolute;
+    z-index:25;
+    left:0;
+    right:0;
+    bottom:15px;
+    color:#8b86a6;
+    font-size:12px;
 }
 
-@keyframes thoughtCloudIn {
-    0%   { opacity:0; transform:translateY(55px) scale(.72); }
-    70%  { opacity:1; transform:translateY(-4px) scale(1.04); }
+@keyframes celebrationScene {
+    0%   { opacity:0; visibility:visible; }
+    6%   { opacity:1; }
+    82%  { opacity:1; }
+    100% { opacity:0; visibility:hidden; }
+}
+@keyframes celebrationTitle {
+    from { opacity:0; transform:translateY(10px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+@keyframes cloudBurst {
+    0%   { opacity:0; transform:translateY(42vh) scale(.72); }
+    58%  { opacity:1; }
+    82%  { opacity:1; transform:translateY(-12vh) scale(1.08); }
+    100% { opacity:1; transform:translateY(-8vh) scale(1); }
+}
+@keyframes cloudBurstCenter {
+    0%   { opacity:0; transform:translateY(45vh) scale(.72); }
+    58%  { opacity:1; }
+    82%  { opacity:1; transform:translateY(-7vh) scale(1.08); }
+    100% { opacity:1; transform:translateY(-4vh) scale(1); }
+}
+@keyframes cloudDriftA {
+    0%,100% { margin-left:0; margin-top:0; }
+    50% { margin-left:9px; margin-top:-7px; }
+}
+@keyframes cloudDriftB {
+    0%,100% { margin-left:0; margin-top:0; }
+    50% { margin-left:-9px; margin-top:-5px; }
+}
+@keyframes memoryPop {
+    0%   { opacity:0; transform:translateY(45px) scale(.65); }
+    72%  { opacity:1; transform:translateY(-4px) scale(1.05); }
     100% { opacity:1; transform:translateY(0) scale(1); }
 }
-@keyframes thoughtCloudFloat {
-    0%,100% { margin-top:0; }
-    50% { margin-top:-7px; }
+@keyframes celebrationGlow {
+    0% { opacity:0; transform:translate(-50%,-50%) scale(.15); }
+    100% { opacity:1; transform:translate(-50%,-50%) scale(1.35); }
 }
-@keyframes mistRise {
-    0%   { opacity:0; transform:translateY(125px) scale(.72); }
-    45%  { opacity:.98; }
-    100% { opacity:.98; transform:translateY(-62px) scale(1); }
+@keyframes celebrationStar {
+    0%   { opacity:0; transform:translate(-50%,45vh) scale(.18) rotate(-7deg); }
+    65%  { opacity:1; transform:translate(-50%,-10px) scale(1.08) rotate(2deg); }
+    82%  { opacity:1; transform:translate(-50%,4px) scale(.98) rotate(-1deg); }
+    100% { opacity:1; transform:translate(-50%,0) scale(1) rotate(0); }
 }
-@keyframes mistFloat {
-    0%,100% { margin-top:0; }
-    50% { margin-top:-8px; }
+@keyframes celebrationStarPulse {
+    0%,100% { transform:scale(1); }
+    50% { transform:scale(1.045); }
 }
-@keyframes starReveal {
-    0%   { opacity:0; transform:translate(-50%,78px) scale(.20); }
-    68%  { opacity:1; transform:translate(-50%,-7px) scale(1.06); }
-    100% { opacity:1; transform:translate(-50%,0) scale(1); }
-}
-@keyframes starGlow {
-    0% { opacity:0; transform:translate(-50%,-50%) scale(.2); }
-    100% { opacity:1; transform:translate(-50%,-50%) scale(1.55); }
-}
-@keyframes starPulse {
-    0%,100% { transform:scale(1); filter:drop-shadow(0 12px 18px rgba(189,145,38,.22)); }
-    50% { transform:scale(1.035); filter:drop-shadow(0 12px 25px rgba(255,211,87,.42)); }
-}
-@keyframes sparklePop {
-    0% { opacity:0; transform:scale(.2) rotate(-20deg); }
-    55% { opacity:1; transform:scale(1.25) rotate(8deg); }
+@keyframes celebrationSpark {
+    0% { opacity:0; transform:scale(.1) rotate(-25deg); }
+    58% { opacity:1; transform:scale(1.35) rotate(8deg); }
     100% { opacity:.95; transform:scale(1) rotate(0); }
 }
-@keyframes eurekaFade { from {opacity:0;} to {opacity:1;} }
+
 
 </style>
 """,
@@ -2118,27 +2249,38 @@ else:
                 cloud_labels.insert(0, "☁️")
 
             eureka_star_html = (
+                '<div class="eureka-celebration">'
+                '<div class="eureka-celebration-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
+                '<div class="big-cloud bc1"></div>'
+                '<div class="big-cloud bc2"></div>'
+                '<div class="big-cloud bc3"></div>'
+                '<div class="big-cloud bc4"></div>'
+                '<div class="big-cloud bc5"></div>'
+                f'<div class="memory-cloud mem1">☁️ {cloud_labels[0]}</div>'
+                f'<div class="memory-cloud mem2">☁️ {cloud_labels[1]}</div>'
+                f'<div class="memory-cloud mem3">☁️ {cloud_labels[2]}</div>'
+                f'<div class="memory-cloud mem4">☁️ {cloud_labels[3]}</div>'
+                '<div class="celebration-glow"></div>'
+                '<div class="celebration-spark cs1">✦</div>'
+                '<div class="celebration-spark cs2">✧</div>'
+                '<div class="celebration-spark cs3">✦</div>'
+                '<div class="celebration-spark cs4">✧</div>'
+                '<div class="celebration-star">'
+                '<div class="celebration-star-glyph">★</div>'
+                f'<div class="celebration-star-note">{saved_note}</div>'
+                '</div>'
+                '</div>'
                 '<div class="eureka-reveal">'
                 '<div class="eureka-reveal-title">✨ 오늘 생각 여행에서 발견한 별 ✨</div>'
-                '<div class="mist-cloud mc1"></div>'
-                '<div class="mist-cloud mc2"></div>'
-                '<div class="mist-cloud mc3"></div>'
-                '<div class="mist-cloud mc4"></div>'
-                f'<div class="thought-cloud tc1">☁️ {cloud_labels[0]}</div>'
-                f'<div class="thought-cloud tc2">☁️ {cloud_labels[1]}</div>'
-                f'<div class="thought-cloud tc3">☁️ {cloud_labels[2]}</div>'
-                f'<div class="thought-cloud tc4">☁️ {cloud_labels[3]}</div>'
-                '<div class="eureka-spark sp1">✦</div>'
-                '<div class="eureka-spark sp2">✧</div>'
-                '<div class="eureka-spark sp3">✦</div>'
-                '<div class="eureka-spark sp4">✧</div>'
-                '<div class="eureka-glow"></div>'
-                '<div class="eureka-star">'
-                '<div class="eureka-star-glyph">★</div>'
-                '<div class="eureka-star-note">'
-                f'{saved_note}'
+                f'<div class="final-memory fm1">☁️ {cloud_labels[0]}</div>'
+                f'<div class="final-memory fm2">☁️ {cloud_labels[1]}</div>'
+                f'<div class="final-memory fm3">☁️ {cloud_labels[2]}</div>'
+                f'<div class="final-memory fm4">☁️ {cloud_labels[3]}</div>'
+                '<div class="final-star">'
+                '<div class="final-star-glyph">★</div>'
+                f'<div class="final-star-note">{saved_note}</div>'
                 '</div>'
-                '</div>'
+                '<div class="final-cloud-sea"></div>'
                 '<div class="eureka-caption">작은 생각도 언젠가 반짝이는 아이디어가 될 수 있어요 ☁️</div>'
                 '</div>'
             )
