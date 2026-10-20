@@ -12,7 +12,7 @@ import base64
 # 기본 설정
 # =========================================================
 st.set_page_config(
-    page_title="망상회로",
+    page_title="Daydream Circuit",
     page_icon="☁️",
     layout="centered"
 )
@@ -41,251 +41,162 @@ def asset_data_uri(path):
 
 
 # =========================================================
-# 구름요정 타로 22장
+# Cloud Fairy 타로 22장
 # =========================================================
 TAROT_CARDS = [
     {
         "name": "THE FOOL",
-        "ko": "바보",
+        "ko": "The Fool",
         "image": "00_fool.png",
-        "meaning": "새로운 시작, 자유로운 발걸음, 아직 정해지지 않은 가능성을 상징해.",
-        "ending": (
-            "아직 모든 길을 알고 시작할 필요는 없어. "
-            "오늘 떠오른 생각 중 하나가 예상하지 못한 곳으로 데려갈 수도 있으니까. "
-            "조금 서툴러도 네가 가보고 싶은 방향을 응원할게. ☁️"
-        ),
+        "meaning": "This card represents new beginnings, freedom, and possibilities yet to unfold.",
+        "ending": "You do not need to know every road before taking the first step. A small thought today might lead somewhere wonderful. Keep exploring! ☁️",
     },
     {
         "name": "THE MAGICIAN",
-        "ko": "마법사",
+        "ko": "The Magician",
         "image": "01_magician.png",
-        "meaning": "가능성, 시작할 수 있는 힘, 이미 가지고 있는 자원을 상징해.",
-        "ending": (
-            "생각보다 네 손에는 이미 많은 것이 있을지도 몰라. "
-            "오늘 떠다닌 생각들도 언젠가 무언가를 만드는 재료가 될 수 있어. "
-            "네가 만들어갈 다음 장면을 응원할게. 🪄"
-        ),
+        "meaning": "This card represents potential, initiative, and the resources already within reach.",
+        "ending": "You may already have more to work with than you realize. Even your wandering thoughts can become the seeds of something new. 🪄",
     },
     {
         "name": "THE HIGH PRIESTESS",
-        "ko": "여사제",
+        "ko": "The High Priestess",
         "image": "02_high_priestess.png",
-        "meaning": "직감, 조용한 내면의 목소리, 아직 말로 설명하기 어려운 감각을 상징해.",
-        "ending": (
-            "꼭 모든 생각에 바로 이름을 붙이지 않아도 괜찮아. "
-            "이유는 모르겠는데 계속 마음에 남는 생각도 있으니까. "
-            "네 안에서 천천히 선명해질 때까지 지켜봐 줄게. 🌙"
-        ),
+        "meaning": "This card represents intuition, inner wisdom, and feelings not yet put into words.",
+        "ending": "Not every feeling needs a name right away. Give the thoughts that linger a little room to grow clearer. 🌙",
     },
     {
         "name": "THE EMPRESS",
-        "ko": "여황제",
+        "ko": "The Empress",
         "image": "03_empress.png",
-        "meaning": "풍요, 창조, 편안함과 자라나는 가능성을 상징해.",
-        "ending": (
-            "좋은 생각은 억지로 잡아당기지 않아도 천천히 자라나기도 해. "
-            "오늘 발견한 작은 마음도 충분히 소중해. "
-            "네 생각이 네 속도로 예쁘게 자라길 응원할게. 🌷"
-        ),
+        "meaning": "This card represents creativity, abundance, and possibilities growing naturally.",
+        "ending": "Good ideas sometimes grow at their own pace. Treasure the small things you discovered today. 🌷",
     },
     {
         "name": "THE EMPEROR",
-        "ko": "황제",
+        "ko": "The Emperor",
         "image": "04_emperor.png",
-        "meaning": "기준, 안정감, 나만의 방향과 중심을 상징해.",
-        "ending": (
-            "수많은 생각 사이에서도 결국 네가 중요하게 여기는 기준이 있을 거야. "
-            "오늘의 망상이 그 기준을 조금 더 알아가는 시간이었길 바라. "
-            "네 중심을 믿고 걸어가도 괜찮아. ☁️"
-        ),
+        "meaning": "This card represents stability, personal values, and a sense of direction.",
+        "ending": "Among so many possibilities, your own values can be your compass. Trust the direction that feels right to you. ☁️",
     },
     {
         "name": "THE HIEROPHANT",
-        "ko": "교황",
+        "ko": "The Hierophant",
         "image": "05_hierophant.png",
-        "meaning": "배움, 익숙한 가치, 오래 이어져 온 기준과 지혜를 상징해.",
-        "ending": (
-            "익숙한 길에도 이유가 있고, 새로운 길에도 이유가 있어. "
-            "무엇을 따를지는 결국 네가 선택하는 거니까. "
-            "배운 것과 네 생각이 멋지게 만나는 순간을 응원할게. 📜"
-        ),
+        "meaning": "This card represents learning, tradition, and wisdom passed down over time.",
+        "ending": "Both familiar paths and new ones have something to teach. The next choice is yours. 📜",
     },
     {
         "name": "THE LOVERS",
-        "ko": "연인",
+        "ko": "The Lovers",
         "image": "06_lovers.png",
-        "meaning": "끌림, 관계, 마음이 자연스럽게 향하는 선택을 상징해.",
-        "ending": (
-            "계속 마음이 가는 생각에는 작은 이유가 숨어 있을지도 몰라. "
-            "그게 사람이든 꿈이든 새로운 삶이든 괜찮아. "
-            "네 마음이 진짜 좋아하는 것을 만날 수 있길 응원할게. 💞"
-        ),
+        "meaning": "This card represents connection, attraction, and choices guided by the heart.",
+        "ending": "The thoughts you keep returning to might be pointing toward something meaningful. Follow your curiosity. 💞",
     },
     {
         "name": "THE CHARIOT",
-        "ko": "전차",
+        "ko": "The Chariot",
         "image": "07_chariot.png",
-        "meaning": "이동, 추진력, 원하는 방향으로 나아가는 힘을 상징해.",
-        "ending": (
-            "오늘 생각이 꽤 멀리 달려왔네. "
-            "처음과 전혀 다른 곳에 도착했어도 그 과정 자체가 네 길이야. "
-            "가보고 싶은 방향이 있다면 씩씩하게 움직일 수 있길 응원할게. 🌠"
-        ),
+        "meaning": "This card represents momentum, movement, and the courage to move forward.",
+        "ending": "Your thoughts have traveled far today. Even an unexpected destination can be part of your journey. 🌠",
     },
     {
         "name": "STRENGTH",
-        "ko": "힘",
+        "ko": "Strength",
         "image": "08_strength.png",
-        "meaning": "부드러운 용기, 내면의 힘, 자신을 다루는 여유를 상징해.",
-        "ending": (
-            "강하다는 건 언제나 세게 밀어붙이는 것만은 아니래. "
-            "때로는 기다리고, 받아들이고, 다시 시작하는 것도 힘이니까. "
-            "네 방식의 용기를 응원할게. 🦁"
-        ),
+        "meaning": "This card represents gentle courage, inner resilience, and patience.",
+        "ending": "Courage can also mean waiting, accepting, and beginning again. Find your own way forward. 🦁",
     },
     {
         "name": "THE HERMIT",
-        "ko": "은둔자",
+        "ko": "The Hermit",
         "image": "09_hermit.png",
-        "meaning": "혼자만의 탐색, 사색, 조용히 나만의 답을 찾아가는 시간을 상징해.",
-        "ending": (
-            "혼자 떠다닌 생각 속에서도 꽤 많은 걸 발견할 수 있어. "
-            "오늘 잠깐 멈춰서 네 생각을 바라본 것도 충분히 의미 있는 탐험이야. "
-            "네 안의 작은 등불을 응원할게. 🏮"
-        ),
+        "meaning": "This card represents quiet reflection, solitude, and discovering your own answers.",
+        "ending": "Even quiet moments of reflection can reveal something new. Keep your inner lantern glowing. 🏮",
     },
     {
         "name": "WHEEL OF FORTUNE",
-        "ko": "운명의 수레바퀴",
+        "ko": "Wheel of Fortune",
         "image": "10_wheel_of_fortune.png",
-        "meaning": "변화, 우연한 전환, 예상하지 못했던 흐름을 상징해.",
-        "ending": (
-            "생각도 삶도 가끔은 예상하지 못한 방향으로 돌아가곤 하지. "
-            "오늘의 별생각이 언젠가 중요한 계기가 될 수도 있어. "
-            "네게 찾아올 좋은 변화들을 응원할게. 🎡"
-        ),
+        "meaning": "This card represents change, unexpected turns, and the surprises of life.",
+        "ending": "Sometimes an ordinary thought becomes the start of an extraordinary change. Stay open to surprises. 🎡",
     },
     {
         "name": "JUSTICE",
-        "ko": "정의",
+        "ko": "Justice",
         "image": "11_justice.png",
-        "meaning": "균형, 판단, 나에게 중요한 기준을 바라보는 것을 상징해.",
-        "ending": (
-            "서로 다른 마음이 동시에 존재해도 괜찮아. "
-            "그 사이에서 네가 중요하게 생각하는 것을 천천히 알아가면 되니까. "
-            "네가 스스로 납득할 수 있는 선택을 응원할게. ⚖️"
-        ),
+        "meaning": "This card represents balance, sound judgment, and what matters most to you.",
+        "ending": "Different feelings can coexist. Take your time discovering what matters most to you. ⚖️",
     },
     {
         "name": "THE HANGED MAN",
-        "ko": "매달린 사람",
+        "ko": "The Hanged Man",
         "image": "12_hanged_man.png",
-        "meaning": "멈춤, 다른 시선, 익숙한 것을 새로운 각도에서 바라보는 것을 상징해.",
-        "ending": (
-            "당장 앞으로 가지 않아도 괜찮아. "
-            "잠깐 거꾸로 바라보면 전에는 보이지 않던 게 보이기도 하니까. "
-            "네가 새로운 시선을 발견하는 순간을 응원할게. ✨"
-        ),
+        "meaning": "This card represents pausing to see familiar things from a new perspective.",
+        "ending": "You do not always need to move forward. A different angle may reveal something you missed. ✨",
     },
     {
         "name": "DEATH",
-        "ko": "죽음",
+        "ko": "Death",
         "image": "13_death.png",
-        "meaning": "끝과 변화, 낡은 흐름을 보내고 새로운 장면으로 넘어가는 것을 상징해.",
-        "ending": (
-            "무언가가 끝난다는 건 언제나 사라진다는 뜻만은 아니야. "
-            "다른 모습으로 이어질 수도 있으니까. "
-            "지나간 것은 잘 보내고 새로 시작될 너의 장면을 응원할게. 🦋"
-        ),
+        "meaning": "This card represents endings, transformation, and the beginning of a new chapter.",
+        "ending": "An ending can also be a transformation. Make room for the next chapter. 🦋",
     },
     {
         "name": "TEMPERANCE",
-        "ko": "절제",
+        "ko": "Temperance",
         "image": "14_temperance.png",
-        "meaning": "조화, 균형, 서로 다른 것들이 자연스럽게 섞이는 과정을 상징해.",
-        "ending": (
-            "서로 전혀 달라 보이는 생각들도 네 안에서는 하나의 흐름일 수 있어. "
-            "오늘 떠다닌 생각들이 천천히 잘 섞여서 네게 맞는 방향이 되길 바라. "
-            "네 속도를 응원할게. 🌈"
-        ),
+        "meaning": "This card represents harmony, balance, and bringing different ideas together.",
+        "ending": "Even unrelated thoughts can become part of the same story. Let them find their own balance. 🌈",
     },
     {
         "name": "THE DEVIL",
-        "ko": "악마",
+        "ko": "The Devil",
         "image": "15_devil.png",
-        "meaning": "강한 끌림, 쉽게 놓이지 않는 마음, 반복해서 돌아보게 되는 것을 상징해.",
-        "ending": (
-            "자꾸 마음이 가는 생각이 있다고 해서 꼭 나쁜 건 아니야. "
-            "그만큼 네게 강하게 남는 무언가일 수도 있으니까. "
-            "네 마음을 너무 몰아붙이지 않고 바라볼 수 있길 응원할게. 🔥"
-        ),
+        "meaning": "This card represents strong attachments and thoughts that keep drawing you back.",
+        "ending": "A thought that keeps coming back may be worth exploring gently, without judging yourself. 🔥",
     },
     {
         "name": "THE TOWER",
-        "ko": "탑",
+        "ko": "The Tower",
         "image": "16_tower.png",
-        "meaning": "갑작스러운 변화, 기존의 틀이 흔들리며 새롭게 보이는 순간을 상징해.",
-        "ending": (
-            "예상 밖의 생각 하나가 머릿속 지도를 완전히 바꾸기도 하지. "
-            "조금 흔들려도 괜찮아. 그 뒤에 새로운 풍경이 보일 수도 있으니까. "
-            "네가 다시 멋진 길을 찾길 응원할게. ⚡"
-        ),
+        "meaning": "This card represents sudden change and a fresh perspective after disruption.",
+        "ending": "An unexpected idea can redraw your entire mental map. New views may appear after the shake-up. ⚡",
     },
     {
         "name": "THE STAR",
-        "ko": "별",
+        "ko": "The Star",
         "image": "17_star.png",
-        "meaning": "희망, 꿈, 앞으로 이어질 가능성과 마음속의 빛을 상징해.",
-        "ending": (
-            "그 꿈이 자유든, 취업이든, 새로운 시작이든, "
-            "아직 이름 붙이지 못한 무언가든 괜찮아. "
-            "오늘 떠다닌 생각들이 언젠가 하나의 별자리처럼 이어질지도 몰라. "
-            "네가 바라는 방향을 응원할게. ✨"
-        ),
+        "meaning": "This card represents hope, dreams, and the light of future possibilities.",
+        "ending": "Whether your dream is freedom, a new beginning, or something unnamed, let it shine. ✨",
     },
     {
         "name": "THE MOON",
-        "ko": "달",
+        "ko": "The Moon",
         "image": "18_moon.png",
-        "meaning": "상상, 불확실함, 아직 또렷하게 설명할 수 없는 마음을 상징해.",
-        "ending": (
-            "지금은 선명하지 않아도 괜찮아. "
-            "모든 생각이 처음부터 밝은 낮처럼 보이는 건 아니니까. "
-            "흐릿한 달빛 아래에서도 네가 천천히 길을 찾아가길 응원할게. 🌙"
-        ),
+        "meaning": "This card represents imagination, uncertainty, and feelings still taking shape.",
+        "ending": "You do not need complete clarity right now. Even moonlight can help you find your way. 🌙",
     },
     {
         "name": "THE SUN",
-        "ko": "태양",
+        "ko": "The Sun",
         "image": "19_sun.png",
-        "meaning": "기쁨, 자신감, 따뜻한 에너지와 밝게 드러나는 가능성을 상징해.",
-        "ending": (
-            "오늘 떠다닌 생각 중에서 유난히 마음이 밝아졌던 순간이 있었을지도 몰라. "
-            "그 작은 즐거움을 오래 기억했으면 좋겠어. "
-            "네 하루에 따뜻한 빛이 오래 머물길 응원할게. ☀️"
-        ),
+        "meaning": "This card represents joy, confidence, and bright possibilities.",
+        "ending": "Remember the little moments of joy you discovered today. May that warmth stay with you. ☀️",
     },
     {
         "name": "JUDGEMENT",
-        "ko": "심판",
+        "ko": "Judgement",
         "image": "20_judgement.png",
-        "meaning": "깨달음, 되돌아봄, 이전과는 조금 다른 시선으로 자신을 바라보는 것을 상징해.",
-        "ending": (
-            "처음 떠올린 생각과 지금의 생각은 꽤 달라졌을 수도 있어. "
-            "그 사이에서 발견한 작은 깨달음 하나면 충분해. "
-            "네가 스스로 알아가는 모든 순간을 응원할게. 📯"
-        ),
+        "meaning": "This card represents awakening, reflection, and seeing yourself differently.",
+        "ending": "Your thoughts may have changed since the beginning. Even one small realization is worth celebrating. 📯",
     },
     {
         "name": "THE WORLD",
-        "ko": "세계",
+        "ko": "The World",
         "image": "21_world.png",
-        "meaning": "완성, 연결, 여러 조각이 하나의 흐름으로 이어지는 것을 상징해.",
-        "ending": (
-            "여기까지 꽤 멀리 떠다녔네. "
-            "처음에는 서로 상관없어 보였던 생각도 결국 하나의 길이 되었어. "
-            "오늘 만든 작은 세계를 잘 간직하길 바라. 너의 다음 여행도 응원할게. 🌍"
-        ),
+        "meaning": "This card represents completion, connection, and separate pieces coming together.",
+        "ending": "Look how far your thoughts have traveled! Keep the little world you created, and enjoy the next journey. 🌍",
     },
 ]
 
@@ -407,18 +318,18 @@ def fallback_explore(thought_path):
     current = thought_path[-1]
 
     templates = [
-        f"'{current}'에서 떠오르는 장소",
-        f"'{current}'와 연결되는 사람",
-        f"이 생각의 정반대 방향",
-        f"이게 현실이 된다면 생길 장면",
-        f"예전에 비슷하게 떠올렸던 기억",
-        f"아예 엉뚱한 곳으로 새보기",
-        f"이 생각이 영화라면 다음 장면",
-        f"갑자기 여행으로 연결해보기",
-        f"이 생각에서 떠오르는 감정",
-        f"5년 뒤의 나와 연결해보기",
-        f"이 생각과 전혀 상관없는 취미",
-        f"이 생각을 친구에게 말한다면",
+        f"'{current}' — a place it brings to mind",
+        f"'{current}' — someone it reminds you of",
+        f"The complete opposite of this idea",
+        f"Imagine this idea becoming real",
+        f"A memory of a similar thought",
+        f"Take a wildly unexpected turn",
+        f"If this were a movie, what happens next?",
+        f"Turn this thought into a journey",
+        f"The feeling this thought brings up",
+        f"Connect it to your future self in five years",
+        f"An unrelated hobby to explore",
+        f"What if you told a friend?",
     ]
 
     suggestions = random.sample(
@@ -429,9 +340,9 @@ def fallback_explore(thought_path):
     if len(thought_path) == 1:
 
         comment = (
-            "별가루가 잠깐 충전 중이야 ☁️ "
-            "그래도 망상길은 열려 있어. "
-            "어디로 한번 새볼까?"
+            "The AI stardust is recharging ☁️ "
+            "But the imagination trail is still open. "
+            "Which way shall we wander?"
         )
 
     else:
@@ -439,10 +350,9 @@ def fallback_explore(thought_path):
         first = thought_path[0]
 
         comment = (
-            f"처음엔 '{first}'에서 출발했는데 "
-            f"어느새 '{current}'까지 왔네. ☁️ "
-            "AI 별가루는 쉬는 중이지만, "
-            "생각은 계속 떠다닐 수 있어."
+            f"We started with '{first}' and somehow reached '{current}'. ☁️ "
+            "The AI stardust is taking a break, but "
+            "your thoughts can keep floating."
         )
 
     return comment, suggestions
@@ -452,37 +362,14 @@ def fallback_explore(thought_path):
 # Gemini 없이 숨은 연결
 # =========================================================
 def fallback_hidden_connection(thought_path):
-
     first = thought_path[0]
     last = thought_path[-1]
-
-    if len(thought_path) >= 3:
-
-        middle = thought_path[
-            len(thought_path) // 2
-        ]
-
-        return (
-            f"☁️ 지금 보이는 흐름\n\n"
-            f"처음에는 '{first}'에서 시작했는데 "
-            f"지금은 '{last}'까지 흘러왔네.\n\n"
-            f"✨ 숨어 있던 별\n\n"
-            f"중간에 '{middle}'를 지나왔다는 게 재밌어. "
-            f"처음 생각과 지금 생각 사이에 놓인 "
-            f"작은 다리였을지도 몰라.\n\n"
-            f"🪄 구름요정의 관찰\n\n"
-            f"정답이라기보다, 네 생각이 한 방향으로만 가지 않고 "
-            f"여러 갈래를 지나 여기까지 왔다는 게 보여."
-        )
-
+    middle = thought_path[len(thought_path) // 2] if len(thought_path) >= 3 else None
+    middle_line = (f"Along the way, '{middle}' was an interesting stop. It might be a bridge between the first and latest ideas.\n\n" if middle else "")
     return (
-        f"☁️ 지금 보이는 흐름\n\n"
-        f"'{first}'에서 시작해서 '{last}'까지 왔네.\n\n"
-        f"✨ 숨어 있던 별\n\n"
-        f"두 생각은 처음에는 멀어 보일 수도 있지만, "
-        f"네 머릿속에서는 이미 하나의 길로 연결됐어.\n\n"
-        f"🪄 구름요정의 관찰\n\n"
-        f"오늘은 그 연결 자체만 발견해도 충분해."
+        f"☁️ The Journey So Far\n\nWe started with '{first}' and arrived at '{last}'.\n\n"
+        f"✨ A Hidden Connection\n\n{middle_line}Even ideas that seem far apart can connect through your imagination.\n\n"
+        "🪄 The Cloud Fairy's Observation\n\nThere is no single right answer. Noticing how your ideas connect is a discovery in itself."
     )
 
 
@@ -549,8 +436,8 @@ def explore_thoughts(thought_path):
         )
 
         st.session_state.api_notice = (
-            "☁️ 오늘의 AI 별가루를 다 썼어요. "
-            "지금은 기본 망상 모드로 계속 탐험할게!"
+            "☁️ The AI stardust has run out for now. "
+            "You can keep exploring in offline imagination mode!"
         )
 
         return comment, suggestions
@@ -563,35 +450,15 @@ def explore_thoughts(thought_path):
   
 
     prompt = f"""
-너는 AI 사고 탐험 서비스 '망상회로'의 구름요정이야.
-
-생각 흐름:
-{path_text}
-
-할 일:
-1. 흐름을 경청한 짧은 관찰 1문장.
-2. 현재 생각에서 이어질 서로 다른 갈림길 정확히 6개.
-
-갈림길은 감정, 사람, 기억, 장소, 행동, 미래,
-현실적 가능성, 엉뚱한 상상 등을 다양하게 섞어.
-서로 비슷하지 않게 하고 각각 짧고 흥미롭게 써.
-
-정답 제시, 훈계, 생산성 강요, 심리진단,
-사용자 성격 단정은 하지 마.
-사용자의 상상회로를 존중하고 옆에서 따라가는 말투로 써.
-
-JSON만 출력:
-{{
-  "fairy_comment": "짧은 관찰",
-  "suggestions": [
-    "갈림길1",
-    "갈림길2",
-    "갈림길3",
-    "갈림길4",
-    "갈림길5",
-    "갈림길6"
-  ]
-}}
+You are the friendly Cloud Fairy in Daydream Circuit, an AI thought-exploration app.
+Thought journey: {path_text}
+Provide one short, thoughtful observation and exactly six different directions to explore next.
+Vary the suggestions across emotions, people, memories, places, actions, the future, realistic possibilities, and playful imagination. Keep them short and distinct.
+Never lecture, diagnose, judge the user's personality, or force a single correct answer.
+Be warm, curious, and respectful of the user's imagination.
+All output must be in natural English, even when the user's input is in another language.
+Return ONLY valid JSON:
+{{"fairy_comment":"Short observation","suggestions":["Direction 1","Direction 2","Direction 3","Direction 4","Direction 5","Direction 6"]}}
 """
 
     try:
@@ -614,7 +481,7 @@ JSON만 출력:
         if len(suggestions) < 6:
 
             raise ValueError(
-                "생각 갈림길을 충분히 생성하지 못했습니다."
+                "Could not generate six directions."
             )
 
         comment = result.get(
@@ -645,8 +512,8 @@ JSON만 출력:
             st.session_state.quota_fallback = True
 
             st.session_state.api_notice = (
-                "☁️ 오늘의 AI 별가루를 다 썼어요. "
-                "지금은 기본 망상 모드로 계속 탐험할게!"
+                "☁️ The AI stardust has run out for now. "
+                "You can keep exploring in offline imagination mode!"
             )
 
             return fallback_explore(
@@ -682,8 +549,8 @@ def find_hidden_connection(
     if st.session_state.ai_disabled:
 
         st.session_state.api_notice = (
-            "☁️ AI 별가루는 충전 중이라 "
-            "구름요정 기본 관찰 모드로 볼게."
+            "☁️ The AI stardust is recharging, so "
+            "the Cloud Fairy will use its offline observations."
         )
 
         return fallback_hidden_connection(
@@ -696,44 +563,14 @@ def find_hidden_connection(
     )
 
     prompt = f"""
-너는 '망상회로'의 구름요정이다.
-
-사용자가 지금까지 지나온 생각:
-
-{path_text}
-
-이 생각들 사이에서
-사용자가 미처 눈치채지 못했을 법한
-흥미로운 연결 하나를 찾아라.
-
-하지만 사용자를 분석하거나 규정하지 않는다.
-
-심리 진단 금지.
-성격 단정 금지.
-훈계 금지.
-자기계발식 조언 금지.
-
-가능성을 열어두는 말투를 사용한다.
-
-다음 형식으로 짧게 이야기한다.
-
-☁️ 지금 보이는 흐름
-
-처음 생각에서 현재 생각까지
-어떤 방향으로 이동했는지 설명한다.
-
-✨ 숨어 있던 별
-
-반복되는 주제,
-비슷하게 등장한 관심사,
-또는 의외의 연결 하나를 찾아낸다.
-
-🪄 이런 생각은 어때?
-
-사용자가 스스로 더 생각해볼 수 있는
-새 질문 하나를 던진다.
-
-짧고 위트 있지만 차분하게 말한다.
+You are the Cloud Fairy in Daydream Circuit.
+The user's thought journey: {path_text}
+Identify one surprising or interesting connection between these thoughts, without analyzing or defining the person.
+Do not diagnose, make personality assumptions, lecture, or give self-help advice. Use a curious, gentle tone.
+Respond briefly, in natural English, with these sections:
+☁️ The Journey So Far — How the ideas evolved.
+✨ A Hidden Connection — A recurring theme or unexpected connection.
+🪄 What If? — One open-ended question to inspire further thought.
 """
 
     try:
@@ -758,8 +595,8 @@ def find_hidden_connection(
             st.session_state.quota_fallback = True
 
             st.session_state.api_notice = (
-                "☁️ AI 별가루는 충전 중이라 "
-                "구름요정 기본 관찰 모드로 볼게."
+                "☁️ The AI stardust is recharging, so "
+                "the Cloud Fairy will use its offline observations."
             )
 
             return fallback_hidden_connection(
@@ -782,7 +619,7 @@ def choose_thought(thought):
         )
 
         with st.spinner(
-            "🪄 그 구름을 따라가는 중..."
+            "🪄 Following that cloud..."
         ):
 
             comment, suggestions = (
@@ -819,8 +656,8 @@ def choose_thought(thought):
 
         # Gemini 말고 진짜 다른 오류만 표시
         st.error(
-            "별가루가 잠깐 엉켰어요 ✨ "
-            "한 번 더 눌러봐."
+            "The stardust got a little tangled ✨ "
+            "Please try again."
         )
 
         st.code(
@@ -839,16 +676,16 @@ def render_eureka_screen(path):
         st.markdown(
             '<div style="height:18px;"></div>'
             '<div class="section-title">'
-            '⭐ EUREKA! 별 찾았다!'
+            '⭐ EUREKA! You found a star!'
             '</div>',
             unsafe_allow_html=True
         )
 
         st.markdown(
             '<div class="section-sub">'
-            '지나온 생각에서 오늘 건져 올린 '
-            '<b>키워드나 짧은 표현 하나</b>만 남겨봐요.<br>'
-            '예: 소소한 행복 · 새로운 시작 · 자유'
+            'From your thought journey, save '
+            '<b>one keyword or short phrase</b>that stands out.<br>'
+            'e.g., Little joys · New beginnings · Freedom'
             '</div>',
             unsafe_allow_html=True
         )
@@ -858,24 +695,24 @@ def render_eureka_screen(path):
             '<div style="text-align:center;font-size:31px;">☁️　✨　☁️</div>'
             '<div style="text-align:center;color:#68647e;font-size:16px;'
             'font-weight:800;line-height:1.65;margin-top:8px;">'
-            '길게 정리하지 않아도 괜찮아요.<br>'
-            '지금 가장 마음에 남는 말 하나면 충분해요.'
+            'No need to write a long summary.<br>'
+            'Just one phrase that stayed with you is enough.'
             '</div>'
             '</div>',
             unsafe_allow_html=True
         )
 
         note = st.text_input(
-            "오늘의 EUREKA",
+            "Today’s EUREKA",
             value=st.session_state.eureka_note,
-            placeholder="예: 소소한 행복",
+            placeholder="e.g., Little joys",
             max_chars=24,
             label_visibility="collapsed",
             key="eureka_dedicated_input"
         )
 
         if st.button(
-            "⭐ 이 생각을 오늘의 별로 남기기",
+            "⭐ Save this thought as today’s star",
             key="save_eureka_dedicated",
             use_container_width=True
         ):
@@ -885,7 +722,7 @@ def render_eureka_screen(path):
                 st.rerun()
             else:
                 st.warning(
-                    "오늘 마음에 남은 키워드 하나만 적어줘 ✨"
+                    "Enter one keyword that stayed with you ✨"
                 )
 
         return
@@ -923,7 +760,7 @@ def render_eureka_screen(path):
     eureka_star_html = (
         '<div class="eureka-celebration">'
         '<div class="eureka-celebration-title">'
-        '✨ 오늘 생각 여행에서 발견한 별 ✨'
+        '✨ A star discovered on today’s thought journey ✨'
         '</div>'
 
         f'<div class="big-labeled-cloud blc1">'
@@ -966,7 +803,7 @@ def render_eureka_screen(path):
 
         '<div class="eureka-reveal">'
         '<div class="eureka-reveal-title">'
-        '✨ 오늘 생각 여행에서 발견한 별 ✨'
+        '✨ A star discovered on today’s thought journey ✨'
         '</div>'
 
         f'<div class="final-labeled-cloud flc1">'
@@ -995,7 +832,7 @@ def render_eureka_screen(path):
         '</div>'
 
         '<div class="eureka-caption">'
-        '작은 생각도 언젠가 반짝이는 아이디어가 될 수 있어요 ☁️'
+        'Even small thoughts can become brilliant ideas one day. ☁️'
         '</div>'
         '</div>'
     )
@@ -1008,14 +845,14 @@ def render_eureka_screen(path):
     if st.session_state.tarot_card is None:
 
         if st.button(
-            "✨🔮 오늘의 운세를 타로로 조언 얻기 ✨",
+            "✨🔮 Draw a tarot card for a little inspiration ✨",
             key="tarot_dedicated",
             use_container_width=True,
             type="primary"
         ):
 
             with st.spinner(
-                "☁️ 구름요정이 카드를 섞는 중... ✨"
+                "☁️ The Cloud Fairy is shuffling the cards... ✨"
             ):
                 time.sleep(
                     0.25
@@ -1065,7 +902,7 @@ def render_eureka_screen(path):
         else:
 
             st.error(
-                "타로 카드 이미지를 찾지 못했어요 😭"
+                "Tarot card image not found 😭"
             )
 
         st.markdown(
@@ -1080,7 +917,7 @@ def render_eureka_screen(path):
 
         st.markdown(
             '<div class="tarot-meaning">'
-            '<b>🔮 이 카드가 전하는 의미</b><br><br>'
+            '<b>🔮 What this card represents</b><br><br>'
             f'{html.escape(card["meaning"])}'
             '</div>',
             unsafe_allow_html=True
@@ -1089,7 +926,7 @@ def render_eureka_screen(path):
         st.markdown(
             '<div class="ending-card">'
             '<div class="ending-label">'
-            '☁️ 구름요정의 마지막 한마디'
+            '☁️ A final note from the Cloud Fairy'
             '</div>'
             f'{html.escape(card["ending"])}'
             '</div>',
@@ -1106,7 +943,7 @@ def render_eureka_screen(path):
     # =====================================================
 
     if st.button(
-        "⭐ EUREKA 다시 기록하기",
+        "⭐ Save a different EUREKA",
         key="rewrite_eureka",
         use_container_width=True
     ):
@@ -1127,7 +964,7 @@ def render_eureka_screen(path):
     with new_train_col:
 
         if st.button(
-            "🚂 새로운 망상 기차 탑승하기",
+            "🚂 Board a new thought train",
             key="restart_dedicated",
             use_container_width=True
         ):
@@ -1155,7 +992,7 @@ def render_eureka_screen(path):
     with continue_train_col:
 
         if st.button(
-            "☁️ 하던 망상 기차 다시 타기",
+            "☁️ Return to your thought train",
             key="continue_old_train",
             use_container_width=True
         ):
@@ -2654,14 +2491,14 @@ button[data-testid="stBaseButton-primary"]:hover {
 # =========================================================
 st.markdown(
     '<div class="logo">'
-    '☁️ 망상회로 ✨'
+    '☁️ Daydream Circuit ✨'
     '</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
     '<div class="tagline">'
-    '생각의 유랑이 반짝이는 별에 닿을 수도! ✨'
+    'A wandering thought might lead to a shining star! ✨'
     '</div>',
     unsafe_allow_html=True
 )
@@ -2688,7 +2525,7 @@ if not st.session_state.started:
     else:
 
         st.warning(
-            "구름요정 이미지를 찾지 못했어요 ☁️"
+            "Cloud Fairy image not found ☁️"
         )
 
         st.code(
@@ -2699,11 +2536,11 @@ if not st.session_state.started:
     st.markdown(
         '<div class="fairy-card">'
         '<div class="fairy-name">'
-        '☁️ 구름요정'
+        '☁️ Cloud Fairy'
         '</div>'
         '<div class="fairy-text">'
-        '머릿속에 떠다니는 생각 하나만 던져봐.<br>'
-        '<b>너의 머릿속 생각 구름 기차, 지금 출발한다! 🚂☁️</b>'
+        'Share one thought floating through your mind.<br>'
+        '<b>Your cloud train of thoughts is leaving now! 🚂☁️</b>'
         '</div>'
         '</div>',
         unsafe_allow_html=True
@@ -2711,23 +2548,23 @@ if not st.session_state.started:
 
 
     first_thought = st.text_input(
-        "첫 생각",
+        "First thought",
         placeholder=(
-            "예: 그냥 다 그만두고 여행 가고 싶다"
+            "e.g., I wish I could drop everything and travel"
         ),
         label_visibility="collapsed"
     )
 
 
     if st.button(
-        "✨ 여기서 망상 시작하기",
+        "✨ Start exploring",
         use_container_width=True
     ):
 
         if not first_thought.strip():
 
             st.warning(
-                "생각 하나만 살짝 던져줘 ☁️"
+                "Share just one little thought ☁️"
             )
 
         else:
@@ -2739,7 +2576,7 @@ if not st.session_state.started:
                 ]
 
                 with st.spinner(
-                    "☁️ 첫 번째 생각 구름을 만드는 중..."
+                    "☁️ Creating your first thought cloud..."
                 ):
 
                     comment, suggestions = (
@@ -2777,7 +2614,7 @@ if not st.session_state.started:
             except Exception as e:
 
                 st.error(
-                    "구름요정이 잠깐 구름 속에 숨었어요 ☁️"
+                    "The Cloud Fairy is hiding in a cloud for a moment ☁️"
                 )
 
                 st.code(
@@ -2827,15 +2664,15 @@ else:
             st.markdown(
                 '<div style="height:12px;"></div>'
                 '<div class="section-title">'
-                '✨ 이제 슬슬 정리될 수도?'
+                '✨ Ready to connect the dots?'
                 '</div>',
                 unsafe_allow_html=True
             )
 
             st.markdown(
                 '<div class="section-sub">'
-                '처음 생각에서 여기까지 어떻게 흘러왔는지 '
-                '구름요정이 한 번 이어봤어요.'
+                'Here is how your thoughts wandered from the beginning. '
+                'The Cloud Fairy connected the dots.'
                 '</div>',
                 unsafe_allow_html=True
             )
@@ -2843,7 +2680,7 @@ else:
             if not st.session_state.analysis:
 
                 with st.spinner(
-                    "🪄 지나온 생각 사이에서 연결을 찾는 중..."
+                    "🪄 Finding connections in your thought journey..."
                 ):
 
                     try:
@@ -2896,7 +2733,7 @@ else:
                 st.markdown(
                     '<div class="fairy-card">'
                     '<div class="fairy-name">'
-                    '☁️ 구름요정의 발견 ✨'
+                    '☁️ The Cloud Fairy’s discovery ✨'
                     '</div>'
                     '<div class="fairy-text">'
                     f'{analysis}'
@@ -2910,7 +2747,7 @@ else:
             with flow_eureka_col:
 
                 if st.button(
-                    "⭐ EUREKA! 별 찾았다!",
+                    "⭐ EUREKA! You found a star!",
                     key="flow_screen_eureka",
                     use_container_width=True
                 ):
@@ -2923,7 +2760,7 @@ else:
             with flow_more_col:
 
                 if st.button(
-                    "☁️ 망상구름 이어가기",
+                    "☁️ Keep exploring",
                     key="flow_screen_continue",
                     use_container_width=True
                 ):
@@ -2954,10 +2791,10 @@ else:
             '<div style="height:18px;"></div>'
             '<div class="journey-checkpoint">'
             '<div class="train">🚂✨</div>'
-            '<div class="title">별을 찾으러 가는 중이에요 ✨</div>'
+            '<div class="title">On the way to finding a star ✨</div>'
             '<div class="sub">'
-            '다음 단계에서 하나만 골라봐요.<br>'
-            '지나온 생각 흐름을 살펴보거나, 바로 EUREKA를 남길 수 있어요.'
+            'Choose one option for your next step.<br>'
+            'Review your thought journey or save an EUREKA right away.'
             '</div>'
             '</div>',
             unsafe_allow_html=True
@@ -2970,7 +2807,7 @@ else:
         with train_flow_col:
 
             if st.button(
-                "🛤️ 생각 흐름 들여다보기",
+                "🛤️ Review your thought journey",
                 key="dedicated_train_flow",
                 use_container_width=True
             ):
@@ -2978,7 +2815,7 @@ else:
                 st.session_state.analysis = ""
 
                 with st.spinner(
-                    "🪄 지나온 생각 사이에서 연결을 찾는 중..."
+                    "🪄 Finding connections in your thought journey..."
                 ):
 
                     try:
@@ -3003,7 +2840,7 @@ else:
         with train_eureka_col:
 
             if st.button(
-                "⭐ EUREKA! 별 찾았다!",
+                "⭐ EUREKA! You found a star!",
                 key="dedicated_train_eureka",
                 use_container_width=True
             ):
@@ -3028,7 +2865,7 @@ else:
 
 
     # =====================================================
-    # 구름요정 코멘트
+    # Cloud Fairy 코멘트
     # =====================================================
     fairy_col, comment_col = st.columns(
         [1, 2.8],
@@ -3061,7 +2898,7 @@ else:
         st.markdown(
             '<div class="fairy-card">'
             '<div class="fairy-name">'
-            '☁️ 구름요정'
+            '☁️ Cloud Fairy'
             '</div>'
             f'<div class="fairy-text">'
             f'{comment}'
@@ -3115,7 +2952,7 @@ else:
     st.markdown(
         '<div class="constellation-box">'
         '<div class="constellation-title">'
-        '✨ 내가 지나온 생각의 별자리'
+        '✨ My constellation of thoughts'
         '</div>'
         '<div class="constellation">'
         f'{constellation_html}'
@@ -3130,14 +2967,14 @@ else:
     # =====================================================
     st.markdown(
         '<div class="section-title">'
-        '☁️ 지금 머릿속'
+        '☁️ On your mind now'
         '</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
         '<div class="section-sub">'
-        '끌리는 구름을 눌러서 생각을 따라가 봐.'
+        'Choose a cloud that catches your eye.'
         '</div>',
         unsafe_allow_html=True
     )
@@ -3220,7 +3057,7 @@ else:
         st.markdown(
             '<div class="current-thought">'
             '<div class="current-label">'
-            '✨ 지금 내 생각'
+            '✨ My current thought'
             '</div>'
             '<div class="current-text">'
             f'{safe_current}'
@@ -3284,7 +3121,7 @@ else:
 
     # =====================================================
     # 생각 여행 체크포인트
-    # 첫 생각 이후 구름을 3번 누를 때마다 등장
+    # First thought 이후 구름을 3번 누를 때마다 등장
     # =====================================================
     selections_count = max(0, len(path) - 1)
 
@@ -3301,10 +3138,10 @@ else:
             st.markdown(
                 '<div class="journey-checkpoint">'
                 '<div class="train">🚂☁️</div>'
-                '<div class="title">이제 구름 기차에서 내려 별을 따러 갈까요??</div>'
+                '<div class="title">Ready to hop off the cloud train and catch a star?</div>'
                 '<div class="sub">'
-                '지금까지 떠다닌 생각들을 한 번 이어서 바라볼 수 있어요.<br>'
-                '아직 더 헤매고 싶다면 망상을 계속 이어가도 좋아요. ☁️'
+                'Take a moment to look back at where your thoughts have traveled.<br>'
+                'Or keep wandering if you are not ready to stop. ☁️'
                 '</div>'
                 '</div>',
                 unsafe_allow_html=True
@@ -3314,7 +3151,7 @@ else:
 
             with train_col:
                 if st.button(
-                    "⭐ 오늘의 별 따러가기",
+                    "⭐ Catch today’s star",
                     key=f"board_train_{len(path)}",
                     use_container_width=True
                 ):
@@ -3324,7 +3161,7 @@ else:
 
             with more_col:
                 if st.button(
-                    "☁️ 망상구름 기차 더 타기",
+                    "☁️ Keep riding the cloud train",
                     key=f"more_thoughts_{len(path)}",
                     use_container_width=True
                 ):
@@ -3339,23 +3176,23 @@ else:
     # =====================================================
     st.markdown(
         '<div class="section-title">'
-        '💭 갑자기 딴생각 났어?'
+        '💭 A new thought popped up?'
         '</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
         '<div class="section-sub">'
-        'AI가 안 보여준 길이어도 괜찮아.'
+        'It is okay to take a path the AI did not suggest.'
         '</div>',
         unsafe_allow_html=True
     )
 
 
     custom = st.text_input(
-        "직접 생각",
+        "Your own thought",
         placeholder=(
-            "갑자기 떠오른 생각을 그대로 적어봐"
+            "Write down the thought that just popped into your mind"
         ),
         label_visibility="collapsed",
         key=f"custom_{len(path)}"
@@ -3363,7 +3200,7 @@ else:
 
 
     if st.button(
-        "☁️ 이 생각으로 확 새기",
+        "☁️ Explore this new thought",
         key=f"custom_button_{len(path)}",
         use_container_width=True
     ):
@@ -3371,7 +3208,7 @@ else:
         if not custom.strip():
 
             st.warning(
-                "새로 떠오른 생각을 적어줘 ☁️"
+                "Enter your new thought ☁️"
             )
 
         else:
@@ -3381,7 +3218,7 @@ else:
             )
 
     # =====================================================
-    # 언제든 다음 단계로 넘어가기
+    # 언제든 Next step로 넘어가기
     # '딴 생각으로 새기' 바로 아래
     # =====================================================
     next_spacer, next_button_col = st.columns(
@@ -3391,7 +3228,7 @@ else:
     with next_button_col:
 
         if st.button(
-            "다음 단계 →",
+            "Next step →",
             key=f"next_step_{len(path)}",
             use_container_width=True
         ):
