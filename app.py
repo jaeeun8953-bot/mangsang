@@ -10,6 +10,8 @@ from pathlib import Path
 
 import streamlit as st
 from google import genai
+if "answer_draft" not in st.session_state:
+    st.session_state["answer_draft"] = ""
 
 BASE = Path(__file__).resolve().parent
 st.set_page_config(page_title="망상회로 2.0 | Daydream Circuit", page_icon="☁️", layout="wide")
