@@ -6,7 +6,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 _COMPONENT = components.declare_component(
-    "daydream_brain", path=str(Path(__file__).resolve().parent / "brain_component")
+    "daydream_brain", path=str(Path(__file__).resolve().parent)
 )
 
 def _generate(payload):
