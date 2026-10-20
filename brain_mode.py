@@ -8,8 +8,10 @@ import streamlit.components.v1 as components
 _ROOT = Path(__file__).resolve().parent
 # Support the user's current GitHub layout, where index.html is in the repository root.
 _COMPONENT_DIR = _ROOT / "brain_component" if (_ROOT / "brain_component" / "index.html").is_file() else _ROOT
-_COMPONENT = components.declare_component("daydream_brain", path=str(_COMPONENT_DIR))
-
+_COMPONENT = components.declare_component(
+    "daydream_brain",
+    path=str(Path(__file__).resolve().parent)
+)
 def _generate(payload):
     mode = payload.get("mode", "mixed")
     language = payload.get("language", "ko")
