@@ -238,7 +238,7 @@ elif st.session_state.stage in ("explore", "write", "feedback"):
             st.rerun()
     else:
         st.markdown(f"### {tr('내 생각', 'My thought')}")
-        st.write(st.session_state.answer_draft)
+        st.write(st.session_state.get("answer_draft", ""))
         st.markdown(f"### ✨ {tr('AI 코치의 질문', 'Your AI coach')}")
         st.info(st.session_state.coach)
         st.caption(tr("코칭은 정답이나 능력 점수가 아니라, 생각을 확장하기 위한 질문이야.", "Coaching offers prompts to reflect, not grades or ability scores."))
