@@ -42,7 +42,7 @@ Each question must be brief, distinct and specific to the current thought, not g
 Never suggest that brain hemispheres exclusively control these skills.
 Do not answer the questions. No Markdown, only valid JSON."""
     result = client.models.generate_content(
-        model=os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"),
+        model=os.environ.get("GEMINI_MODEL", "gemini-3.8-flash"),
         contents=prompt,
         config={"response_mime_type": "application/json"},
     )
