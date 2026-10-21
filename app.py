@@ -175,7 +175,7 @@ with st.sidebar:
             reset()
             st.rerun()
 
-st.markdown(f'<div class="hero"><h1>☁️ {tr("망상회로", "Daydream Circuit")}</h1><p>{tr("생각의 시작은 언제나 나로부터.", "Every journey of thought begins with you.")}</p></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="hero"><h1>☁️ {tr("망상회로", "Daydream Circuit")}</h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div>', unsafe_allow_html=True)
 
 if st.session_state.stage == "start":
     st.markdown(f"### {tr('오늘은 어떤 생각을 훈련할까?', 'Which kind of thinking will you practice?')}")
