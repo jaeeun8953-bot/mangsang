@@ -142,7 +142,7 @@ def coach_for(question, answer):
     return ask_ai(prompt, tr("이 생각의 근거를 한 번 더 살펴보거나, 다른 관점에서 질문해 보면 어떨까?", "What if you examined the reasoning or tried another perspective?"))
 
 def reset():
-    for k in ["stage", "mode", "seed", "options", "selected", "steps", "answer_draft", "coach", "tarot", "tarot_advice", "journey_date"]:
+    for k in ["stage", "mode", "seed", "options", "selected", "steps", "answer_draft", "answer_saved", "coach", "tarot", "tarot_advice", "journey_date"]:
         st.session_state.pop(k, None)
     st.session_state.stage = "start"
 
@@ -162,6 +162,8 @@ if "lang" not in st.session_state:
     st.session_state.lang = "한국어"
 if "stage" not in st.session_state:
     reset()
+if "answer_saved" not in st.session_state:
+    st.session_state.answer_saved = ""
 
 with st.sidebar:
     st.markdown("### ☁️ 망상회로 2.0")
@@ -230,7 +232,8 @@ elif st.session_state.stage in ("explore", "write", "feedback"):
         answer = st.text_area(tr("나의 생각", "My thinking"), key="answer_draft", height=160)
         if st.button(tr("✨ 내 생각 완성하고 AI 코칭 받기", "✨ Finish my thought and get coaching"), disabled=not answer.strip(), type="primary", use_container_width=True):
             with st.spinner(tr("AI 코치가 내 생각을 읽고 있어요…", "Your AI coach is reading your thought…")):
-                st.session_state.coach = coach_for(st.session_state.selected, answer.strip())
+                st.session_state.answer_saved = answer.strip()
+                st.session_state.coach = coach_for(st.session_state.selected, st.session_state.answer_saved)
             st.session_state.stage = "feedback"
             st.rerun()
         if st.button(tr("← 다른 구름 고르기", "← Choose another cloud")):
@@ -238,18 +241,18 @@ elif st.session_state.stage in ("explore", "write", "feedback"):
             st.rerun()
     else:
         st.markdown(f"### {tr('내 생각', 'My thought')}")
-        st.write(st.session_state.answer_draft)
+        st.write(st.session_state.get("answer_saved", ""))
         st.markdown(f"### ✨ {tr('AI 코치의 질문', 'Your AI coach')}")
         st.info(st.session_state.coach)
         st.caption(tr("코칭은 정답이나 능력 점수가 아니라, 생각을 확장하기 위한 질문이야.", "Coaching offers prompts to reflect, not grades or ability scores."))
         if st.button(tr("☁️ 다음 구름으로 점프하기", "☁️ Jump to the next cloud"), type="primary", use_container_width=True):
-            st.session_state.steps.append({"question": st.session_state.selected, "answer": st.session_state.answer_draft.strip(), "coach": st.session_state.coach})
+            st.session_state.steps.append({"question": st.session_state.selected, "answer": st.session_state.get("answer_saved", ""), "coach": st.session_state.coach})
             with st.spinner(tr("다음 생각의 구름을 만들고 있어요…", "Creating your next thought clouds…")):
                 st.session_state.options = make_options()
             st.session_state.stage = "explore"
             st.rerun()
         if st.button(tr("📖 여기서 마치고 생각노트 만들기", "📖 Finish and make my journal"), use_container_width=True):
-            st.session_state.steps.append({"question": st.session_state.selected, "answer": st.session_state.answer_draft.strip(), "coach": st.session_state.coach})
+            st.session_state.steps.append({"question": st.session_state.selected, "answer": st.session_state.get("answer_saved", ""), "coach": st.session_state.coach})
             st.session_state.stage = "journal"
             st.rerun()
 
