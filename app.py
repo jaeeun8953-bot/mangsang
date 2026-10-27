@@ -60,8 +60,8 @@ header[data-testid="stHeader"] {background:transparent!important;}
 .block-container > div {position:relative;z-index:1;}
 .hero-art {width:100%;max-width:1190px;position:relative;left:auto;transform:none;display:block;margin:0 auto 16px;overflow:hidden;}
 .hero-art img {display:block;width:100%;height:auto;border-radius:0;mask-image:linear-gradient(to bottom,transparent 0%,black 7%,black 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 7%,black 88%,transparent 100%);}
-.hero {display:grid;grid-template-columns:47% 53%;align-items:center;max-width:1100px;margin:12px auto 28px;min-height:270px;}
-.hero-mascot {width:100%;max-width:390px;max-height:270px;object-fit:contain;justify-self:center;}
+.hero {display:grid;grid-template-columns:47% 53%;align-items:center;max-width:1100px;margin:0 auto 18px;min-height:290px;}
+.hero-mascot {width:100%;max-width:440px;max-height:310px;object-fit:contain;justify-self:center;}
 .hero-copy {text-align:left;padding-left:12px;}
 .hero h1 {font-size:clamp(2rem,4vw,3.8rem);color:#202e67;margin:0;font-weight:850;white-space:normal;line-height:1.2;}
 .hero p {color:#65749f;font-size:1.2rem;margin:16px 0 0;}
@@ -195,11 +195,13 @@ with st.sidebar:
             reset()
             st.rerun()
 
-if st.session_state.lang == "한국어" and st.session_state.stage == "start":
-    # The approved illustration is used only for the static hero; all controls below are real Streamlit widgets.
-    st.markdown(f'<div class="hero-art"><img src="{img_uri(BASE / "hero_reference.png")}" alt="망상회로 구름 요정과 제목" /></div>', unsafe_allow_html=True)
-else:
-    st.markdown(f'<div class="hero"><img class="hero-mascot" src="{img_uri(BASE / "cloud_fairy.png")}" alt="Cloud fairy mascot"/><div class="hero-copy"><h1>☁️ {tr("망상회로", "Daydream Circuit")}<span class="hero-star"> ✦</span></h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div></div>', unsafe_allow_html=True)
+# One transparent mascot, one real title, and one seamless page background.
+st.markdown(
+    f'<div class="hero"><img class="hero-mascot" src="{img_uri(BASE / "cloud_fairy.png")}" alt="Cloud fairy mascot"/>'
+    f'<div class="hero-copy"><h1>☁️ {tr("망상회로", "Daydream Circuit")}<span class="hero-star"> ✦</span></h1>'
+    f'<p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div></div>',
+    unsafe_allow_html=True,
+)
 
 if st.session_state.stage == "start":
     st.markdown(f"### {tr('오늘은 어떤 생각을 훈련할까?', 'Which kind of thinking will you practice?')}")
