@@ -1,5 +1,2 @@
-망상회로 2.0 — 깨끗한 전체 배경 수정본
-
-배경 이미지에는 UI 글자나 기존 스크린샷을 사용하지 않았습니다. 캐릭터는 투명 PNG입니다.
-
-실행: pip install -r requirements.txt 후 streamlit run app.py
+망상회로 2.0: 기존 기능/캐릭터/레이아웃 유지, 배경만 더 선명한 구름 이미지로 교체.
+실행: pip install -r requirements.txt && streamlit run app.py

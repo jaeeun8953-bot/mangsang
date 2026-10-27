@@ -49,7 +49,7 @@ CSS = """
 <style>
 .stApp {
  background-image:url("__BG_CLOUDS__");
- background-position:center top;
+ background-position:center center;
  background-size:cover;
  background-attachment:fixed;
  background-repeat:no-repeat;
