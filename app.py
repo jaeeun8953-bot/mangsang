@@ -47,41 +47,44 @@ CARDS = [
 BG_CLOUDS = "data:image/jpeg;base64," + base64.b64encode((BASE / "cloud_sky_background.jpg").read_bytes()).decode()
 CSS = """
 <style>
- .stApp {
- background-image: linear-gradient(rgba(248,244,255,.10),rgba(248,244,255,.10)),url("__BG_CLOUDS__");
- background-position:center top;background-size:100% 100%;background-attachment:fixed;background-repeat:no-repeat;
- color:#202f60;
- }
- .block-container {max-width:1220px;padding-top:3.5rem;padding-bottom:4rem;}
- .stApp::before {display:none!important;}
- header[data-testid="stHeader"] {background:transparent;}
- @media(min-width:700px){.block-container{padding-left:2.5rem;padding-right:2.5rem;}}
- .block-container > div {position:relative;z-index:1;}
- .hero {display:grid;grid-template-columns:minmax(0, 47%) minmax(0, 53%);align-items:center;gap:0;max-width:1120px;margin:0 auto 28px;min-height:290px;padding-top:12px;}
- .hero-mascot {width:100%;max-width:390px;max-height:275px;object-fit:contain;justify-self:center;filter:drop-shadow(0 14px 22px rgba(147,128,218,.08));}
- .hero-copy {text-align:left;min-width:0;padding-left:6px;}
- .hero h1 {font-size:clamp(2.4rem,4vw,3.8rem);color:#202e67;margin:0;letter-spacing:-.055em;font-weight:850;line-height:1.2;white-space:nowrap;}
- .hero p {color:#65749f;font-size:1.25rem;margin:16px 0 0;white-space:nowrap;}
- .hero-star {color:#9c7af0;font-size:.65em;vertical-align:middle;}
- .hero-cloud {font-size:.58em;vertical-align:middle;}
- .cloud-label {min-height:120px;background:rgba(255,255,255,.91);border:1px solid #e1d8ff;border-radius:23px;padding:18px 15px;box-shadow:0 10px 27px #a99bdb25;text-align:center;margin:8px 0 10px;color:#344477;font-size:1.05rem;}
-.cloud-label small {display:inline-block;margin-top:7px;font-size:.82rem;color:#68769f;line-height:1.6;}
+.stApp {
+ background-image:url("__BG_CLOUDS__");
+ background-position:center top;
+ background-size:100% 100%;
+ background-attachment:fixed;
+ background-repeat:no-repeat;
+ color:#1d326c;
+}
+header[data-testid="stHeader"] {background:transparent!important;}
+.block-container {max-width:1190px;padding-top:0!important;padding-bottom:5rem!important;}
+.block-container > div {position:relative;z-index:1;}
+.hero-art {width:100vw;max-width:none;position:relative;left:50%;transform:translateX(-50%);display:block;margin:0 0 10px;}
+.hero-art img {display:block;width:100%;height:auto;}
+.hero {display:grid;grid-template-columns:47% 53%;align-items:center;max-width:1100px;margin:12px auto 28px;min-height:270px;}
+.hero-mascot {width:100%;max-width:390px;max-height:270px;object-fit:contain;justify-self:center;}
+.hero-copy {text-align:left;padding-left:12px;}
+.hero h1 {font-size:clamp(2rem,4vw,3.8rem);color:#202e67;margin:0;font-weight:850;white-space:normal;line-height:1.2;}
+.hero p {color:#65749f;font-size:1.2rem;margin:16px 0 0;}
+.hero-star {color:#9c7af0;}
+.cloud-label {min-height:106px;background:rgba(255,255,255,.91);border:1px solid #e1d8ff;border-radius:23px;padding:18px 12px;box-shadow:0 10px 27px #a99bdb25;text-align:center;margin:6px 0 10px;color:#273d79;font-size:1.17rem;font-weight:650;}
+.cloud-label small {display:inline-block;margin-top:7px;font-size:.95rem;font-weight:400;color:#66769f;line-height:1.5;}
 .step-line {display:flex;justify-content:center;align-items:center;gap:10px;margin:12px auto;flex-wrap:wrap;}
 .step-cloud {padding:9px 15px;border-radius:30px;background:#fff;box-shadow:0 5px 16px #a8b6d73a;color:#53618c;font-size:.87rem;}
 .step-arrow {color:#a6add1;}
 section[data-testid="stSidebar"] {background:#f3efff;}
-div.stButton > button {border-radius:16px;min-height:3rem;border:1px solid #dcd5ff;background:rgba(255,255,255,.86);color:#5965a4;white-space:normal;height:auto;padding:11px 14px;font-weight:650;box-shadow:0 5px 16px rgba(138,124,212,.08);}
+div.stButton > button {border-radius:16px;min-height:3.1rem;border:1px solid #dcd5ff;background:rgba(255,255,255,.92);color:#53649d;white-space:normal;height:auto;padding:11px 14px;font-size:1rem;font-weight:650;box-shadow:0 5px 16px rgba(138,124,212,.08);}
 div.stButton > button:hover {border-color:#a58bda;color:#6853a6;background:#f9f5ff;}
 div.stButton > button[kind="primary"] {background:linear-gradient(100deg,#9c81e9,#7767e6);color:white;border-color:#9481e7;box-shadow:0 8px 20px #a491e944;}
 div.stButton > button[kind="primary"]:hover {background:linear-gradient(100deg,#9174e3,#6d59df);color:white;}
-textarea {background:rgba(249,250,255,.92)!important;border:1px solid #dfe2ff!important;border-radius:17px!important;}
+textarea {background:rgba(249,250,255,.95)!important;border:1px solid #dfe2ff!important;border-radius:17px!important;}
+h3 {color:#1d326c!important;font-weight:750!important;}
 @keyframes cloudHop {0%{transform:translateY(0) scale(1)}35%{transform:translateY(-18px) scale(1.035)}70%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 .fairy-hop img {animation:cloudHop 1.1s ease-in-out;}
 .journal {background:#fffaf0;border:1px solid #e9dbc2;border-radius:22px;padding:24px;color:#574d45;}
 .journal h2 {color:#63513f;margin-top:0;}
 .journal .thought {padding:10px 0;border-bottom:1px solid #e7dccd;}
 .journal .note {font-size:.9rem;color:#806c5c;}
-@media(max-width:650px){.block-container{padding-top:2.8rem}.hero{grid-template-columns:42% 58%;min-height:140px;margin-bottom:15px}.hero-mascot{max-height:170px}.hero-copy{padding-left:5px}.hero h1{font-size:clamp(1.45rem,5.6vw,2rem)}.hero p{font-size:.8rem;margin-top:7px;white-space:normal}.cloud-label{min-height:120px;padding:13px 7px;font-size:.9rem}.cloud-label small{font-size:.7rem}}
+@media(max-width:700px){.block-container{padding-top:0!important;padding-left:1rem;padding-right:1rem}.hero-art{margin-bottom:15px}.hero{grid-template-columns:42% 58%;min-height:130px;margin-bottom:15px}.hero-mascot{max-height:170px}.hero-copy{padding-left:5px}.hero h1{font-size:clamp(1.45rem,5.6vw,2rem)}.hero p{font-size:.8rem;margin-top:7px}.cloud-label{min-height:120px;padding:13px 7px;font-size:.9rem}.cloud-label small{font-size:.7rem}}
 </style>
 """
 st.markdown(CSS.replace("__BG_CLOUDS__", BG_CLOUDS), unsafe_allow_html=True)
@@ -192,7 +195,11 @@ with st.sidebar:
             reset()
             st.rerun()
 
-st.markdown(f'<div class="hero"><img class="hero-mascot" src="{img_uri(BASE / "cloud_fairy.png")}" alt="Cloud fairy mascot"/><div class="hero-copy"><h1><span class="hero-cloud">☁️ </span>{tr("망상회로", "Daydream Circuit")}<span class="hero-star"> ✦</span></h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div></div>', unsafe_allow_html=True)
+if st.session_state.lang == "한국어" and st.session_state.stage == "start":
+    # The approved illustration is used only for the static hero; all controls below are real Streamlit widgets.
+    st.markdown(f'<div class="hero-art"><img src="{img_uri(BASE / "hero_reference.png")}" alt="망상회로 구름 요정과 제목" /></div>', unsafe_allow_html=True)
+else:
+    st.markdown(f'<div class="hero"><img class="hero-mascot" src="{img_uri(BASE / "cloud_fairy.png")}" alt="Cloud fairy mascot"/><div class="hero-copy"><h1>☁️ {tr("망상회로", "Daydream Circuit")}<span class="hero-star"> ✦</span></h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div></div>', unsafe_allow_html=True)
 
 if st.session_state.stage == "start":
     st.markdown(f"### {tr('오늘은 어떤 생각을 훈련할까?', 'Which kind of thinking will you practice?')}")
