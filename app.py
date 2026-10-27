@@ -49,20 +49,22 @@ CSS = """
 <style>
  .stApp {
  background-image: linear-gradient(rgba(248,244,255,.10),rgba(248,244,255,.10)),url("__BG_CLOUDS__");
- background-position:center top;background-size:cover;background-attachment:fixed;
+ background-position:center top;background-size:100% 100%;background-attachment:fixed;background-repeat:no-repeat;
  color:#202f60;
  }
- .block-container {max-width:1160px;padding-top:1rem;padding-bottom:4rem;}
+ .block-container {max-width:1220px;padding-top:3.5rem;padding-bottom:4rem;}
  .stApp::before {display:none!important;}
+ header[data-testid="stHeader"] {background:transparent;}
+ @media(min-width:700px){.block-container{padding-left:2.5rem;padding-right:2.5rem;}}
  .block-container > div {position:relative;z-index:1;}
- .hero {display:grid;grid-template-columns:minmax(0, 47%) minmax(0, 53%);align-items:center;gap:0;max-width:1040px;margin:0 auto 18px;min-height:290px;}
- .hero-mascot {width:100%;max-width:420px;max-height:285px;object-fit:contain;justify-self:center;filter:drop-shadow(0 14px 22px rgba(147,128,218,.08));}
- .hero-copy {text-align:left;min-width:0;padding-left:22px;}
- .hero h1 {font-size:clamp(2.5rem,4.2vw,4rem);color:#202e67;margin:0;letter-spacing:-.055em;font-weight:850;line-height:1.2;white-space:nowrap;}
+ .hero {display:grid;grid-template-columns:minmax(0, 47%) minmax(0, 53%);align-items:center;gap:0;max-width:1120px;margin:0 auto 28px;min-height:290px;padding-top:12px;}
+ .hero-mascot {width:100%;max-width:390px;max-height:275px;object-fit:contain;justify-self:center;filter:drop-shadow(0 14px 22px rgba(147,128,218,.08));}
+ .hero-copy {text-align:left;min-width:0;padding-left:6px;}
+ .hero h1 {font-size:clamp(2.4rem,4vw,3.8rem);color:#202e67;margin:0;letter-spacing:-.055em;font-weight:850;line-height:1.2;white-space:nowrap;}
  .hero p {color:#65749f;font-size:1.25rem;margin:16px 0 0;white-space:nowrap;}
  .hero-star {color:#9c7af0;font-size:.65em;vertical-align:middle;}
  .hero-cloud {font-size:.58em;vertical-align:middle;}
- .cloud-label {min-height:112px;background:rgba(255,255,255,.85);border:1px solid #e7e2ff;border-radius:23px;padding:18px 15px;box-shadow:0 10px 27px #a99bdb25;text-align:center;margin:8px 0 10px;color:#344477;font-size:1.05rem;}
+ .cloud-label {min-height:120px;background:rgba(255,255,255,.91);border:1px solid #e1d8ff;border-radius:23px;padding:18px 15px;box-shadow:0 10px 27px #a99bdb25;text-align:center;margin:8px 0 10px;color:#344477;font-size:1.05rem;}
 .cloud-label small {display:inline-block;margin-top:7px;font-size:.82rem;color:#68769f;line-height:1.6;}
 .step-line {display:flex;justify-content:center;align-items:center;gap:10px;margin:12px auto;flex-wrap:wrap;}
 .step-cloud {padding:9px 15px;border-radius:30px;background:#fff;box-shadow:0 5px 16px #a8b6d73a;color:#53618c;font-size:.87rem;}
@@ -79,7 +81,7 @@ textarea {background:rgba(249,250,255,.92)!important;border:1px solid #dfe2ff!im
 .journal h2 {color:#63513f;margin-top:0;}
 .journal .thought {padding:10px 0;border-bottom:1px solid #e7dccd;}
 .journal .note {font-size:.9rem;color:#806c5c;}
-@media(max-width:650px){.hero{grid-template-columns:42% 58%;min-height:140px;margin-bottom:15px}.hero-mascot{max-height:170px}.hero-copy{padding-left:5px}.hero h1{font-size:clamp(1.45rem,5.6vw,2rem)}.hero p{font-size:.8rem;margin-top:7px;white-space:normal}.cloud-label{min-height:112px;padding:13px 7px;font-size:.9rem}.cloud-label small{font-size:.7rem}}
+@media(max-width:650px){.block-container{padding-top:2.8rem}.hero{grid-template-columns:42% 58%;min-height:140px;margin-bottom:15px}.hero-mascot{max-height:170px}.hero-copy{padding-left:5px}.hero h1{font-size:clamp(1.45rem,5.6vw,2rem)}.hero p{font-size:.8rem;margin-top:7px;white-space:normal}.cloud-label{min-height:120px;padding:13px 7px;font-size:.9rem}.cloud-label small{font-size:.7rem}}
 </style>
 """
 st.markdown(CSS.replace("__BG_CLOUDS__", BG_CLOUDS), unsafe_allow_html=True)
