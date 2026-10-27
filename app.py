@@ -48,7 +48,7 @@ BG_CLOUDS = "data:image/jpeg;base64," + base64.b64encode((BASE / "cloud_sky_back
 CSS = """
 <style>
 .stApp {
- background-image:linear-gradient(145deg,#e7eaff 0%,#f6edff 46%,#fff1fa 76%,#ece9ff 100%);
+ background-image:url("__BG_CLOUDS__");
  background-position:center top;
  background-size:cover;
  background-attachment:fixed;
@@ -58,8 +58,8 @@ CSS = """
 header[data-testid="stHeader"] {background:transparent!important;}
 .block-container {max-width:1190px;padding-top:2rem!important;padding-bottom:5rem!important;}
 .block-container > div {position:relative;z-index:1;}
-.hero-art {width:100%;max-width:1190px;position:relative;left:auto;transform:none;display:block;margin:8px auto 28px;overflow:hidden;}
-.hero-art img {display:block;width:100%;height:auto;border-radius:0;}
+.hero-art {width:100%;max-width:1190px;position:relative;left:auto;transform:none;display:block;margin:0 auto 16px;overflow:hidden;}
+.hero-art img {display:block;width:100%;height:auto;border-radius:0;mask-image:linear-gradient(to bottom,transparent 0%,black 7%,black 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 7%,black 88%,transparent 100%);}
 .hero {display:grid;grid-template-columns:47% 53%;align-items:center;max-width:1100px;margin:12px auto 28px;min-height:270px;}
 .hero-mascot {width:100%;max-width:390px;max-height:270px;object-fit:contain;justify-self:center;}
 .hero-copy {text-align:left;padding-left:12px;}
