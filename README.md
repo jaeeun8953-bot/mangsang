@@ -1,9 +1,9 @@
-# Daydream Circuit 2.0
+# Daydream Circuit 2.0 — Cloud Design
 
-Start: `streamlit run app.py`
+Run `pip install -r requirements.txt` then `streamlit run app.py`.
 
-Set `GEMINI_API_KEY` as an environment variable or Streamlit secret. Optionally set `GEMINI_MODEL` to a model available to your API key.
+Includes `app.py`, `cloud_fairy.png`, `cloud_sky_background.jpg` and dependencies. The pastel cloud background is an actual image used by the app; text/buttons remain live Streamlit widgets.
 
-The cloud mascot included here is cropped from the generated design reference. For the original exact character asset, replace `cloud_fairy.png` with your original transparent PNG.
+Set `GEMINI_API_KEY` as a Streamlit secret or environment variable; optionally set `GEMINI_MODEL` to a valid model for your key.
 
-Tarot PNGs were not supplied; missing images display a styled card placeholder instead of crashing. Add the original 22 card images alongside app.py to restore them.
+Tarot card PNGs are not included in the source provided; the app uses its existing placeholder fallback.
