@@ -46,12 +46,15 @@ CARDS = [
 
 CSS = """
 <style>
-.stApp {background: linear-gradient(155deg,#f4f8ff 0%,#f9f5ff 52%,#fdf8f3 100%);}
-.block-container {max-width:1080px;padding-top:2rem;}
-.hero {text-align:center;padding:22px 14px 12px;}
-.hero h1 {font-size:3.1rem;color:#38456f;margin:0;letter-spacing:-.04em;}
+.stApp {background: radial-gradient(ellipse at 4% 8%,#e8e7ff 0%,transparent 38%),radial-gradient(ellipse at 96% 26%,#f4eafd 0%,transparent 34%),linear-gradient(155deg,#f4f8ff 0%,#f9f5ff 52%,#fdf8f3 100%);}
+.block-container {max-width:1160px;padding-top:1.25rem;}
+.hero {display:flex;align-items:center;justify-content:center;gap:30px;padding:12px 12px 24px;min-height:230px;}
+.hero-mascot {width:300px;max-width:36%;height:auto;object-fit:contain;border-radius:28px;mix-blend-mode:multiply;}
+.hero-copy {text-align:left;}
+@media(max-width:650px){.hero{gap:8px;min-height:130px;padding:8px 0 18px}.hero-mascot{width:38%;max-width:38%}.hero h1{font-size:1.8rem!important}.hero p{font-size:.85rem!important}}
+.hero h1 {font-size:3.2rem;color:#38456f;margin:0;letter-spacing:-.04em;}
 .hero p {color:#727b9a;font-size:1.08rem;margin:8px 0;}
-.cloud-label {background:white;border:1px solid #e2e7fa;border-radius:25px;padding:14px 20px;box-shadow:0 10px 30px #9ca8d526;text-align:center;margin:8px 0 18px;color:#505d86;}
+.cloud-label {min-height:106px;background:white;border:1px solid #e2e7fa;border-radius:25px;padding:14px 20px;box-shadow:0 10px 30px #9ca8d526;text-align:center;margin:8px 0 18px;color:#505d86;}
 .step-line {display:flex;justify-content:center;align-items:center;gap:10px;margin:12px auto;flex-wrap:wrap;}
 .step-cloud {padding:9px 15px;border-radius:30px;background:#fff;box-shadow:0 5px 16px #a8b6d73a;color:#53618c;font-size:.87rem;}
 .step-arrow {color:#a6add1;}
@@ -175,7 +178,7 @@ with st.sidebar:
             reset()
             st.rerun()
 
-st.markdown(f'<div class="hero"><h1>☁️ {tr("망상회로", "Daydream Circuit")}</h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="hero"><img class="hero-mascot" src="{img_uri(BASE / "cloud_fairy.png")}" alt="Cloud fairy mascot"/><div class="hero-copy"><h1>☁️ {tr("망상회로", "Daydream Circuit")}</h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div></div>', unsafe_allow_html=True)
 
 if st.session_state.stage == "start":
     st.markdown(f"### {tr('오늘은 어떤 생각을 훈련할까?', 'Which kind of thinking will you practice?')}")
@@ -200,7 +203,6 @@ if st.session_state.stage == "start":
             st.session_state.options = make_options()
         st.session_state.stage = "explore"
         st.rerun()
-    st.image(str(BASE / "cloud_fairy.png"), width=260)
 
 elif st.session_state.stage in ("explore", "write", "feedback"):
     mode_info = MODES[st.session_state.mode]
@@ -287,7 +289,10 @@ elif st.session_state.stage == "journal":
         card = CARDS[st.session_state.tarot]
         col_img, col_text = st.columns([1, 2])
         with col_img:
-            st.image(str(BASE / card[0]), use_container_width=True)
+            if (BASE / card[0]).exists():
+                st.image(str(BASE / card[0]), use_container_width=True)
+            else:
+                st.markdown(f"<div style='background:linear-gradient(135deg,#ebe6ff,#fff4fc);border:2px solid #c7b6f0;border-radius:24px;padding:60px 14px;text-align:center;color:#584a8e;font-size:1.4rem;'>🔮<br>{esc(card[1])}</div>", unsafe_allow_html=True)
         with col_text:
             st.markdown(f"### {card[1]} · {card[2]}")
             st.caption(card[3])
