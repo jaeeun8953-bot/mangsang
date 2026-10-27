@@ -61,7 +61,7 @@ header[data-testid="stHeader"] {background:transparent!important;}
 .hero-art {width:100%;max-width:1190px;position:relative;left:auto;transform:none;display:block;margin:0 auto 16px;overflow:hidden;}
 .hero-art img {display:block;width:100%;height:auto;border-radius:0;mask-image:linear-gradient(to bottom,transparent 0%,black 7%,black 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 7%,black 88%,transparent 100%);}
 .hero {display:grid;grid-template-columns:47% 53%;align-items:center;max-width:1100px;margin:0 auto 18px;min-height:290px;}
-.hero-mascot {width:100%;max-width:440px;max-height:310px;object-fit:contain;justify-self:center;}
+.hero-mascot {width:100%;max-width:440px;max-height:310px;object-fit:contain;justify-self:center;filter:drop-shadow(0 15px 20px rgba(146,125,211,.10));}
 .hero-copy {text-align:left;padding-left:12px;}
 .hero h1 {font-size:clamp(2rem,4vw,3.8rem);color:#202e67;margin:0;font-weight:850;white-space:normal;line-height:1.2;}
 .hero p {color:#65749f;font-size:1.2rem;margin:16px 0 0;}
