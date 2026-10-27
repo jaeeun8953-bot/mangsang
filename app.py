@@ -48,18 +48,18 @@ BG_CLOUDS = "data:image/jpeg;base64," + base64.b64encode((BASE / "cloud_sky_back
 CSS = """
 <style>
 .stApp {
- background-image:url("__BG_CLOUDS__");
+ background-image:linear-gradient(145deg,#e7eaff 0%,#f6edff 46%,#fff1fa 76%,#ece9ff 100%);
  background-position:center top;
- background-size:100% 100%;
+ background-size:cover;
  background-attachment:fixed;
  background-repeat:no-repeat;
  color:#1d326c;
 }
 header[data-testid="stHeader"] {background:transparent!important;}
-.block-container {max-width:1190px;padding-top:0!important;padding-bottom:5rem!important;}
+.block-container {max-width:1190px;padding-top:2rem!important;padding-bottom:5rem!important;}
 .block-container > div {position:relative;z-index:1;}
-.hero-art {width:100vw;max-width:none;position:relative;left:50%;transform:translateX(-50%);display:block;margin:0 0 10px;}
-.hero-art img {display:block;width:100%;height:auto;}
+.hero-art {width:100%;max-width:1190px;position:relative;left:auto;transform:none;display:block;margin:8px auto 28px;overflow:hidden;}
+.hero-art img {display:block;width:100%;height:auto;border-radius:0;}
 .hero {display:grid;grid-template-columns:47% 53%;align-items:center;max-width:1100px;margin:12px auto 28px;min-height:270px;}
 .hero-mascot {width:100%;max-width:390px;max-height:270px;object-fit:contain;justify-self:center;}
 .hero-copy {text-align:left;padding-left:12px;}
@@ -84,7 +84,7 @@ h3 {color:#1d326c!important;font-weight:750!important;}
 .journal h2 {color:#63513f;margin-top:0;}
 .journal .thought {padding:10px 0;border-bottom:1px solid #e7dccd;}
 .journal .note {font-size:.9rem;color:#806c5c;}
-@media(max-width:700px){.block-container{padding-top:0!important;padding-left:1rem;padding-right:1rem}.hero-art{margin-bottom:15px}.hero{grid-template-columns:42% 58%;min-height:130px;margin-bottom:15px}.hero-mascot{max-height:170px}.hero-copy{padding-left:5px}.hero h1{font-size:clamp(1.45rem,5.6vw,2rem)}.hero p{font-size:.8rem;margin-top:7px}.cloud-label{min-height:120px;padding:13px 7px;font-size:.9rem}.cloud-label small{font-size:.7rem}}
+@media(max-width:700px){.block-container{padding-top:1.5rem!important;padding-left:1rem;padding-right:1rem}.hero-art{margin-bottom:15px}.hero{grid-template-columns:42% 58%;min-height:130px;margin-bottom:15px}.hero-mascot{max-height:170px}.hero-copy{padding-left:5px}.hero h1{font-size:clamp(1.45rem,5.6vw,2rem)}.hero p{font-size:.8rem;margin-top:7px}.cloud-label{min-height:120px;padding:13px 7px;font-size:.9rem}.cloud-label small{font-size:.7rem}}
 </style>
 """
 st.markdown(CSS.replace("__BG_CLOUDS__", BG_CLOUDS), unsafe_allow_html=True)
