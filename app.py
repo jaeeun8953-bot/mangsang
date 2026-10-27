@@ -46,28 +46,48 @@ CARDS = [
 
 CSS = """
 <style>
-.stApp {background: radial-gradient(ellipse at 4% 8%,#e8e7ff 0%,transparent 38%),radial-gradient(ellipse at 96% 26%,#f4eafd 0%,transparent 34%),linear-gradient(155deg,#f4f8ff 0%,#f9f5ff 52%,#fdf8f3 100%);}
-.block-container {max-width:1160px;padding-top:1.25rem;}
-.hero {display:flex;align-items:center;justify-content:center;gap:30px;padding:12px 12px 24px;min-height:230px;}
-.hero-mascot {width:300px;max-width:36%;height:auto;object-fit:contain;border-radius:28px;mix-blend-mode:multiply;}
+.stApp {
+ background:
+ radial-gradient(ellipse at 12% 3%, rgba(213,216,255,.88) 0%,transparent 37%),
+ radial-gradient(ellipse at 94% 10%,rgba(231,203,255,.72) 0%,transparent 35%),
+ radial-gradient(ellipse at 12% 90%,rgba(242,218,255,.56) 0%,transparent 44%),
+ linear-gradient(160deg,#f2f1ff 0%,#faf4ff 53%,#fff4fa 100%);
+ color:#202f60;
+}
+.block-container {max-width:1160px;padding-top:1.2rem;padding-bottom:4rem;}
+/* Pastel cloud decorations stay behind the interactive app */
+.stApp::before {content:"";position:fixed;pointer-events:none;z-index:0;inset:0;
+ background:
+ radial-gradient(ellipse 110px 66px at 3% 70%,rgba(255,255,255,.7) 0 70%,transparent 72%),
+ radial-gradient(ellipse 140px 90px at 97% 67%,rgba(255,255,255,.7) 0 70%,transparent 72%),
+ radial-gradient(ellipse 180px 95px at 10% 101%,rgba(255,255,255,.82) 0 70%,transparent 72%),
+ radial-gradient(ellipse 190px 100px at 90% 101%,rgba(255,255,255,.8) 0 70%,transparent 72%);
+}
+.block-container > div {position:relative;z-index:1;}
+.hero {display:flex;align-items:center;justify-content:center;gap:28px;padding:0 10px 22px;min-height:265px;}
+.hero-mascot {width:345px;max-width:39%;height:auto;object-fit:contain;filter:drop-shadow(0 16px 24px rgba(147,128,218,.13));}
 .hero-copy {text-align:left;}
-@media(max-width:650px){.hero{gap:8px;min-height:130px;padding:8px 0 18px}.hero-mascot{width:38%;max-width:38%}.hero h1{font-size:1.8rem!important}.hero p{font-size:.85rem!important}}
-.hero h1 {font-size:3.2rem;color:#38456f;margin:0;letter-spacing:-.04em;}
-.hero p {color:#727b9a;font-size:1.08rem;margin:8px 0;}
-.cloud-label {min-height:106px;background:white;border:1px solid #e2e7fa;border-radius:25px;padding:14px 20px;box-shadow:0 10px 30px #9ca8d526;text-align:center;margin:8px 0 18px;color:#505d86;}
+.hero h1 {font-size:3.35rem;color:#202e67;margin:0;letter-spacing:-.045em;font-weight:850;line-height:1.14;}
+.hero p {color:#65749f;font-size:1.14rem;margin:17px 0 0;}
+.hero-star {color:#9c7af0;font-size:.65em;vertical-align:middle;}
+.cloud-label {min-height:112px;background:rgba(255,255,255,.85);border:1px solid #e7e2ff;border-radius:23px;padding:18px 15px;box-shadow:0 10px 27px #a99bdb25;text-align:center;margin:8px 0 10px;color:#344477;font-size:1.05rem;}
+.cloud-label small {display:inline-block;margin-top:7px;font-size:.82rem;color:#68769f;line-height:1.6;}
 .step-line {display:flex;justify-content:center;align-items:center;gap:10px;margin:12px auto;flex-wrap:wrap;}
 .step-cloud {padding:9px 15px;border-radius:30px;background:#fff;box-shadow:0 5px 16px #a8b6d73a;color:#53618c;font-size:.87rem;}
 .step-arrow {color:#a6add1;}
-section[data-testid="stSidebar"] {background:#f4f3fd;}
-div.stButton > button {border-radius:18px;min-height:3rem;border:1px solid #d8dff5;background:white;color:#45517d;white-space:normal;height:auto;padding:12px 14px;}
+section[data-testid="stSidebar"] {background:#f3efff;}
+div.stButton > button {border-radius:16px;min-height:3rem;border:1px solid #dcd5ff;background:rgba(255,255,255,.86);color:#5965a4;white-space:normal;height:auto;padding:11px 14px;font-weight:650;box-shadow:0 5px 16px rgba(138,124,212,.08);}
 div.stButton > button:hover {border-color:#a58bda;color:#6853a6;background:#f9f5ff;}
-div.stButton > button[kind="primary"] {background:#7465c8;color:white;border-color:#7465c8;}
+div.stButton > button[kind="primary"] {background:linear-gradient(100deg,#9c81e9,#7767e6);color:white;border-color:#9481e7;box-shadow:0 8px 20px #a491e944;}
+div.stButton > button[kind="primary"]:hover {background:linear-gradient(100deg,#9174e3,#6d59df);color:white;}
+textarea {background:rgba(249,250,255,.92)!important;border:1px solid #dfe2ff!important;border-radius:17px!important;}
 @keyframes cloudHop {0%{transform:translateY(0) scale(1)}35%{transform:translateY(-18px) scale(1.035)}70%{transform:translateY(-4px)}100%{transform:translateY(0)}}
 .fairy-hop img {animation:cloudHop 1.1s ease-in-out;}
 .journal {background:#fffaf0;border:1px solid #e9dbc2;border-radius:22px;padding:24px;color:#574d45;}
 .journal h2 {color:#63513f;margin-top:0;}
 .journal .thought {padding:10px 0;border-bottom:1px solid #e7dccd;}
 .journal .note {font-size:.9rem;color:#806c5c;}
+@media(max-width:650px){.hero{gap:8px;min-height:135px;padding:5px 0 16px}.hero-mascot{width:42%;max-width:42%}.hero h1{font-size:1.85rem}.hero p{font-size:.83rem;margin-top:7px}.cloud-label{min-height:112px;padding:13px 7px;font-size:.9rem}.cloud-label small{font-size:.7rem}}
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
@@ -178,7 +198,7 @@ with st.sidebar:
             reset()
             st.rerun()
 
-st.markdown(f'<div class="hero"><img class="hero-mascot" src="{img_uri(BASE / "cloud_fairy.png")}" alt="Cloud fairy mascot"/><div class="hero-copy"><h1>☁️ {tr("망상회로", "Daydream Circuit")}</h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="hero"><img class="hero-mascot" src="{img_uri(BASE / "cloud_fairy.png")}" alt="Cloud fairy mascot"/><div class="hero-copy"><h1>☁️ {tr("망상회로", "Daydream Circuit")}<span class="hero-star"> ✦</span></h1><p>{tr("생각의 씨앗을 심어봐.", "Every journey of thought begins with you.")}</p></div></div>', unsafe_allow_html=True)
 
 if st.session_state.stage == "start":
     st.markdown(f"### {tr('오늘은 어떤 생각을 훈련할까?', 'Which kind of thinking will you practice?')}")
